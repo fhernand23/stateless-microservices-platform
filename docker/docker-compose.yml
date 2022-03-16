@@ -98,4 +98,4 @@ volumes:
 
 networks:
   default:
-    name: claim-network
+    name: app0-network

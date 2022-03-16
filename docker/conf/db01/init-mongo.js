@@ -14,7 +14,7 @@ db.createUser(
         roles: [
             {
                 role: "readWrite",
-                db: "theDb"
+                db: "app0db"
             }
         ]
     }

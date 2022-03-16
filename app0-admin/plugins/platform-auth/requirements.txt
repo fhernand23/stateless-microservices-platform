@@ -1,0 +1,2 @@
+hopeit.engine[web,cli,fs-storage,redis-streams,apps-visualizer,config-manager,apps-client]>=0.14.0,<0.15.0
+motor>=2.5.1

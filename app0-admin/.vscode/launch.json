@@ -1,0 +1,42 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "app0-admin",
+      "type": "python",
+      "request": "launch",
+      "module": "hopeit.server.web",
+      "console": "integratedTerminal",
+      "args": [
+        "--port=8021",
+        "--start-streams",
+        "--config-files=app0-admin/config/server-dev.json,plugins/platform-auth/config/1x0.json,app0-admin/config/app0-admin.json,app0-admin/config/config-manager.json",
+        "--api-file=app0-admin/config/openapi.json"
+      ],
+      "env": {
+        "REDIS_URL": "redis://localhost:6379",
+        "LOGS_PATH": "./logs",
+        "MONGO_URL": "mongodb://rootuser:rootpass@localhost:27017",
+        "ENV_TYPE": "DEV",
+        "DOMAIN": "localhost",
+        "APP0ADMIN_API_URL": "http://localhost:8021",
+        "APP0CLAIMS_API_URL": "http://localhost:8022",
+        "APP0ADMIN_URL": "http://localhost/admin",
+        "APP0CLAIMS_URL": "http://localhost/claims",
+        "MAIL_APP_FROM": "sender@app0.com",
+        "MAILTO_OVERWRITE": "sender@app0.com",
+        "MAIL_ATTACH_OVERWRITE": "./email/test_document.pdf",
+        "OBJECT_STORAGE_ACCESS_KEY_ID": "minio",
+        "OBJECT_STORAGE_SECRET_ACCESS_KEY":"minio123",
+        "OBJECT_STORAGE_ENDPOINT_URL":"http://localhost:9000" ,
+        "AWS_ACCESS_KEY_ID": "xxx",
+        "AWS_SECRET_ACCESS_KEY": "xxx",
+        "AWS_REGION": "some-region",
+      },
+      "cwd": "${workspaceFolder}"
+    }
+  ]
+}

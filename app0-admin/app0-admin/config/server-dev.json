@@ -1,0 +1,22 @@
+{
+    "$schema": "https://raw.githubusercontent.com/hopeit-git/hopeit.engine/master/engine/config/schemas/server-config-schema-draftv6.json",
+    "logging": {
+        "log_level": "DEBUG",
+        "log_path": "${LOGS_PATH}/"
+    },
+    "streams": {
+        "stream_manager": "hopeit.redis_streams.RedisStreamManager",
+        "connection_str": "${REDIS_URL}"
+    },
+    "auth": {
+        "auth_passphrase": "dev-local",
+        "secrets_location": ".secrets/",
+        "create_keys": true,
+        "default_auth_methods": ["Unsecured"],
+        "domain": "${DOMAIN}"
+
+    },
+    "api": {
+        "docs_path": "/api/docs"
+    }
+}

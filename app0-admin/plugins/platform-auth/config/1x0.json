@@ -1,0 +1,97 @@
+{
+  "$schema": "https://raw.githubusercontent.com/hopeit-git/hopeit.engine/master/engine/config/schemas/app-config-schema-draftv6.json",
+  "app": {
+    "name": "platform-auth",
+    "version": "1.0"
+  },
+  "engine": {
+    "import_modules": [
+      "app0.platform.auth"
+    ],
+    "cors_origin": "*"
+  },
+  "settings": {
+    "{events.streams.api.mail_processor.write_stream.name}": {
+      "target_max_len": 1000,
+      "throttle_ms": 10,
+      "batch_size": 5
+    }
+  },
+  "env": {
+    "env_config": {
+      "env_type": "${ENV_TYPE}",
+      "app0-admin_url": "${CLAIMSBASE_URL}",
+      "claimsattendant_url": "${CLAIMSATTENDANT_URL}",
+      "mail_app_from": "${MAIL_APP_FROM}",
+      "mailto_overwrite": "${MAILTO_OVERWRITE}"
+    },
+    "auth": {
+      "access_token_expiration": 60000000,
+      "refresh_token_expiration": 3600,
+      "access_token_renew_window": 5
+    },
+    "fs": {
+      "user_store": "./users",
+      "auth_store": "./auth",
+      "recover_store": "./recover"
+    },
+    "collections": {
+      "IDX_USERS": "base.user",
+      "IDX_USER_ROLE": "base.user_role"
+    },
+    "mongodb": {
+      "conn_str": "${MONGO_URL}",
+      "dbname": "app0db"
+    }
+  },
+  "events": {
+    "login": {
+      "type": "GET",
+      "plug_mode": "Standalone",
+      "auth": [
+        "Basic"
+      ]
+    },
+    "logout": {
+      "type": "GET",
+      "plug_mode": "Standalone",
+      "auth": [
+        "Refresh"
+      ]
+    },
+    "refresh": {
+      "type": "GET",
+      "plug_mode": "Standalone",
+      "auth": [
+        "Refresh"
+      ]
+    },
+    "validate": {
+      "type": "GET",
+      "plug_mode": "Standalone",
+      "auth": [
+        "Bearer"
+      ]
+    },
+    "reset": {
+      "type": "POST",
+      "plug_mode": "Standalone",
+      "auth": [
+        "Unsecured"
+      ],
+      "write_stream": {
+        "name": "{events.streams.api.mail_processor.write_stream.name}"
+      }
+    },
+    "recovery": {
+      "type": "POST",
+      "plug_mode": "Standalone",
+      "auth": [
+        "Unsecured"
+      ],
+      "write_stream": {
+        "name": "{events.streams.api.mail_processor.write_stream.name}"
+      }
+    }
+  }
+}
