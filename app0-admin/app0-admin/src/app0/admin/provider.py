@@ -31,10 +31,6 @@ class Provider:
     notes: Optional[str] = fd("Notes", default=None)
     image: Optional[str] = fd("Provider image", default=None)
     address: Optional[str] = fd("Address", default=None)
-    owner_id: Optional[str] = fd("Owner Id", default=None)
-    owner_name: Optional[str] = fd("Owner Name", default=None)
-    user_id: Optional[str] = fd("User ID", default=None)
-    user_username: Optional[str] = fd("User username", default=None)
     id: Optional[str] = fd("Db id", default=None)
     enabled: bool = fd("Enabled?", default=True)
 

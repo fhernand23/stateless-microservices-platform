@@ -44,8 +44,8 @@ def libversion(lib):
 
 setuptools.setup(
     name="app0.admin",
-    version=version['CA_BASE_VERSION'],
-    description="Claims Platform: Base",
+    version=version['APP0_ADMIN_VERSION'],
+    description="App0 Platform: Admin",
     package_dir={
         "": "src"
     },

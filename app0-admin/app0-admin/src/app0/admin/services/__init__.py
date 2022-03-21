@@ -12,15 +12,12 @@ IDX_REGISTRATION = 'app0.registration'
 
 # roles
 ROLE_ADMIN = "app0_admin"
-ROLE_CLAIMS = "app0_claims"
-ROLE_CLIENTS = "app0_clients"
+ROLE_USER = "app0_user"
 
-# attendant db collections
-IDX_EMPLOYEE = 'att.employee'
-IDX_INSURANCE_COMPANY = 'att.insurance_company'
-IDX_PROVIDER = 'att.provider'
-IDX_CLIENT = 'att.client'
-IDX_PROPERTY = 'att.property'
+# clients & claims db collections
+IDX_EMPLOYEE = 'app0.employee'
+IDX_PROVIDER = 'app0.provider'
+IDX_CLIENT = 'app0.client'
 IDX_CLAIM = 'app0.claim'
 
 # user actions

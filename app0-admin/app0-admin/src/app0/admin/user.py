@@ -1,5 +1,5 @@
 """
-App0Platform: Tmail
+App0Platform: TemplateMail
 """
 from datetime import datetime
 from typing import Optional
@@ -23,15 +23,12 @@ class User:
     phone_number: str = fd("Phone Number", default='')
     password: str = fd("Password", default='')
     activated: bool = fd("Activated?", default=True)
-    company_representative: bool = fd("Company Representative?", default=False)
     email_confirm_date: Optional[datetime] = fd("Email Confirm date", default=None)
     email_confirmed: bool = fd("Email Confirmed", default=False)
     phone_confirm_date: Optional[datetime] = fd("Phone Confirm date", default=None)
     phone_confirmed: bool = fd("Phone Confirmed", default=False)
     id: Optional[str] = fd("Db id", default=None)
     employee_id: Optional[str] = fd("Employee Id", default=None)
-    owner_id: Optional[str] = fd("Owner Id", default=None)
-    owner_name: Optional[str] = fd("Owner Name", default=None)
     image: Optional[str] = fd("User image", default=None)
     enabled: bool = fd("Enabled?", default=True)
 

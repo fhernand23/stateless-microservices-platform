@@ -16,17 +16,15 @@ from hopeit.app.client import app_call
 from hopeit.dataobjects import dataobject
 
 from app0.admin.common import IdDescription
-from app0.admin.company import Company, CompanyConfig
 from app0.admin.db import db
 from app0.admin.employee import Employee
 from app0.admin.registration import Registration
 from app0.admin.services import (IDX_COMPANY, IDX_EMPLOYEE, IDX_USER, IDX_COMPANY_CONFIG,
                                  IDX_USER_ROLE, IDX_SUBSCRIPTION, ROLE_COMPANY_ADMIN, ROLE_USER)
 from app0.admin.services.registration_services import save_registration
-from app0.admin.subscription import BillingInfo, Subscription, PlanInfo
 from app0.admin.user import User, UserAppRole
 from app0.admin import mail
-from app0.admin.tmail import MailTemplate, TmailSend
+from app0.admin.template_mail import TemplateMailSend
 from app0.platform.auth import AuthReset
 
 logger, extra = app_extra_logger()
@@ -62,7 +60,7 @@ async def __init_event__(context: EventContext):
         BASE_URL = str(context.env["env_config"]["app0-admin_url"])
 
 
-async def run(payload: Registration, context: EventContext) -> Optional[Subscription]:
+async def run(payload: Registration, context: EventContext) -> Optional[Registration]:
     """
     Save
     """
@@ -74,17 +72,12 @@ async def run(payload: Registration, context: EventContext) -> Optional[Subscrip
             logger.info(context, f"Processing {payload}")
             # validate registration
             await _validate(es, payload)
-            # create company
-            company = Company(
-                name=payload.company_name, address=payload.company_address, phone_number=payload.company_phone,
-                email=payload.company_email, image=payload.company_image)
-            await _create_company(es, company)
             # create user & employee
             employee = Employee(
                 firstname=payload.firstname, surname=payload.surname, email=payload.email,
                 phone_number=payload.phone, position=payload.position,
                 teams=[DEF_TEAM1, DEF_TEAM2], address=payload.address,
-                owner_id=company.id, owner_name=company.name, company_representative=True)
+                company_representative=True)
             user = await _create_employee(es, employee, context)
             # create susbscription
             subscription = await _create_subscription(es, payload, company, user)
@@ -115,14 +108,6 @@ async def _validate(es, registration: Registration):
     doc = await es[IDX_USER].find_one({'username': {'$eq': registration.email}})
     if doc:
         raise BadRegistration('There is already a User with that email address')
-
-
-async def _create_company(es, company: Company):
-    await es[IDX_COMPANY].replace_one({'_id': ObjectId(company.id)}, Payload.to_obj(company), upsert=True)
-    company_config = CompanyConfig(owner_id=company.id, owner_name=company.name)
-    await es[IDX_COMPANY_CONFIG].replace_one({'_id': ObjectId(company_config.id)},
-                                             Payload.to_obj(company_config),
-                                             upsert=True)
 
 
 async def _create_employee(es, employee: Employee, context: EventContext) -> User:
@@ -158,8 +143,8 @@ async def _register(user: User, context: EventContext):
     await fs_recover.store(notify.recovery_token, auth_reset)
     logger.info(context, f"User '{notify.user.id}' request password reset")
     # send mail
-    tmail_send = TmailSend(
-        template=MailTemplate(collection=mail.MAIL_COLLECTION_BASE, name=mail.MAIL_EMAIL_CONFIRMATION),
+    tmail_send = TemplateMailSend(
+        template=mail.MAIL_EMAIL_CONFIRMATION,
         destinations=[user.email],
         replacements={
             mail.VAR_USER_NAME: user.firstname + ' ' + user.surname,
@@ -171,35 +156,6 @@ async def _register(user: User, context: EventContext):
     tmail_send_r = await app_call(
         context.event_info.connections[0].app_connection,
         event=context.event_info.connections[0].event,
-        datatype=TmailSend, payload=tmail_send, context=context
+        datatype=TemplateMailSend, payload=tmail_send, context=context
     )
     logger.info(context, f"Mail queued OK {tmail_send_r}")
-
-
-async def _create_subscription(es, registration: Registration, company: Company, user: User) -> Subscription:
-    """
-    Create suscription
-    """
-    start_date = datetime.now().astimezone(timezone.utc)
-    plan = PlanInfo(
-        start_date=start_date,
-        name=registration.plan_name,  # type: ignore
-        description=registration.plan_description,  # type: ignore
-        annual_payment=registration.plan_annual_payment,  # type: ignore
-        monthly_amount=registration.plan_monthly_amount,  # type: ignore
-        annual_amount=registration.plan_annual_amount,  # type: ignore
-        max_open_claims=registration.plan_max_open_claims,  # type: ignore
-        max_adjusters=registration.plan_max_adjusters,  # type: ignore
-        max_storage=registration.plan_max_storage  # type: ignore
-    )
-    billing = BillingInfo(
-        card_holder='NO INFORMATION',
-        card_id='0000000000'
-    )
-    subscription = Subscription(start_date=start_date, registration=registration, plan=plan,
-                                billing=billing, user_id=user.id,  # type: ignore
-                                user_name=user.firstname + ' ' + user.surname,
-                                company_id=company.id, company_name=company.name)  # type: ignore
-    await es[IDX_SUBSCRIPTION].replace_one({'_id': ObjectId(subscription.id)},
-                                           Payload.to_obj(subscription), upsert=True)
-    return subscription

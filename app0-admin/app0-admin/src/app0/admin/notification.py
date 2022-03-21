@@ -21,10 +21,7 @@ class Notification:
     creation_date: datetime = fd("Creation date")
     user_id: str = fd("User id", default="")
     user_name: str = fd("Username", default="")
-    owner_id: str = fd("Owner id", default="")
-    owner_name: str = fd("Owner name", default="")
     content: str = fd("Description or Text", default="")
-    app_name: str = fd("App", default="")
     object_type: str = fd("Object type", default="")
     object_id: str = fd("Object id", default="")
     type: str = fd("log/error/direct/upload/mail/call/papers/event/state-change"

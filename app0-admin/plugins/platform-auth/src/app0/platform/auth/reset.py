@@ -14,7 +14,7 @@ from hopeit.fs_storage import FileStorage
 from app0.admin import mail
 from app0.admin.http import HttpRespInfo
 from app0.admin.services.user_services import get_user
-from app0.admin.tmail import MailTemplate, TmailSend
+from app0.admin.template_mail import TemplateMailSend
 from app0.admin.user import User
 from app0.platform.auth import AuthNew, AuthReset, _password_hash, db
 
@@ -67,7 +67,7 @@ async def reset(auth_info: AuthNew, context: EventContext) -> Union[HttpRespInfo
     return HttpRespInfo(403, 'Operation forbidden')
 
 
-async def notify_reset(auth_reset: AuthReset, context: EventContext) -> Optional[TmailSend]:
+async def notify_reset(auth_reset: AuthReset, context: EventContext) -> Optional[TemplateMailSend]:
     """
     Send Recovery Mail
     """
@@ -76,10 +76,8 @@ async def notify_reset(auth_reset: AuthReset, context: EventContext) -> Optional
     user: Optional[User] = await get_user(es, auth_reset.id)
     if user:
         # if first access, send welcome mail
-        return TmailSend(
-            template=MailTemplate(
-                collection=mail.MAIL_COLLECTION_BASE,
-                name=mail.MAIL_WELCOME if auth_reset.first_access else mail.MAIL_PASSWORD_RESET_OK),
+        return TemplateMailSend(
+            template=mail.MAIL_WELCOME if auth_reset.first_access else mail.MAIL_PASSWORD_RESET_OK,
             destinations=[user.email],
             replacements={
                 mail.VAR_USER_NAME: user.firstname + ' ' + user.surname,
@@ -89,7 +87,7 @@ async def notify_reset(auth_reset: AuthReset, context: EventContext) -> Optional
     return None
 
 
-async def __postprocess__(payload: Optional[Union[HttpRespInfo, TmailSend]], context: EventContext,
+async def __postprocess__(payload: Optional[Union[HttpRespInfo, TemplateMailSend]], context: EventContext,
                           *, response: PostprocessHook) -> str:
     if isinstance(payload, HttpRespInfo):
         response.status = payload.code

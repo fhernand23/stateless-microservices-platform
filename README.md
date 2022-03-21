@@ -15,8 +15,8 @@ Platform is compound of:
 - `app0-admin-ui` Platform manager UI
 - `app0-claim` Simple app1 backend to manage a simple workflow of claims
 - `app0-claim-ui` Simple app1 UI to manage a simple workflow of claims
-- `app0-client` Simple app2 backend to manage company clients
-- `app0-client-ui` Simple app2 UI to manage company clients
+- `app0-client` Simple app2 backend to manage company clients & services
+- `app0-client-ui` Simple app2 UI to manage company clients & services
 
 ## Prerequisites
 
@@ -35,6 +35,29 @@ This project make use of certains dockers that are autoinstalled by docker:
 * `nginx` as the api-gateway
 
 ## Getting started
+
+This platform try to model a simple real world app for a company that provide services to clients and manage claims about services subscripted.
+
+### App0-admin
+
+- Provide Login and related funcionality
+- Provide Registration for new users
+- Manage Apps
+- Manage Roles
+- Manage Plans
+- Manage Subscriptions
+- Manage Registrations
+- Provide mailing capabilities
+- Provide object storage capabilities
+
+### App0-client
+
+- Manage clients
+- Manage clients services
+
+### App0-claim
+
+- Manage a simple workflow of client claims about his services
 
 
 

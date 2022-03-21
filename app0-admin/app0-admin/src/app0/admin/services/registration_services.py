@@ -1,5 +1,5 @@
 """
-Claims Base Registration services
+App0 Admin Registration services
 """
 from typing import List, Optional
 

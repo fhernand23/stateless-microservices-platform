@@ -1,5 +1,5 @@
 """
-Claims Base Group services
+App0 Admin Group services
 """
 from typing import List, Optional
 

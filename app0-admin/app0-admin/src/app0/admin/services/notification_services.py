@@ -1,5 +1,5 @@
 """
-Claims Base Notification services
+App0 Admin Notification services
 """
 from typing import List, Optional
 

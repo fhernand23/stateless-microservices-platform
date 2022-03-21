@@ -8,7 +8,7 @@ from hopeit.app.context import EventContext, PostprocessHook
 
 from app0.admin.db import db
 from app0.admin.services.user_services import (get_user, get_user_by_employee,
-                                                get_user_by_username)
+                                               get_user_by_username)
 from app0.admin.user import User
 
 __steps__ = ['run']

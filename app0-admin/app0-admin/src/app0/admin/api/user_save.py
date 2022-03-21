@@ -18,11 +18,11 @@ from hopeit.dataobjects import dataobject
 from app0.admin.db import db
 from app0.admin.http import HttpRespInfo
 from app0.admin.services import (ACT_USER_DELETE_USER, ACT_USER_CREATE, IDX_USER_ROLE, ACT_USER_DISABLE_USER_EMPLOYEE,
-                                  IDX_EMPLOYEE, IDX_USER, ROLE_ADMIN, IDX_NOTIFICATION)
+                                 IDX_EMPLOYEE, IDX_USER, ROLE_ADMIN, IDX_NOTIFICATION)
 from app0.admin.services.user_services import save_user
 from app0.admin.user import User, UserAppRole
 from app0.admin import mail
-from app0.admin.tmail import MailTemplate, TmailSend
+from app0.admin.template_mail import TemplateMailSend
 from app0.platform.auth import AuthReset
 from app0.admin.notification import Notification
 from app0.admin.util import company_util
@@ -137,8 +137,8 @@ async def _register(user: User, context: EventContext):
     await fs_recover.store(notify.recovery_token, auth_reset)
     logger.info(context, f"User '{notify.user.id}' request password reset")
     # send mail
-    tmail_send = TmailSend(
-        template=MailTemplate(collection=mail.MAIL_COLLECTION_BASE, name=mail.MAIL_EMAIL_CONFIRMATION),
+    tmail_send = TemplateMailSend(
+        template=mail.MAIL_EMAIL_CONFIRMATION,
         destinations=[user.email],
         replacements={
             mail.VAR_USER_NAME: user.firstname + ' ' + user.surname,
@@ -150,7 +150,7 @@ async def _register(user: User, context: EventContext):
     tmail_send_r = await app_call(
         context.event_info.connections[0].app_connection,
         event=context.event_info.connections[0].event,
-        datatype=TmailSend, payload=tmail_send, context=context
+        datatype=TemplateMailSend, payload=tmail_send, context=context
     )
     logger.info(context, f"Mail queued OK {tmail_send_r}")
 

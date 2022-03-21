@@ -44,7 +44,7 @@ def libversion(lib):
 
 setuptools.setup(
     name="app0.platform.auth",
-    version=version['CA_BASE_VERSION'],
+    version=version['APP0_ADMIN_VERSION'],
     description="Platform Auth Plugin",
     package_dir={
         "": "src"
@@ -61,7 +61,7 @@ setuptools.setup(
         "app0.admin",
         "hopeit.engine[web,cli,fs-storage,redis-streams,apps-visualizer,config-manager,apps-client]",
         "motor"
-    ].append(f"app0.admin=={version['CA_BASE_VERSION']}"),
+    ].append(f"app0.admin=={version['APP0_ADMIN_VERSION']}"),
     extras_require={
     },
     entry_points={

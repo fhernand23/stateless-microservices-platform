@@ -1,5 +1,5 @@
 """
-Platform Tmails: tmail-test
+Platform TemplateMails: tmail-test
 """
 from typing import Optional, Dict
 from datetime import datetime, timezone
@@ -15,8 +15,8 @@ from hopeit.app.logger import app_extra_logger
 
 from app0.admin import mail
 from app0.admin.db import db
-from app0.admin.services.tmail_services import get_tmail_by_name
-from app0.admin.tmail import TmailSend
+from app0.admin.services.template_mail_services import get_template_mail_by_name
+from app0.admin.template_mail import TemplateMailSend
 
 
 SES_CLIENT = "ses"
@@ -25,41 +25,38 @@ REGION_NAME = "us-east-2"
 TEMPLATES_FOLDER: Optional[str] = None
 FROM_MAIL: Optional[str] = None
 MAILTO_OVERWRITE: Optional[str] = None
-BASE_URL: Optional[str] = None
-ATTENDANT_URL: Optional[str] = None
+APP0_LOGIN_URL: Optional[str] = None
 
 logger, extra = app_extra_logger()
 
 __steps__ = ['run']
 __api__ = event_api(
-    payload=(TmailSend, "Object Info"),
+    payload=(TemplateMailSend, "Object Info"),
     responses={
-        200: (TmailSend, "Object updated")
+        200: (TemplateMailSend, "Object updated")
     }
 )
 
 
 async def __init_event__(context: EventContext):
-    global TEMPLATES_FOLDER, FROM_MAIL, MAILTO_OVERWRITE, BASE_URL, ATTENDANT_URL
+    global TEMPLATES_FOLDER, FROM_MAIL, MAILTO_OVERWRITE, APP0_LOGIN_URL
     if TEMPLATES_FOLDER is None:
         TEMPLATES_FOLDER = str(context.env["email_templates"]["templates_folder"])
     if FROM_MAIL is None:
         FROM_MAIL = str(context.env["env_config"]["mail_app_from"])
     if MAILTO_OVERWRITE is None:
         MAILTO_OVERWRITE = str(context.env["env_config"]["mailto_overwrite"])
-    if BASE_URL is None:
-        BASE_URL = str(context.env["env_config"]["app0-admin_url"])
-    if ATTENDANT_URL is None:
-        ATTENDANT_URL = str(context.env["env_config"]["claimsattendant_url"])
+    if APP0_LOGIN_URL is None:
+        APP0_LOGIN_URL = str(context.env["env_config"]["app0_admin_url"])
 
 
-async def run(payload: TmailSend, context: EventContext) -> TmailSend:
+async def run(payload: TemplateMailSend, context: EventContext) -> TemplateMailSend:
     """
-    Tmail Run
+    TemplateMail Run
     """
     es = db(context.env)
     # load mail template
-    tmail = await get_tmail_by_name(es, payload.template)
+    tmail = await get_template_mail_by_name(es, payload.template)
     assert tmail
     # load template
     assert TEMPLATES_FOLDER
@@ -107,23 +104,8 @@ async def _set_default_replacements(es, context: EventContext) -> Dict[str, str]
     rep: Dict[str, str] = {}
 
     rep[mail.VAR_USER_NAME] = 'Some User'
-    rep[mail.VAR_CLAIMS_APP_URL] = f'{BASE_URL}'
-    rep[mail.VAR_PASSWORD_RESET_URL] = f'{BASE_URL}/reset/123456789'
-    rep[mail.VAR_EMAIL_CONFIRM_URL] = f'{BASE_URL}/confirm/123456789'
-
-    rep[mail.VAR_COMPANY_LOGO_URL] = 'https://claimsattendant.com/email/images/logo_claims-attendant.png'
-    rep[mail.VAR_COMPANY_NAME] = 'SomeCompany'
-    rep[mail.VAR_COMPANY_ADDRESS] = '668 NW 5th St, Miami, FL 33128, Estados Unidos'
-    rep[mail.VAR_COMPANY_PHONE] = 'Phone: +13053717065'
-
-    rep[mail.VAR_CLAIM_VIEW_URL] = f'{ATTENDANT_URL}/claim/v/123456789'
-    rep[mail.VAR_INSPECTION_TYPE] = 'First Inspection'
-    rep[mail.VAR_INSPECTION_ADDRESS] = '404 NW 3rd St, Miami, FL 33128, Estados Unidos'
-    rep[mail.VAR_INSPECTION_DATE] = 'July 1, 2022, 15:00'
-    rep[mail.VAR_CLIENT_NAME] = 'John SomeClient'
-    rep[mail.VAR_SPOL_CLIENT_UPLOAD_URL] = f'{ATTENDANT_URL}/claim/u1/123456789'
-    rep[mail.VAR_RELEASE_CLIENT_UPLOAD_URL] = f'{ATTENDANT_URL}/claim/u2/123456789'
-    rep[mail.VAR_UMPIRE_ACK_CLIENT_UPLOAD_URL] = f'{ATTENDANT_URL}/claim/u3/123456789'
-    rep[mail.VAR_RETAINER_CLIENT_UPLOAD_URL] = f'{ATTENDANT_URL}/claim/u4/123456789'
+    rep[mail.VAR_CLAIMS_APP_URL] = f'{APP0_LOGIN_URL}'
+    rep[mail.VAR_PASSWORD_RESET_URL] = f'{APP0_LOGIN_URL}/reset/123456789'
+    rep[mail.VAR_EMAIL_CONFIRM_URL] = f'{APP0_LOGIN_URL}/confirm/123456789'
 
     return rep

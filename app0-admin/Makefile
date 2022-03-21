@@ -42,20 +42,20 @@ dist-plugin-auth:
 
 build-docker-api:
 	$(eval ENGINE_VERSION := $(shell cat requirements.lock | grep hopeit.engine |  sed s/'hopeit.engine=='//))
-	$(eval CA_BASE_VERSION := $(shell python app0-admin/config/version.py CA_BASE_VERSION))
+	$(eval APP0_ADMIN_VERSION := $(shell python app0-admin/config/version.py APP0_ADMIN_VERSION))
 	docker build --progress plain --build-arg ENGINE_VERSION=$(ENGINE_VERSION) \
 	--tag app0-admin \
-	--tag app0-admin:$(CA_BASE_VERSION) \
-	--tag registry.gitlab.com/newken/app0-admin/app0-admin:$(CA_BASE_VERSION) \
+	--tag app0-admin:$(APP0_ADMIN_VERSION) \
+	--tag registry.gitlab.com/newken/app0-admin/app0-admin:$(APP0_ADMIN_VERSION) \
 	--tag registry.gitlab.com/newken/app0-admin/app0-admin .
 
 build-docker-app0-visualizer:
 	$(eval ENGINE_VERSION := $(shell cat requirements.lock | grep hopeit.engine |  sed s/'hopeit.engine=='//))
-	$(eval CA_BASE_VERSION := $(shell python app0-admin/config/version.py CA_BASE_VERSION))
+	$(eval APP0_ADMIN_VERSION := $(shell python app0-admin/config/version.py APP0_ADMIN_VERSION))
 	cd docker && cd apps-visualizer && docker build --progress plain --build-arg ENGINE_VERSION=$(ENGINE_VERSION) \
 	--tag app0-visualizer \
-	--tag app0-visualizer:$(CA_BASE_VERSION) \
-	--tag registry.gitlab.com/newken/app0-admin/apps-visualizer:$(CA_BASE_VERSION) \
+	--tag app0-visualizer:$(APP0_ADMIN_VERSION) \
+	--tag registry.gitlab.com/newken/app0-admin/apps-visualizer:$(APP0_ADMIN_VERSION) \
 	--tag registry.gitlab.com/newken/app0-admin/apps-visualizer .
 	
 build-docker-ui:
@@ -67,8 +67,8 @@ build-docker-ui:
 	--tag registry.gitlab.com/newken/app0-admin/app0-admin-ui .
 
 publish-docker-api:
-	$(eval CA_BASE_VERSION := $(shell python app0-admin/config/version.py CA_BASE_VERSION))
-	docker push registry.gitlab.com/newken/app0-admin/app0-admin:$(CA_BASE_VERSION) && \
+	$(eval APP0_ADMIN_VERSION := $(shell python app0-admin/config/version.py APP0_ADMIN_VERSION))
+	docker push registry.gitlab.com/newken/app0-admin/app0-admin:$(APP0_ADMIN_VERSION) && \
 	docker push registry.gitlab.com/newken/app0-admin/app0-admin
 
 publish-docker-ui:
@@ -77,6 +77,6 @@ publish-docker-ui:
 	docker push registry.gitlab.com/newken/app0-admin/app0-admin-ui
 
 publish-docker-apps-visualizer:
-	$(eval CA_BASE_VERSION := $(shell python app0-admin/config/version.py CA_BASE_VERSION))
-	docker push registry.gitlab.com/newken/app0-admin/apps-visualizer:$(CA_BASE_VERSION) && \
+	$(eval APP0_ADMIN_VERSION := $(shell python app0-admin/config/version.py APP0_ADMIN_VERSION))
+	docker push registry.gitlab.com/newken/app0-admin/apps-visualizer:$(APP0_ADMIN_VERSION) && \
 	docker push registry.gitlab.com/newken/app0-admin/apps-visualizer

@@ -15,8 +15,8 @@ from hopeit.app.context import EventContext
 from hopeit.app.logger import app_extra_logger
 
 from app0.admin.db import db
-from app0.admin.services.tmail_services import get_tmail_by_name
-from app0.admin.tmail import MailAttachment, TmailSend
+from app0.admin.services.template_mail_services import get_template_mail_by_name
+from app0.admin.template_mail import MailAttachment, TemplateMailSend
 from app0.admin import mail
 from app0.admin.util.object_storage import ObjectStorage, ObjectStorageConf, ObjectStorageConnConfig
 
@@ -66,13 +66,13 @@ async def __init_event__(context: EventContext):
         claims_object_store = await ObjectStorage().connect(conn_config=conn_config, bucket=claims_bucket.bucket)
 
 
-async def process(payload: TmailSend, context: EventContext):
+async def process(payload: TemplateMailSend, context: EventContext):
     """
     Save
     """
     es = db(context.env)
     # load mail template
-    tmail = await get_tmail_by_name(es, payload.template)
+    tmail = await get_template_mail_by_name(es, payload.template)
     assert tmail
     # load template
     assert TEMPLATES_FOLDER

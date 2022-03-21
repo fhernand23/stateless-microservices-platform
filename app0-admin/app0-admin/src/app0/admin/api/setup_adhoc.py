@@ -13,8 +13,8 @@ from hopeit.fs_storage import FileStorage
 from app0.admin.db import db
 from app0.admin.http import Dto, HttpRespInfo
 from app0.admin.mail.test_sender import (send_test_html_email,
-                                          send_test_multipart_email,
-                                          send_test_plain_email)
+                                         send_test_multipart_email,
+                                         send_test_plain_email)
 from app0.admin.services.user_services import get_users
 from app0.platform.auth import UserPassword, _password_hash
 from app0.admin.util.object_storage import ObjectStorage, ObjectStorageConf, ObjectStorageConnConfig

@@ -16,7 +16,7 @@ from hopeit.fs_storage import FileStorage
 
 from app0.admin import mail
 from app0.admin.services.user_services import get_user_by_username
-from app0.admin.tmail import MailTemplate, TmailSend
+from app0.admin.template_mail import TemplateMailSend
 from app0.admin.user import User
 from app0.platform.auth import AuthReset, db
 
@@ -73,12 +73,12 @@ async def process_recovery(payload: AuthReset, context: EventContext) -> Optiona
     return None
 
 
-async def notify_recovery(data: AuthResetData, context: EventContext) -> TmailSend:
+async def notify_recovery(data: AuthResetData, context: EventContext) -> TemplateMailSend:
     """
     Send Recovery Mail
     """
-    return TmailSend(
-        template=MailTemplate(collection=mail.MAIL_COLLECTION_BASE, name=mail.MAIL_PASSWORD_RESET),
+    return TemplateMailSend(
+        template=mail.MAIL_PASSWORD_RESET,
         destinations=[data.user.email],
         replacements={
             mail.VAR_PASSWORD_RESET_URL: f'{BASE_URL}/reset/{data.recovery_token}',
@@ -86,7 +86,7 @@ async def notify_recovery(data: AuthResetData, context: EventContext) -> TmailSe
         files=[])
 
 
-async def __postprocess__(payload: Optional[TmailSend], context: EventContext, *, response: PostprocessHook) -> str:
+async def __postprocess__(payload: Optional[TemplateMailSend], context: EventContext, *, response: PostprocessHook) -> str:
     if payload:
         return "Notification submited to proccess"
     return "Something is wrong"
