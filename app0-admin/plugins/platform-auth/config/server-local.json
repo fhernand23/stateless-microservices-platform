@@ -1,0 +1,15 @@
+{
+  "streams": {
+    "connection_str": "redis://localhost:6379"
+  },
+  "logging": {
+    "log_level": "DEBUG",
+    "log_path": "logs/"
+  },
+  "auth": {
+    "auth_passphrase": "dev-local",
+    "secrets_location": ".secrets/",
+    "create_keys": true,
+    "default_auth_methods": ["Unsecured"]
+  }
+}

@@ -1,0 +1,5 @@
+mypy
+flake8
+pylint
+autopep8
+pytest

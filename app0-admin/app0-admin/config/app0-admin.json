@@ -1,0 +1,350 @@
+{
+    "$schema": "https://raw.githubusercontent.com/hopeit-git/hopeit.engine/master/engine/config/schemas/app-config-schema-draftv6.json",
+    "app": {
+        "name": "app0-admin",
+        "version": "1.0"
+    },
+    "plugins": [
+        {
+            "name": "platform-auth",
+            "version": "1.0"
+        }
+    ],
+    "engine": {
+        "import_modules": [
+            "app0.admin"
+        ],
+        "cors_origin": "*"
+    },
+    "app_connections": {
+        "admin_conn": {
+            "name": "app0-admin",
+            "version": "1.0",
+            "client": "hopeit.apps_client.AppsClient"
+        },
+        "claims_conn": {
+            "name": "app0-claims",
+            "version": "1.0",
+            "client": "hopeit.apps_client.AppsClient"
+        }
+    },
+    "settings": {
+        "app0admin_conn": {
+            "connection_str": "${APP0ADMIN_API_URL}"
+        },
+        "app0claims_conn": {
+            "connection_str": "${APP0CLAIMS_API_URL}"
+        },
+        "data_store": {
+            "endpoint_url": "${OBJECT_STORAGE_ENDPOINT_URL}",
+            "aws_access_key_id": "${OBJECT_STORAGE_ACCESS_KEY_ID}",
+            "aws_secret_access_key" : "${OBJECT_STORAGE_SECRET_ACCESS_KEY}",
+            "use_ssl": false
+        },
+        "logo_imgs": {            
+            "bucket": "img-logo",
+            "chunk_size": 16384
+        },
+        "company_docs": {            
+            "bucket": "company-docs",
+            "chunk_size": 16384
+        },
+        "claims_docs": {
+            "chunk_size": 16384,
+            "bucket": "claims-docs"
+        },
+        "claims-testing": {
+            "bucket": "claims-testing",
+            "chunk_size": 16384
+        }
+    },
+    "env": {
+        "env_config": {
+            "env_type": "${ENV_TYPE}",
+            "app0_admin_url": "${APP0ADMIN_URL}",
+            "app0_claims_url": "${APP0CLAIMS_URL}",
+            "mail_app_from": "${MAIL_APP_FROM}",
+            "mailto_overwrite": "${MAILTO_OVERWRITE}",
+            "mail_attach_overwrite": "${MAIL_ATTACH_OVERWRITE}"
+        },
+        "mongodb": {
+            "conn_str": "${MONGO_URL}",
+            "dbname": "app0db"
+        },        
+        "email_templates": {
+            "templates_folder": "./email/templates"
+        },
+        "fs": {
+            "auth_store": "./auth",
+            "recover_store": "./recover"
+        },
+        "data_store": {
+            "endpoint_url": "${OBJECT_STORAGE_ENDPOINT_URL}",
+            "aws_access_key_id": "${OBJECT_STORAGE_ACCESS_KEY_ID}",
+            "aws_secret_access_key" : "${OBJECT_STORAGE_SECRET_ACCESS_KEY}",
+            "use_ssl": false
+        },
+        "logo_imgs": {            
+            "bucket": "img-logo",
+            "chunk_size": 16384
+        },
+        "company_docs": {            
+            "bucket": "company-docs",
+            "chunk_size": 16384
+        },
+        "claims_docs": {
+            "chunk_size": 16384,
+            "bucket": "claims-docs"
+        }
+    },
+    "events": {
+        "api.enum_list": {
+            "type": "GET",
+            "auth": [
+                "Bearer"
+            ]
+        },
+        "api.app_get": {
+            "type": "GET",
+            "auth": [
+                "Bearer"
+            ]
+        },
+        "api.app_list": {
+            "type": "GET",
+            "auth": [
+                "Bearer"
+            ]
+        },
+        "api.app_save": {
+            "type": "POST",
+            "auth": [
+                "Bearer"
+            ]
+        },
+        "api.group_save": {
+            "type": "POST",
+            "auth": [
+                "Bearer"
+            ]
+        },
+        "api.group_get": {
+            "type": "GET",
+            "auth": [
+                "Bearer"
+            ]
+        },
+        "api.group_list": {
+            "type": "GET",
+            "auth": [
+                "Bearer"
+            ]
+        },
+        "api.role_save": {
+            "type": "POST",
+            "auth": [
+                "Bearer"
+            ]
+        },
+        "api.role_get": {
+            "type": "GET",
+            "auth": [
+                "Bearer"
+            ]
+        },
+        "api.role_list": {
+            "type": "GET",
+            "auth": [
+                "Bearer"
+            ]
+        },
+        "api.user_save": {
+            "type": "POST",
+            "auth": [
+                "Bearer"
+            ],
+            "connections": [
+                {
+                    "app_connection": "app0admin_conn",
+                    "event": "api.tmail-send",
+                    "type": "POST"
+                }
+            ],
+            "write_stream": {
+                "name": "{{auto}}"
+            }
+        },
+        "api.user_get": {
+            "type": "GET",
+            "auth": [
+                "Bearer"
+            ]
+        },
+        "api.user_list": {
+            "type": "GET",
+            "auth": [
+                "Bearer"
+            ]
+        },
+        "api.user_password": {
+            "type": "POST",
+            "auth": [
+                "Bearer"
+            ]
+        },
+        "api.auth_user_apps": {
+            "type": "GET",
+            "auth": [
+                "Bearer"
+            ]
+        },
+        "api.auth_user_roles": {
+            "type": "GET",
+            "auth": [
+                "Bearer"
+            ]
+        },
+        "api.auth_user_notifications": {
+            "type": "GET",
+            "auth": [
+                "Bearer"
+            ]
+        },
+        "api.auth_user_employee": {
+            "type": "GET",
+            "auth": [
+                "Bearer"
+            ]
+        },
+        "api.notification_save": {
+            "type": "POST",
+            "auth": [
+                "Bearer"
+            ]
+        },
+        "api.notification_get": {
+            "type": "GET",
+            "auth": [
+                "Bearer"
+            ]
+        },
+        "api.notification_list": {
+            "type": "POST",
+            "auth": [
+                "Bearer"
+            ]
+        },
+        "api.test_errors": {
+            "type": "GET",
+            "auth": [
+                "Unsecured"
+            ]
+        },
+        "api.setup_db": {
+            "type": "GET",
+            "auth": [
+                "Unsecured"
+            ]
+        },
+        "api.setup_adhoc": {
+            "type": "GET",
+            "auth": [
+                "Unsecured"
+            ],
+            "setting_keys": [
+                "data_store",
+                "claims-testing"
+            ]
+        },
+        "api.logo_upload": {
+            "type": "MULTIPART",
+            "auth": [
+                "Bearer"
+            ],
+            "setting_keys": [
+                "logo_imgs",
+                "data_store"
+            ]
+        },
+        "api.logo_get": {
+            "type": "GET",
+            "auth": [
+                "Unsecured"
+            ],
+            "setting_keys": [
+                "logo_imgs",
+                "data_store"
+            ]
+        },
+        "api.template_mail_save": {
+            "type": "POST",
+            "auth": [
+                "Bearer"
+            ]
+        },
+        "api.template_mail_test": {
+            "type": "POST",
+            "auth": [
+                "Bearer"
+            ]
+        },
+        "api.template_mail_send": {
+            "type": "POST",
+            "auth": [
+                "Bearer"
+            ],
+            "write_stream": {
+                "name": "{events.streams.api.mail_processor.write_stream.name}"
+            }
+        },
+        "api.template_mail_get": {
+            "type": "GET",
+            "auth": [
+                "Bearer"
+            ]
+        },
+        "api.template_mail_list": {
+            "type": "POST",
+            "auth": [
+                "Bearer"
+            ]
+        },
+        "api.registration_save": {
+            "type": "POST",
+            "auth": [
+                "Bearer"
+            ],
+            "write_stream": {
+                "name": "stream_registration_save"
+            }
+        },
+        "api.registration_pub_save": {
+            "type": "POST",
+            "auth": [
+                "Unsecured"
+            ],
+            "write_stream": {
+                "name": "stream_registration_save"
+            }
+        },
+        "api.registration_get": {
+            "type": "GET",
+            "auth": [
+                "Bearer"
+            ]
+        },
+        "api.registration_list": {
+            "type": "POST",
+            "auth": [
+                "Bearer"
+            ]
+        },
+        "api.mail_processor": {
+            "type": "STREAM",
+            "read_stream": {
+                "name": "{events.streams.api.mail_processor.write_stream.name}",
+                "consumer_group": "{auto}"
+            }
+        }
+    }
+}
