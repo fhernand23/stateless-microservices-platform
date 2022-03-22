@@ -379,7 +379,7 @@
           }
         },
         "tags": [
-          "claims_base.1x0"
+          "app0_admin.1x0"
         ],
         "security": [
           {
@@ -463,7 +463,7 @@
           }
         },
         "tags": [
-          "claims_base.1x0"
+          "app0_admin.1x0"
         ],
         "security": [
           {
@@ -513,7 +513,7 @@
           }
         },
         "tags": [
-          "claims_base.1x0"
+          "app0_admin.1x0"
         ],
         "security": [
           {
@@ -590,7 +590,7 @@
           }
         },
         "tags": [
-          "claims_base.1x0"
+          "app0_admin.1x0"
         ],
         "security": [
           {
@@ -667,7 +667,7 @@
           }
         },
         "tags": [
-          "claims_base.1x0"
+          "app0_admin.1x0"
         ],
         "security": [
           {
@@ -742,7 +742,7 @@
           }
         },
         "tags": [
-          "claims_base.1x0"
+          "app0_admin.1x0"
         ],
         "security": [
           {
@@ -792,7 +792,7 @@
           }
         },
         "tags": [
-          "claims_base.1x0"
+          "app0_admin.1x0"
         ],
         "security": [
           {
@@ -869,7 +869,7 @@
           }
         },
         "tags": [
-          "claims_base.1x0"
+          "app0_admin.1x0"
         ],
         "security": [
           {
@@ -953,7 +953,7 @@
           }
         },
         "tags": [
-          "claims_base.1x0"
+          "app0_admin.1x0"
         ],
         "security": [
           {
@@ -1003,7 +1003,7 @@
           }
         },
         "tags": [
-          "claims_base.1x0"
+          "app0_admin.1x0"
         ],
         "security": [
           {
@@ -1127,7 +1127,7 @@
           }
         },
         "tags": [
-          "claims_base.1x0"
+          "app0_admin.1x0"
         ],
         "security": [
           {
@@ -1220,7 +1220,7 @@
           }
         },
         "tags": [
-          "claims_base.1x0"
+          "app0_admin.1x0"
         ],
         "security": [
           {
@@ -1279,7 +1279,7 @@
           }
         },
         "tags": [
-          "claims_base.1x0"
+          "app0_admin.1x0"
         ],
         "security": [
           {
@@ -1346,7 +1346,7 @@
           }
         },
         "tags": [
-          "claims_base.1x0"
+          "app0_admin.1x0"
         ],
         "security": [
           {
@@ -1396,7 +1396,7 @@
           }
         },
         "tags": [
-          "claims_base.1x0"
+          "app0_admin.1x0"
         ],
         "security": [
           {
@@ -1446,7 +1446,7 @@
           }
         },
         "tags": [
-          "claims_base.1x0"
+          "app0_admin.1x0"
         ],
         "security": [
           {
@@ -1493,54 +1493,7 @@
           }
         },
         "tags": [
-          "claims_base.1x0"
-        ],
-        "security": [
-          {
-            "auth.bearer": []
-          }
-        ]
-      }
-    },
-    "/api/app0-admin/1x0/api/auth-company-notifications": {
-      "get": {
-        "summary": "Platform Users: auth-user-notifications",
-        "description": "Platform Users: auth-user-notifications",
-        "parameters": [
-          {
-            "name": "X-Track-Request-Id",
-            "in": "header",
-            "required": false,
-            "description": "Track information: Request-Id",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "X-Track-Request-Ts",
-            "in": "header",
-            "required": false,
-            "description": "Track information: Request-Ts",
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "List of results",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SearchResults"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "claims_base.1x0"
+          "app0_admin.1x0"
         ],
         "security": [
           {
@@ -1606,478 +1559,7 @@
           }
         },
         "tags": [
-          "claims_base.1x0"
-        ],
-        "security": [
-          {
-            "auth.bearer": []
-          }
-        ]
-      }
-    },
-    "/api/app0-admin/1x0/api/company-save": {
-      "post": {
-        "summary": "Platform Company: company-save",
-        "description": "Platform Company: company-save",
-        "parameters": [
-          {
-            "name": "action",
-            "in": "query",
-            "required": false,
-            "description": "Apply some action",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "X-Track-Request-Id",
-            "in": "header",
-            "required": false,
-            "description": "Track information: Request-Id",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "X-Track-Request-Ts",
-            "in": "header",
-            "required": false,
-            "description": "Track information: Request-Ts",
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "Company Info",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Company"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Company updated",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Company"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Request error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "api.company_save"
-                  ],
-                  "properties": {
-                    "api.company_save": {
-                      "type": "string"
-                    }
-                  },
-                  "description": "api.company_save string payload"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Operation forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "api.company_save"
-                  ],
-                  "properties": {
-                    "api.company_save": {
-                      "type": "string"
-                    }
-                  },
-                  "description": "api.company_save string payload"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "claims_base.1x0"
-        ],
-        "security": [
-          {
-            "auth.bearer": []
-          }
-        ]
-      }
-    },
-    "/api/app0-admin/1x0/api/company-get": {
-      "get": {
-        "summary": "Platform Company: company-get",
-        "description": "Platform Company: company-get",
-        "parameters": [
-          {
-            "name": "company_id",
-            "in": "query",
-            "required": true,
-            "description": "Company Id",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "X-Track-Request-Id",
-            "in": "header",
-            "required": false,
-            "description": "Track information: Request-Id",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "X-Track-Request-Ts",
-            "in": "header",
-            "required": false,
-            "description": "Track information: Request-Ts",
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Company",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Company"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Role not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "api.company_get"
-                  ],
-                  "properties": {
-                    "api.company_get": {
-                      "type": "string"
-                    }
-                  },
-                  "description": "api.company_get string payload"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "claims_base.1x0"
-        ],
-        "security": [
-          {
-            "auth.bearer": []
-          }
-        ]
-      }
-    },
-    "/api/app0-admin/1x0/api/company-list": {
-      "post": {
-        "summary": "Platform Company: company-list",
-        "description": "Platform Company: company-list",
-        "parameters": [
-          {
-            "name": "X-Track-Request-Id",
-            "in": "header",
-            "required": false,
-            "description": "Track information: Request-Id",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "X-Track-Request-Ts",
-            "in": "header",
-            "required": false,
-            "description": "Track information: Request-Ts",
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "Filters to search",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Query"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "List of results",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SearchResults"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "claims_base.1x0"
-        ],
-        "security": [
-          {
-            "auth.bearer": []
-          }
-        ]
-      }
-    },
-    "/api/app0-admin/1x0/api/company-data": {
-      "post": {
-        "summary": "Platform Company: company-data",
-        "description": "Platform Company: company-data",
-        "parameters": [
-          {
-            "name": "company_id",
-            "in": "query",
-            "required": true,
-            "description": "Company Id",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "category",
-            "in": "query",
-            "required": false,
-            "description": "Category of data to get",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "X-Track-Request-Id",
-            "in": "header",
-            "required": false,
-            "description": "Track information: Request-Id",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "X-Track-Request-Ts",
-            "in": "header",
-            "required": false,
-            "description": "Track information: Request-Ts",
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "Filters to search",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Query"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Dict with info",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Dto"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "api.company_data"
-                  ],
-                  "properties": {
-                    "api.company_data": {
-                      "type": "string"
-                    }
-                  },
-                  "description": "api.company_data string payload"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Operation forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "api.company_data"
-                  ],
-                  "properties": {
-                    "api.company_data": {
-                      "type": "string"
-                    }
-                  },
-                  "description": "api.company_data string payload"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Object not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "api.company_data"
-                  ],
-                  "properties": {
-                    "api.company_data": {
-                      "type": "string"
-                    }
-                  },
-                  "description": "api.company_data string payload"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "claims_base.1x0"
-        ],
-        "security": [
-          {
-            "auth.bearer": []
-          }
-        ]
-      }
-    },
-    "/api/app0-admin/1x0/api/company-file-upload": {
-      "post": {
-        "summary": "Platform Company: company-file-upload",
-        "description": "Platform Company: company-file-upload",
-        "parameters": [
-          {
-            "name": "company_id",
-            "in": "query",
-            "required": false,
-            "description": "Company id",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "tag",
-            "in": "query",
-            "required": false,
-            "description": "Tag",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "X-Track-Request-Id",
-            "in": "header",
-            "required": false,
-            "description": "Track information: Request-Id",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "X-Track-Request-Ts",
-            "in": "header",
-            "required": false,
-            "description": "Track information: Request-Ts",
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "type": "object",
-                "required": [
-                  "attachment"
-                ],
-                "properties": {
-                  "attachment": {
-                    "type": "string",
-                    "format": "binary",
-                    "description": "attachment"
-                  }
-                }
-              },
-              "encoding": {
-                "attachment": {
-                  "contentType": "application/octect-stream"
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Uploaded file info embedded in notification",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Notification"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Missing or invalid fields",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HttpRespInfo"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "claims_base.1x0"
+          "app0_admin.1x0"
         ],
         "security": [
           {
@@ -2173,7 +1655,7 @@
           }
         },
         "tags": [
-          "claims_base.1x0"
+          "app0_admin.1x0"
         ],
         "security": [
           {
@@ -2248,7 +1730,7 @@
           }
         },
         "tags": [
-          "claims_base.1x0"
+          "app0_admin.1x0"
         ],
         "security": [
           {
@@ -2306,7 +1788,7 @@
           }
         },
         "tags": [
-          "claims_base.1x0"
+          "app0_admin.1x0"
         ],
         "security": [
           {
@@ -2419,7 +1901,7 @@
           }
         },
         "tags": [
-          "claims_base.1x0"
+          "app0_admin.1x0"
         ]
       }
     },
@@ -2527,7 +2009,7 @@
           }
         },
         "tags": [
-          "claims_base.1x0"
+          "app0_admin.1x0"
         ]
       }
     },
@@ -2635,87 +2117,7 @@
           }
         },
         "tags": [
-          "claims_base.1x0"
-        ]
-      }
-    },
-    "/api/app0-admin/1x0/api/company-file-get": {
-      "get": {
-        "summary": "Platform Company: company-file-get",
-        "description": "Platform Company: company-file-get",
-        "parameters": [
-          {
-            "name": "doc_id",
-            "in": "query",
-            "required": true,
-            "description": "Resource filename",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "company_id",
-            "in": "query",
-            "required": false,
-            "description": "Company Id (only admin)",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "X-Track-Request-Id",
-            "in": "header",
-            "required": false,
-            "description": "Track information: Request-Id",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "X-Track-Request-Ts",
-            "in": "header",
-            "required": false,
-            "description": "Track information: Request-Ts",
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "File contents",
-            "content": {
-              "application/octet-stream": {
-                "schema": {
-                  "type": "string",
-                  "format": "binary"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "File not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "api.company_file_get"
-                  ],
-                  "properties": {
-                    "api.company_file_get": {
-                      "type": "string"
-                    }
-                  },
-                  "description": "api.company_file_get string payload"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "claims_base.1x0"
+          "app0_admin.1x0"
         ]
       }
     },
@@ -2801,7 +2203,7 @@
           }
         },
         "tags": [
-          "claims_base.1x0"
+          "app0_admin.1x0"
         ],
         "security": [
           {
@@ -2877,14 +2279,14 @@
           }
         },
         "tags": [
-          "claims_base.1x0"
+          "app0_admin.1x0"
         ]
       }
     },
-    "/api/app0-admin/1x0/api/event-save": {
+    "/api/app0-admin/1x0/api/template-mail-save": {
       "post": {
-        "summary": "Platform Events: event-save",
-        "description": "Platform Events: event-save",
+        "summary": "Platform TemplateMails: tmail-save",
+        "description": "Platform TemplateMails: tmail-save",
         "parameters": [
           {
             "name": "X-Track-Request-Id",
@@ -2912,7 +2314,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Event"
+                "$ref": "#/components/schemas/TemplateMail"
               }
             }
           }
@@ -2923,7 +2325,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Event"
+                  "$ref": "#/components/schemas/TemplateMail"
                 }
               }
             }
@@ -2935,14 +2337,14 @@
                 "schema": {
                   "type": "object",
                   "required": [
-                    "api.event_save"
+                    "api.template_mail_save"
                   ],
                   "properties": {
-                    "api.event_save": {
+                    "api.template_mail_save": {
                       "type": "string"
                     }
                   },
-                  "description": "api.event_save string payload"
+                  "description": "api.template_mail_save string payload"
                 }
               }
             }
@@ -2954,21 +2356,21 @@
                 "schema": {
                   "type": "object",
                   "required": [
-                    "api.event_save"
+                    "api.template_mail_save"
                   ],
                   "properties": {
-                    "api.event_save": {
+                    "api.template_mail_save": {
                       "type": "string"
                     }
                   },
-                  "description": "api.event_save string payload"
+                  "description": "api.template_mail_save string payload"
                 }
               }
             }
           }
         },
         "tags": [
-          "claims_base.1x0"
+          "app0_admin.1x0"
         ],
         "security": [
           {
@@ -2977,10 +2379,126 @@
         ]
       }
     },
-    "/api/app0-admin/1x0/api/event-get": {
+    "/api/app0-admin/1x0/api/template-mail-test": {
+      "post": {
+        "summary": "Platform TemplateMails: tmail-test",
+        "description": "Platform TemplateMails: tmail-test",
+        "parameters": [
+          {
+            "name": "X-Track-Request-Id",
+            "in": "header",
+            "required": false,
+            "description": "Track information: Request-Id",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Track-Request-Ts",
+            "in": "header",
+            "required": false,
+            "description": "Track information: Request-Ts",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Object Info",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TemplateMailSend"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Object updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TemplateMailSend"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "app0_admin.1x0"
+        ],
+        "security": [
+          {
+            "auth.bearer": []
+          }
+        ]
+      }
+    },
+    "/api/app0-admin/1x0/api/template-mail-send": {
+      "post": {
+        "summary": "Platform TemplateMails: tmail-send",
+        "description": "Platform TemplateMails: tmail-send",
+        "parameters": [
+          {
+            "name": "X-Track-Request-Id",
+            "in": "header",
+            "required": false,
+            "description": "Track information: Request-Id",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Track-Request-Ts",
+            "in": "header",
+            "required": false,
+            "description": "Track information: Request-Ts",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Object Info",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TemplateMailSend"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Object updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TemplateMailSend"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "app0_admin.1x0"
+        ],
+        "security": [
+          {
+            "auth.bearer": []
+          }
+        ]
+      }
+    },
+    "/api/app0-admin/1x0/api/template-mail-get": {
       "get": {
-        "summary": "Platform Events: event-get",
-        "description": "Platform Events: event-get",
+        "summary": "Platform TemplateMails: tmail-get",
+        "description": "Platform TemplateMails: tmail-get",
         "parameters": [
           {
             "name": "obj_id",
@@ -3013,11 +2531,11 @@
         ],
         "responses": {
           "200": {
-            "description": "Event",
+            "description": "TemplateMail",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Event"
+                  "$ref": "#/components/schemas/TemplateMail"
                 }
               }
             }
@@ -3029,21 +2547,21 @@
                 "schema": {
                   "type": "object",
                   "required": [
-                    "api.event_get"
+                    "api.template_mail_get"
                   ],
                   "properties": {
-                    "api.event_get": {
+                    "api.template_mail_get": {
                       "type": "string"
                     }
                   },
-                  "description": "api.event_get string payload"
+                  "description": "api.template_mail_get string payload"
                 }
               }
             }
           }
         },
         "tags": [
-          "claims_base.1x0"
+          "app0_admin.1x0"
         ],
         "security": [
           {
@@ -3052,10 +2570,10 @@
         ]
       }
     },
-    "/api/app0-admin/1x0/api/event-list": {
+    "/api/app0-admin/1x0/api/template-mail-list": {
       "post": {
-        "summary": "Platform Events: event-list",
-        "description": "Platform Events: event-list",
+        "summary": "Platform TemplateMails: tmail-list",
+        "description": "Platform TemplateMails: tmail-list",
         "parameters": [
           {
             "name": "X-Track-Request-Id",
@@ -3101,656 +2619,12 @@
           }
         },
         "tags": [
-          "claims_base.1x0"
+          "app0_admin.1x0"
         ],
         "security": [
           {
             "auth.bearer": []
           }
-        ]
-      }
-    },
-    "/api/app0-admin/1x0/api/tmail-save": {
-      "post": {
-        "summary": "Platform Tmails: tmail-save",
-        "description": "Platform Tmails: tmail-save",
-        "parameters": [
-          {
-            "name": "X-Track-Request-Id",
-            "in": "header",
-            "required": false,
-            "description": "Track information: Request-Id",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "X-Track-Request-Ts",
-            "in": "header",
-            "required": false,
-            "description": "Track information: Request-Ts",
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "Object Info",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Tmail"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Object updated",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Tmail"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Operation forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "api.tmail_save"
-                  ],
-                  "properties": {
-                    "api.tmail_save": {
-                      "type": "string"
-                    }
-                  },
-                  "description": "api.tmail_save string payload"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Object not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "api.tmail_save"
-                  ],
-                  "properties": {
-                    "api.tmail_save": {
-                      "type": "string"
-                    }
-                  },
-                  "description": "api.tmail_save string payload"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "claims_base.1x0"
-        ],
-        "security": [
-          {
-            "auth.bearer": []
-          }
-        ]
-      }
-    },
-    "/api/app0-admin/1x0/api/tmail-test": {
-      "post": {
-        "summary": "Platform Tmails: tmail-test",
-        "description": "Platform Tmails: tmail-test",
-        "parameters": [
-          {
-            "name": "X-Track-Request-Id",
-            "in": "header",
-            "required": false,
-            "description": "Track information: Request-Id",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "X-Track-Request-Ts",
-            "in": "header",
-            "required": false,
-            "description": "Track information: Request-Ts",
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "Object Info",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/TmailSend"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Object updated",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/TmailSend"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "claims_base.1x0"
-        ],
-        "security": [
-          {
-            "auth.bearer": []
-          }
-        ]
-      }
-    },
-    "/api/app0-admin/1x0/api/tmail-send": {
-      "post": {
-        "summary": "Platform Tmails: tmail-send",
-        "description": "Platform Tmails: tmail-send",
-        "parameters": [
-          {
-            "name": "X-Track-Request-Id",
-            "in": "header",
-            "required": false,
-            "description": "Track information: Request-Id",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "X-Track-Request-Ts",
-            "in": "header",
-            "required": false,
-            "description": "Track information: Request-Ts",
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "Object Info",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/TmailSend"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Object updated",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/TmailSend"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "claims_base.1x0"
-        ],
-        "security": [
-          {
-            "auth.bearer": []
-          }
-        ]
-      }
-    },
-    "/api/app0-admin/1x0/api/tmail-get": {
-      "get": {
-        "summary": "Platform Tmails: tmail-get",
-        "description": "Platform Tmails: tmail-get",
-        "parameters": [
-          {
-            "name": "obj_id",
-            "in": "query",
-            "required": true,
-            "description": "Object ID",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "X-Track-Request-Id",
-            "in": "header",
-            "required": false,
-            "description": "Track information: Request-Id",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "X-Track-Request-Ts",
-            "in": "header",
-            "required": false,
-            "description": "Track information: Request-Ts",
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Tmail",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Tmail"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Object not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "api.tmail_get"
-                  ],
-                  "properties": {
-                    "api.tmail_get": {
-                      "type": "string"
-                    }
-                  },
-                  "description": "api.tmail_get string payload"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "claims_base.1x0"
-        ],
-        "security": [
-          {
-            "auth.bearer": []
-          }
-        ]
-      }
-    },
-    "/api/app0-admin/1x0/api/tmail-list": {
-      "post": {
-        "summary": "Platform Tmails: tmail-list",
-        "description": "Platform Tmails: tmail-list",
-        "parameters": [
-          {
-            "name": "X-Track-Request-Id",
-            "in": "header",
-            "required": false,
-            "description": "Track information: Request-Id",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "X-Track-Request-Ts",
-            "in": "header",
-            "required": false,
-            "description": "Track information: Request-Ts",
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "Filters to search",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Query"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "List of results",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SearchResults"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "claims_base.1x0"
-        ],
-        "security": [
-          {
-            "auth.bearer": []
-          }
-        ]
-      }
-    },
-    "/api/app0-admin/1x0/api/plan-save": {
-      "post": {
-        "summary": "Platform Plans: plan-save",
-        "description": "Platform Plans: plan-save",
-        "parameters": [
-          {
-            "name": "action",
-            "in": "query",
-            "required": false,
-            "description": "Apply some action",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "X-Track-Request-Id",
-            "in": "header",
-            "required": false,
-            "description": "Track information: Request-Id",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "X-Track-Request-Ts",
-            "in": "header",
-            "required": false,
-            "description": "Track information: Request-Ts",
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "Object Info",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AvailablePlan"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Object updated",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AvailablePlan"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Request error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "api.plan_save"
-                  ],
-                  "properties": {
-                    "api.plan_save": {
-                      "type": "string"
-                    }
-                  },
-                  "description": "api.plan_save string payload"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Operation forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "api.plan_save"
-                  ],
-                  "properties": {
-                    "api.plan_save": {
-                      "type": "string"
-                    }
-                  },
-                  "description": "api.plan_save string payload"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Object not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "api.plan_save"
-                  ],
-                  "properties": {
-                    "api.plan_save": {
-                      "type": "string"
-                    }
-                  },
-                  "description": "api.plan_save string payload"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "claims_base.1x0"
-        ],
-        "security": [
-          {
-            "auth.bearer": []
-          }
-        ]
-      }
-    },
-    "/api/app0-admin/1x0/api/plan-get": {
-      "get": {
-        "summary": "Platform Plans: plan-get",
-        "description": "Platform Plans: plan-get",
-        "parameters": [
-          {
-            "name": "obj_id",
-            "in": "query",
-            "required": true,
-            "description": "Object ID",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "X-Track-Request-Id",
-            "in": "header",
-            "required": false,
-            "description": "Track information: Request-Id",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "X-Track-Request-Ts",
-            "in": "header",
-            "required": false,
-            "description": "Track information: Request-Ts",
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "AvailablePlan",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AvailablePlan"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Object not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "api.plan_get"
-                  ],
-                  "properties": {
-                    "api.plan_get": {
-                      "type": "string"
-                    }
-                  },
-                  "description": "api.plan_get string payload"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "claims_base.1x0"
-        ],
-        "security": [
-          {
-            "auth.bearer": []
-          }
-        ]
-      }
-    },
-    "/api/app0-admin/1x0/api/plan-list": {
-      "post": {
-        "summary": "Platform Plans: plan-list",
-        "description": "Platform Plans: plan-list",
-        "parameters": [
-          {
-            "name": "X-Track-Request-Id",
-            "in": "header",
-            "required": false,
-            "description": "Track information: Request-Id",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "X-Track-Request-Ts",
-            "in": "header",
-            "required": false,
-            "description": "Track information: Request-Ts",
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "Filters to search",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Query"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "List of results",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SearchResults"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "claims_base.1x0"
-        ],
-        "security": [
-          {
-            "auth.bearer": []
-          }
-        ]
-      }
-    },
-    "/api/app0-admin/1x0/api/plan-list-enabled": {
-      "get": {
-        "summary": "Platform Plans: plan-list-enabled",
-        "description": "Platform Plans: plan-list-enabled",
-        "parameters": [
-          {
-            "name": "X-Track-Request-Id",
-            "in": "header",
-            "required": false,
-            "description": "Track information: Request-Id",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "X-Track-Request-Ts",
-            "in": "header",
-            "required": false,
-            "description": "Track information: Request-Ts",
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "List of results",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SearchResults"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "claims_base.1x0"
         ]
       }
     },
@@ -3869,7 +2743,7 @@
           }
         },
         "tags": [
-          "claims_base.1x0"
+          "app0_admin.1x0"
         ],
         "security": [
           {
@@ -3946,7 +2820,7 @@
           }
         },
         "tags": [
-          "claims_base.1x0"
+          "app0_admin.1x0"
         ]
       }
     },
@@ -4016,7 +2890,7 @@
           }
         },
         "tags": [
-          "claims_base.1x0"
+          "app0_admin.1x0"
         ],
         "security": [
           {
@@ -4074,416 +2948,7 @@
           }
         },
         "tags": [
-          "claims_base.1x0"
-        ],
-        "security": [
-          {
-            "auth.bearer": []
-          }
-        ]
-      }
-    },
-    "/api/app0-admin/1x0/api/subscription-save": {
-      "post": {
-        "summary": "Platform Subscriptions: subscription-save",
-        "description": "Platform Subscriptions: subscription-save",
-        "parameters": [
-          {
-            "name": "X-Track-Request-Id",
-            "in": "header",
-            "required": false,
-            "description": "Track information: Request-Id",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "X-Track-Request-Ts",
-            "in": "header",
-            "required": false,
-            "description": "Track information: Request-Ts",
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "Object Info",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Subscription"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Object updated",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Subscription"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Operation forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "api.subscription_save"
-                  ],
-                  "properties": {
-                    "api.subscription_save": {
-                      "type": "string"
-                    }
-                  },
-                  "description": "api.subscription_save string payload"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Object not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "api.subscription_save"
-                  ],
-                  "properties": {
-                    "api.subscription_save": {
-                      "type": "string"
-                    }
-                  },
-                  "description": "api.subscription_save string payload"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "claims_base.1x0"
-        ],
-        "security": [
-          {
-            "auth.bearer": []
-          }
-        ]
-      }
-    },
-    "/api/app0-admin/1x0/api/subscription-get": {
-      "get": {
-        "summary": "Platform Subscriptions: subscription-get",
-        "description": "Platform Subscriptions: subscription-get",
-        "parameters": [
-          {
-            "name": "obj_id",
-            "in": "query",
-            "required": true,
-            "description": "Object ID",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "X-Track-Request-Id",
-            "in": "header",
-            "required": false,
-            "description": "Track information: Request-Id",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "X-Track-Request-Ts",
-            "in": "header",
-            "required": false,
-            "description": "Track information: Request-Ts",
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Subscription",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Subscription"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Object not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "api.subscription_get"
-                  ],
-                  "properties": {
-                    "api.subscription_get": {
-                      "type": "string"
-                    }
-                  },
-                  "description": "api.subscription_get string payload"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "claims_base.1x0"
-        ],
-        "security": [
-          {
-            "auth.bearer": []
-          }
-        ]
-      }
-    },
-    "/api/app0-admin/1x0/api/subscription-list": {
-      "post": {
-        "summary": "Platform Subscriptions: subscription-list",
-        "description": "Platform Subscriptions: subscription-list",
-        "parameters": [
-          {
-            "name": "X-Track-Request-Id",
-            "in": "header",
-            "required": false,
-            "description": "Track information: Request-Id",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "X-Track-Request-Ts",
-            "in": "header",
-            "required": false,
-            "description": "Track information: Request-Ts",
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "Filters to search",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Query"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "List of results",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SearchResults"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "claims_base.1x0"
-        ],
-        "security": [
-          {
-            "auth.bearer": []
-          }
-        ]
-      }
-    },
-    "/api/app0-admin/1x0/api/company-config-save": {
-      "post": {
-        "summary": "Platform Company Config: company-config-save",
-        "description": "Platform Company Config: company-config-save",
-        "parameters": [
-          {
-            "name": "X-Track-Request-Id",
-            "in": "header",
-            "required": false,
-            "description": "Track information: Request-Id",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "X-Track-Request-Ts",
-            "in": "header",
-            "required": false,
-            "description": "Track information: Request-Ts",
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "Object Info",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CompanyConfig"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Object updated",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CompanyConfig"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Operation forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "api.company_config_save"
-                  ],
-                  "properties": {
-                    "api.company_config_save": {
-                      "type": "string"
-                    }
-                  },
-                  "description": "api.company_config_save string payload"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Object not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "api.company_config_save"
-                  ],
-                  "properties": {
-                    "api.company_config_save": {
-                      "type": "string"
-                    }
-                  },
-                  "description": "api.company_config_save string payload"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "claims_base.1x0"
-        ],
-        "security": [
-          {
-            "auth.bearer": []
-          }
-        ]
-      }
-    },
-    "/api/app0-admin/1x0/api/company-config-get": {
-      "get": {
-        "summary": "Platform Company Config: company-config-get",
-        "description": "Platform Company Config: company-config-get",
-        "parameters": [
-          {
-            "name": "obj_id",
-            "in": "query",
-            "required": false,
-            "description": "Object ID",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "company_id",
-            "in": "query",
-            "required": false,
-            "description": "company id",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "X-Track-Request-Id",
-            "in": "header",
-            "required": false,
-            "description": "Track information: Request-Id",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "X-Track-Request-Ts",
-            "in": "header",
-            "required": false,
-            "description": "Track information: Request-Ts",
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "CompanyConfig",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CompanyConfig"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Object not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "api.company_config_get"
-                  ],
-                  "properties": {
-                    "api.company_config_get": {
-                      "type": "string"
-                    }
-                  },
-                  "description": "api.company_config_get string payload"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "claims_base.1x0"
+          "app0_admin.1x0"
         ],
         "security": [
           {
@@ -4673,23 +3138,6 @@
         "x-module-name": "app0.platform.auth",
         "description": "\n    Password reset data\n    "
       },
-      "HttpRespInfo": {
-        "type": "object",
-        "required": [
-          "code",
-          "msg"
-        ],
-        "properties": {
-          "code": {
-            "type": "integer"
-          },
-          "msg": {
-            "type": "string"
-          }
-        },
-        "x-module-name": "app0.admin.http",
-        "description": "\n    HTTP response code with message\n    "
-      },
       "AuthReset": {
         "type": "object",
         "required": [
@@ -4714,27 +3162,6 @@
         "x-module-name": "app0.platform.auth",
         "description": "\n    Minimal auth info for password reset\n    "
       },
-      "MailTemplate": {
-        "type": "object",
-        "properties": {
-          "collection": {
-            "type": "string",
-            "default": "",
-            "description": "Template collection"
-          },
-          "name": {
-            "type": "string",
-            "default": "",
-            "description": "Template name"
-          },
-          "owner_id": {
-            "type": "string",
-            "description": "Template Owner Id"
-          }
-        },
-        "x-module-name": "app0.admin.tmail",
-        "description": "Mail template"
-      },
       "MailAttachment": {
         "type": "object",
         "properties": {
@@ -4747,28 +3174,20 @@
             "type": "string",
             "default": "",
             "description": "Document Name"
-          },
-          "owner_id": {
-            "type": "string",
-            "description": "Owner Id"
-          },
-          "claim_id": {
-            "type": "string",
-            "description": "Claim Id"
           }
         },
-        "x-module-name": "app0.admin.tmail",
+        "x-module-name": "app0.admin.template_mail",
         "description": "Mail attachment"
       },
-      "TmailSend": {
+      "TemplateMailSend": {
         "type": "object",
         "required": [
           "template"
         ],
         "properties": {
           "template": {
-            "$ref": "#/components/schemas/MailTemplate",
-            "description": "Template info"
+            "type": "string",
+            "description": "Template name"
           },
           "destinations": {
             "type": "array",
@@ -4793,14 +3212,6 @@
             "default": [],
             "description": "Files to attach"
           },
-          "owner_id": {
-            "type": "string",
-            "description": "Owner Id"
-          },
-          "owner_name": {
-            "type": "string",
-            "description": "Owner Name"
-          },
           "sent_date": {
             "type": "string",
             "format": "date-time",
@@ -4816,7 +3227,7 @@
             "description": "Db id"
           }
         },
-        "x-module-name": "app0.admin.tmail",
+        "x-module-name": "app0.admin.template_mail",
         "description": "\n    Mail template send\n    "
       },
       "User": {
@@ -4859,11 +3270,6 @@
             "default": true,
             "description": "Activated?"
           },
-          "company_representative": {
-            "type": "boolean",
-            "default": false,
-            "description": "Company Representative?"
-          },
           "email_confirm_date": {
             "type": "string",
             "format": "date-time",
@@ -4891,14 +3297,6 @@
           "employee_id": {
             "type": "string",
             "description": "Employee Id"
-          },
-          "owner_id": {
-            "type": "string",
-            "description": "Owner Id"
-          },
-          "owner_name": {
-            "type": "string",
-            "description": "Owner Name"
           },
           "image": {
             "type": "string",
@@ -5175,16 +3573,6 @@
             "default": "",
             "description": "SSN/EIN"
           },
-          "exempt_employee": {
-            "type": "boolean",
-            "default": false,
-            "description": "Exempt Employee"
-          },
-          "public_adjuster_license": {
-            "type": "boolean",
-            "default": false,
-            "description": "Is a Public Adjuster with License?"
-          },
           "birthday": {
             "type": "string",
             "format": "date-time",
@@ -5206,18 +3594,6 @@
             },
             "default": [],
             "description": "Team"
-          },
-          "assistant": {
-            "$ref": "#/components/schemas/IdDescription",
-            "description": "Assistant or Desk Adjuster"
-          },
-          "emergency_contact_name": {
-            "type": "string",
-            "description": "Emergency Contact Name"
-          },
-          "emergency_contact_phone": {
-            "type": "string",
-            "description": "Emergency Contact Phone Number"
           },
           "notes": {
             "type": "string",
@@ -5245,55 +3621,6 @@
             "type": "string",
             "description": "Address"
           },
-          "base_salary": {
-            "type": "number",
-            "default": 0.0,
-            "description": "Base salary"
-          },
-          "recurrency": {
-            "$ref": "#/components/schemas/IdDescription",
-            "description": "Recurrency"
-          },
-          "commission": {
-            "$ref": "#/components/schemas/IdDescription",
-            "description": "Commission percentage"
-          },
-          "fixed_fee": {
-            "type": "number",
-            "default": 0.0,
-            "description": "Fixed fee per claim"
-          },
-          "teacher": {
-            "$ref": "#/components/schemas/IdDescription",
-            "description": "Teacher"
-          },
-          "teacher_perc": {
-            "type": "number",
-            "default": 0.0,
-            "description": "Teacher percentage"
-          },
-          "mentor": {
-            "$ref": "#/components/schemas/IdDescription",
-            "description": "Mentor"
-          },
-          "mentor_perc": {
-            "type": "number",
-            "default": 0.0,
-            "description": "Mentor percentage"
-          },
-          "owner_id": {
-            "type": "string",
-            "description": "Owner Id"
-          },
-          "owner_name": {
-            "type": "string",
-            "description": "Owner Name"
-          },
-          "company_representative": {
-            "type": "boolean",
-            "default": false,
-            "description": "Company Representative?"
-          },
           "id": {
             "type": "string",
             "description": "Db id"
@@ -5307,60 +3634,93 @@
         "x-module-name": "app0.admin.employee",
         "description": "\n    Employee\n    "
       },
-      "Company": {
+      "PlatformFile": {
         "type": "object",
         "required": [
-          "name",
-          "phone_number",
-          "email"
+          "bucket",
+          "filename",
+          "size",
+          "src_filename",
+          "object_id"
         ],
         "properties": {
-          "name": {
+          "bucket": {
             "type": "string",
-            "description": "Name"
+            "description": "Bucket"
           },
-          "phone_number": {
+          "filename": {
             "type": "string",
-            "description": "Phone Number"
+            "description": "Filename"
           },
-          "email": {
+          "size": {
+            "type": "integer",
+            "description": "Size"
+          },
+          "src_filename": {
             "type": "string",
-            "description": "Email"
+            "description": "Source filename"
           },
-          "fantasy_name": {
+          "object_id": {
+            "type": "string",
+            "description": "Full path filename Object Id"
+          },
+          "creation_date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Creation Date"
+          }
+        },
+        "x-module-name": "app0.admin.file",
+        "description": "\n    File uploaded\n    "
+      },
+      "Notification": {
+        "type": "object",
+        "required": [
+          "creation_date"
+        ],
+        "properties": {
+          "creation_date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Creation date"
+          },
+          "user_id": {
             "type": "string",
             "default": "",
-            "description": "Fantasy Name"
+            "description": "User id"
           },
-          "ssn_ein": {
+          "user_name": {
             "type": "string",
             "default": "",
-            "description": "SSN/EIN"
+            "description": "Username"
           },
-          "address": {
+          "content": {
             "type": "string",
             "default": "",
-            "description": "Address"
+            "description": "Description or Text"
           },
-          "image": {
+          "type": {
             "type": "string",
-            "description": "Company logo"
+            "default": "log",
+            "description": "log/error/direct/upload/mail/call/papers/event/state-change/estimation/negotiation/agreement/decline"
           },
-          "alt_emails": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "default": [],
-            "description": "Alternative Emails"
+          "dest_user_id": {
+            "type": "string",
+            "default": "",
+            "description": "Destination User id"
           },
-          "alt_phones": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "default": [],
-            "description": "Alternative Phone Numbers"
+          "tags": {
+            "type": "string",
+            "default": "",
+            "description": "Tags"
+          },
+          "id_file": {
+            "type": "string",
+            "description": "Related file id"
+          },
+          "file_resource": {
+            "$ref": "#/components/schemas/PlatformFile",
+            "description": "Related file resource"
           },
           "id": {
             "type": "string",
@@ -5372,8 +3732,8 @@
             "description": "Enabled?"
           }
         },
-        "x-module-name": "app0.admin.company",
-        "description": "\n    Platform company\n    "
+        "x-module-name": "app0.admin.notification",
+        "description": "\n    Notification or log\n    "
       },
       "Expr": {
         "type": "object",
@@ -5459,242 +3819,7 @@
         "x-module-name": "app0.admin.db",
         "description": "\n    Query handler\n    "
       },
-      "PlatformFile": {
-        "type": "object",
-        "required": [
-          "bucket",
-          "filename",
-          "size",
-          "src_filename",
-          "object_id"
-        ],
-        "properties": {
-          "bucket": {
-            "type": "string",
-            "description": "Bucket"
-          },
-          "filename": {
-            "type": "string",
-            "description": "Filename"
-          },
-          "size": {
-            "type": "integer",
-            "description": "Size"
-          },
-          "src_filename": {
-            "type": "string",
-            "description": "Source filename"
-          },
-          "object_id": {
-            "type": "string",
-            "description": "Full path filename Object Id"
-          },
-          "creation_date": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Creation Date"
-          }
-        },
-        "x-module-name": "app0.admin.file",
-        "description": "\n    File uploaded\n    "
-      },
-      "Notification": {
-        "type": "object",
-        "required": [
-          "creation_date"
-        ],
-        "properties": {
-          "creation_date": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Creation date"
-          },
-          "user_id": {
-            "type": "string",
-            "default": "",
-            "description": "User id"
-          },
-          "user_name": {
-            "type": "string",
-            "default": "",
-            "description": "Username"
-          },
-          "owner_id": {
-            "type": "string",
-            "default": "",
-            "description": "Owner id"
-          },
-          "owner_name": {
-            "type": "string",
-            "default": "",
-            "description": "Owner name"
-          },
-          "content": {
-            "type": "string",
-            "default": "",
-            "description": "Description or Text"
-          },
-          "app_name": {
-            "type": "string",
-            "default": "",
-            "description": "App"
-          },
-          "object_type": {
-            "type": "string",
-            "default": "",
-            "description": "Object type"
-          },
-          "object_id": {
-            "type": "string",
-            "default": "",
-            "description": "Object id"
-          },
-          "type": {
-            "type": "string",
-            "default": "log",
-            "description": "log/error/direct/upload/mail/call/papers/event/state-change/estimation/negotiation/agreement/decline"
-          },
-          "dest_user_id": {
-            "type": "string",
-            "default": "",
-            "description": "Destination User id"
-          },
-          "tags": {
-            "type": "string",
-            "default": "",
-            "description": "Tags"
-          },
-          "id_file": {
-            "type": "string",
-            "description": "Related file id"
-          },
-          "file_resource": {
-            "$ref": "#/components/schemas/PlatformFile",
-            "description": "Related file resource"
-          },
-          "id": {
-            "type": "string",
-            "description": "Db id"
-          },
-          "enabled": {
-            "type": "boolean",
-            "default": true,
-            "description": "Enabled?"
-          }
-        },
-        "x-module-name": "app0.admin.notification",
-        "description": "\n    Notification or log\n    "
-      },
-      "SimplePerson": {
-        "type": "object",
-        "required": [
-          "role",
-          "name"
-        ],
-        "properties": {
-          "role": {
-            "type": "string",
-            "description": "Role"
-          },
-          "name": {
-            "type": "string",
-            "description": "Name"
-          },
-          "id": {
-            "type": "string",
-            "description": "Id"
-          }
-        },
-        "x-module-name": "app0.admin.common",
-        "description": "\n    Simple Person\n    "
-      },
-      "Event": {
-        "type": "object",
-        "required": [
-          "creation_date",
-          "event_date",
-          "people"
-        ],
-        "properties": {
-          "creation_date": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Creation date"
-          },
-          "event_date": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Event date"
-          },
-          "people": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SimplePerson"
-            },
-            "description": "Event guests"
-          },
-          "type": {
-            "$ref": "#/components/schemas/IdDescription",
-            "description": "Event type"
-          },
-          "notes": {
-            "type": "string",
-            "default": "",
-            "description": "Notes"
-          },
-          "user_id": {
-            "type": "string",
-            "default": "",
-            "description": "User id"
-          },
-          "user_name": {
-            "type": "string",
-            "default": "",
-            "description": "Username"
-          },
-          "owner_id": {
-            "type": "string",
-            "default": "",
-            "description": "owner id"
-          },
-          "owner_name": {
-            "type": "string",
-            "default": "",
-            "description": "owner name"
-          },
-          "app_name": {
-            "type": "string",
-            "default": "",
-            "description": "App"
-          },
-          "object_type": {
-            "type": "string",
-            "default": "",
-            "description": "Object type"
-          },
-          "object_id": {
-            "type": "string",
-            "default": "",
-            "description": "Object id"
-          },
-          "address": {
-            "type": "string",
-            "description": "Address"
-          },
-          "id": {
-            "type": "string",
-            "description": "Db id"
-          },
-          "enabled": {
-            "type": "boolean",
-            "default": true,
-            "description": "Enabled?"
-          }
-        },
-        "x-module-name": "app0.admin.event",
-        "description": "\n    Calendar Event\n    "
-      },
-      "Tmail": {
+      "TemplateMail": {
         "type": "object",
         "required": [
           "name",
@@ -5735,16 +3860,6 @@
             "default": [],
             "description": "Mandatory variables that should be setted"
           },
-          "owner_id": {
-            "type": "string",
-            "default": "",
-            "description": "owner id"
-          },
-          "owner_name": {
-            "type": "string",
-            "default": "",
-            "description": "owner name"
-          },
           "content": {
             "type": "string",
             "description": "Html Content embedded in template"
@@ -5767,107 +3882,8 @@
             "description": "Enabled?"
           }
         },
-        "x-module-name": "app0.admin.tmail",
+        "x-module-name": "app0.admin.template_mail",
         "description": "\n    Mail template\n    "
-      },
-      "AvailablePlan": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "default": "",
-            "description": "Name"
-          },
-          "subtitle": {
-            "type": "string",
-            "default": "",
-            "description": "Subtitle"
-          },
-          "description": {
-            "type": "string",
-            "default": "",
-            "description": "Description"
-          },
-          "learn_more_url": {
-            "type": "string",
-            "default": "",
-            "description": "Learn more url"
-          },
-          "contact_url": {
-            "type": "string",
-            "default": "",
-            "description": "Contact url"
-          },
-          "annual_payment": {
-            "type": "boolean",
-            "default": true,
-            "description": "Annual payment or Monthly payment?"
-          },
-          "monthly_amount": {
-            "type": "number",
-            "description": "Monthly Amount"
-          },
-          "annual_amount": {
-            "type": "number",
-            "description": "Annual Amount"
-          },
-          "claims_limit": {
-            "type": "boolean",
-            "default": false,
-            "description": "Open Claims Limit?"
-          },
-          "adjusters_limit": {
-            "type": "boolean",
-            "default": true,
-            "description": "Public Adjusters Limit?"
-          },
-          "storage_limit": {
-            "type": "boolean",
-            "default": true,
-            "description": "Storage Limit?"
-          },
-          "max_open_claims": {
-            "type": "integer",
-            "description": "Max Open Claims Limit"
-          },
-          "max_adjusters": {
-            "type": "integer",
-            "description": "Max Public Adjusters"
-          },
-          "max_storage": {
-            "type": "integer",
-            "description": "Max Storage (in GB)"
-          },
-          "most_recommended": {
-            "type": "boolean",
-            "default": false,
-            "description": "Most Recommended Mark"
-          },
-          "discount": {
-            "type": "string",
-            "default": "",
-            "description": "Discount"
-          },
-          "registration_order": {
-            "type": "integer",
-            "description": "Registration Order"
-          },
-          "image": {
-            "type": "string",
-            "description": "Plan logo"
-          },
-          "id": {
-            "type": "string",
-            "description": "Db id"
-          },
-          "enabled": {
-            "type": "boolean",
-            "default": true,
-            "description": "Enabled?"
-          }
-        },
-        "x-module-name": "app0.admin.subscription",
-        "description": "\n    Available Plan\n    "
       },
       "Registration": {
         "type": "object",
@@ -5894,10 +3910,6 @@
             "default": "",
             "description": "Phone"
           },
-          "position": {
-            "$ref": "#/components/schemas/IdDescription",
-            "description": "Position"
-          },
           "license_id": {
             "type": "string",
             "default": "",
@@ -5907,76 +3919,6 @@
             "type": "string",
             "default": "",
             "description": "Address"
-          },
-          "company_id": {
-            "type": "string",
-            "default": "",
-            "description": "Company Id"
-          },
-          "company_name": {
-            "type": "string",
-            "default": "",
-            "description": "Company Name"
-          },
-          "company_phone": {
-            "type": "string",
-            "default": "",
-            "description": "Company Phone"
-          },
-          "company_address": {
-            "type": "string",
-            "default": "",
-            "description": "Company Address"
-          },
-          "company_email": {
-            "type": "string",
-            "default": "",
-            "description": "Company Email"
-          },
-          "company_image": {
-            "type": "string",
-            "default": "",
-            "description": "Company Logo"
-          },
-          "plan_id": {
-            "type": "string",
-            "default": "",
-            "description": "Plan id"
-          },
-          "plan_name": {
-            "type": "string",
-            "default": "",
-            "description": "Plan Name"
-          },
-          "plan_description": {
-            "type": "string",
-            "default": "",
-            "description": "Plan Description"
-          },
-          "plan_annual_payment": {
-            "type": "boolean",
-            "default": true,
-            "description": "Annual payment or Monthly payment?"
-          },
-          "plan_monthly_amount": {
-            "type": "number",
-            "description": "Plan Monthly Amount"
-          },
-          "plan_annual_amount": {
-            "type": "number",
-            "description": "Plan Annual Amount"
-          },
-          "plan_max_open_claims": {
-            "type": "integer",
-            "description": "Plan Max Open Claims"
-          },
-          "plan_max_adjusters": {
-            "type": "integer",
-            "description": "Plan Max Public Adjusters"
-          },
-          "plan_max_storage": {
-            "type": "integer",
-            "description": "Max Storage (in GB)"
           },
           "creation_date": {
             "type": "string",
@@ -6017,16 +3959,6 @@
             "type": "string",
             "description": "Status error message"
           },
-          "billing_card_holder": {
-            "type": "string",
-            "default": "",
-            "description": "Credit Card Holder"
-          },
-          "billing_card_id": {
-            "type": "string",
-            "default": "",
-            "description": "Credit Card StripeID"
-          },
           "id": {
             "type": "string",
             "description": "Db id"
@@ -6039,386 +3971,6 @@
         },
         "x-module-name": "app0.admin.registration",
         "description": "\n    Registration\n    "
-      },
-      "PlanInfo": {
-        "type": "object",
-        "required": [
-          "start_date"
-        ],
-        "properties": {
-          "start_date": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Start subscription date"
-          },
-          "name": {
-            "type": "string",
-            "default": "",
-            "description": "Plan Name"
-          },
-          "description": {
-            "type": "string",
-            "default": "",
-            "description": "Plan Description"
-          },
-          "annual_payment": {
-            "type": "boolean",
-            "default": true,
-            "description": "Annual payment or Monthly payment?"
-          },
-          "monthly_amount": {
-            "type": "number",
-            "default": 0.0,
-            "description": "Plan Monthly Amount"
-          },
-          "annual_amount": {
-            "type": "number",
-            "default": 0.0,
-            "description": "Annual Amount"
-          },
-          "max_open_claims": {
-            "type": "integer",
-            "default": 0,
-            "description": "Plan Max Open Claims"
-          },
-          "max_adjusters": {
-            "type": "integer",
-            "default": 0,
-            "description": "Plan Max Public Adjusters"
-          },
-          "max_storage": {
-            "type": "integer",
-            "default": 0,
-            "description": "Plan Max Storage"
-          },
-          "end_date": {
-            "type": "string",
-            "format": "date-time",
-            "description": "End subscription date"
-          }
-        },
-        "x-module-name": "app0.admin.subscription",
-        "description": "\n    PlanInfo\n    "
-      },
-      "BillingInfo": {
-        "type": "object",
-        "properties": {
-          "card_holder": {
-            "type": "string",
-            "default": "",
-            "description": "Credit Card Holder"
-          },
-          "card_id": {
-            "type": "string",
-            "default": "",
-            "description": "Credit Card StripeID"
-          }
-        },
-        "x-module-name": "app0.admin.subscription",
-        "description": "\n    BillingInfo\n    "
-      },
-      "Invoice": {
-        "type": "object",
-        "required": [
-          "invoice_date",
-          "invoice_number",
-          "remit_to",
-          "invoice_to",
-          "subtotal",
-          "tax",
-          "total",
-          "items"
-        ],
-        "properties": {
-          "invoice_date": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Invoice date"
-          },
-          "invoice_number": {
-            "type": "string",
-            "description": "Invoice number"
-          },
-          "remit_to": {
-            "type": "string",
-            "description": "Remit To"
-          },
-          "invoice_to": {
-            "type": "string",
-            "description": "Invoice To"
-          },
-          "subtotal": {
-            "type": "number",
-            "description": "Subtotal"
-          },
-          "tax": {
-            "type": "number",
-            "description": "Tax"
-          },
-          "total": {
-            "type": "number",
-            "description": "Total"
-          },
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/InvoiceItem"
-            },
-            "description": "Items"
-          }
-        },
-        "x-module-name": "app0.admin.subscription",
-        "description": "\n    Invoice\n    "
-      },
-      "InvoiceItem": {
-        "type": "object",
-        "required": [
-          "description",
-          "amount",
-          "tax",
-          "total"
-        ],
-        "properties": {
-          "description": {
-            "type": "string",
-            "description": "Description"
-          },
-          "amount": {
-            "type": "number",
-            "description": "Amount"
-          },
-          "tax": {
-            "type": "number",
-            "description": "Tax Amount"
-          },
-          "total": {
-            "type": "number",
-            "description": "Total Amount"
-          },
-          "from_date": {
-            "type": "string",
-            "format": "date-time",
-            "description": "From date"
-          },
-          "to_date": {
-            "type": "string",
-            "format": "date-time",
-            "description": "To date"
-          },
-          "quantity": {
-            "type": "integer",
-            "description": "Quantity"
-          }
-        },
-        "x-module-name": "app0.admin.subscription",
-        "description": "\n    Invoice\n    "
-      },
-      "Payment": {
-        "type": "object",
-        "required": [
-          "payment_date",
-          "payment_number",
-          "remit_to",
-          "invoice_to",
-          "total",
-          "items"
-        ],
-        "properties": {
-          "payment_date": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Payment date"
-          },
-          "payment_number": {
-            "type": "string",
-            "description": "Payment number"
-          },
-          "remit_to": {
-            "type": "string",
-            "description": "Remit To"
-          },
-          "invoice_to": {
-            "type": "string",
-            "description": "Invoice To"
-          },
-          "total": {
-            "type": "number",
-            "description": "Total"
-          },
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PaymentItem"
-            },
-            "description": "Items"
-          }
-        },
-        "x-module-name": "app0.admin.subscription",
-        "description": "\n    Payment\n    "
-      },
-      "PaymentItem": {
-        "type": "object",
-        "required": [
-          "description",
-          "payment_date",
-          "amount"
-        ],
-        "properties": {
-          "description": {
-            "type": "string",
-            "description": "Description"
-          },
-          "payment_date": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Payment date"
-          },
-          "amount": {
-            "type": "number",
-            "description": "Amount"
-          }
-        },
-        "x-module-name": "app0.admin.subscription",
-        "description": "\n    Payment Item\n    "
-      },
-      "Subscription": {
-        "type": "object",
-        "required": [
-          "start_date",
-          "plan",
-          "billing",
-          "user_id",
-          "user_name",
-          "company_id",
-          "company_name"
-        ],
-        "properties": {
-          "start_date": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Start subscription date"
-          },
-          "plan": {
-            "$ref": "#/components/schemas/PlanInfo",
-            "description": "Plan"
-          },
-          "billing": {
-            "$ref": "#/components/schemas/BillingInfo",
-            "description": "Billing"
-          },
-          "user_id": {
-            "type": "string",
-            "description": "User ID"
-          },
-          "user_name": {
-            "type": "string",
-            "description": "User Name"
-          },
-          "company_id": {
-            "type": "string",
-            "description": "Company ID"
-          },
-          "company_name": {
-            "type": "string",
-            "description": "Company Name"
-          },
-          "registration": {
-            "$ref": "#/components/schemas/Registration",
-            "description": "Registration Origin"
-          },
-          "end_date": {
-            "type": "string",
-            "format": "date-time",
-            "description": "End subscription date"
-          },
-          "invoices": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Invoice"
-            },
-            "default": [],
-            "description": "Invoices"
-          },
-          "payments": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Payment"
-            },
-            "default": [],
-            "description": "Payments"
-          },
-          "plan_history": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PlanInfo"
-            },
-            "default": [],
-            "description": "Plan history"
-          },
-          "id": {
-            "type": "string",
-            "description": "Db id"
-          },
-          "enabled": {
-            "type": "boolean",
-            "default": true,
-            "description": "Enabled?"
-          }
-        },
-        "x-module-name": "app0.admin.subscription",
-        "description": "\n    Subscription\n    "
-      },
-      "CompanyConfig": {
-        "type": "object",
-        "properties": {
-          "w9_document_mandatory": {
-            "type": "boolean",
-            "default": true,
-            "description": "W9 Document Mandatory?"
-          },
-          "w9_document_date": {
-            "type": "string",
-            "format": "date-time",
-            "description": "W9 upload date"
-          },
-          "w9_document_resource": {
-            "$ref": "#/components/schemas/PlatformFile",
-            "description": "W9 Document"
-          },
-          "attorney_list_mandatory": {
-            "type": "boolean",
-            "default": false,
-            "description": "Attorney List document Mandatory?"
-          },
-          "attorney_list_date": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Attorney List upload date"
-          },
-          "attorney_list_resource": {
-            "$ref": "#/components/schemas/PlatformFile",
-            "description": "Attorney List document"
-          },
-          "owner_id": {
-            "type": "string",
-            "description": "Owner Id"
-          },
-          "owner_name": {
-            "type": "string",
-            "description": "Owner Name"
-          },
-          "id": {
-            "type": "string",
-            "description": "Db id"
-          },
-          "enabled": {
-            "type": "boolean",
-            "default": true,
-            "description": "Enabled?"
-          }
-        },
-        "x-module-name": "app0.admin.company",
-        "description": "\n    Platform company configuration\n    "
       },
       "RuntimeAppInfo": {
         "type": "object",
@@ -6861,7 +4413,7 @@
           },
           "engine_version": {
             "type": "string",
-            "default": "0.14.1"
+            "default": "0.14.2"
           }
         },
         "x-module-name": "hopeit.server.config",

@@ -210,50 +210,10 @@
                 "Bearer"
             ]
         },
-        "api.auth_company_notifications": {
-            "type": "GET",
-            "auth": [
-                "Bearer"
-            ]
-        },
         "api.auth_user_employee": {
             "type": "GET",
             "auth": [
                 "Bearer"
-            ]
-        },
-        "api.company_save": {
-            "type": "POST",
-            "auth": [
-                "Bearer"
-            ]
-        },
-        "api.company_get": {
-            "type": "GET",
-            "auth": [
-                "Bearer"
-            ]
-        },
-        "api.company_list": {
-            "type": "POST",
-            "auth": [
-                "Bearer"
-            ]
-        },
-        "api.company_data": {
-            "type": "POST",
-            "auth": [
-                "Bearer"
-            ]
-        },
-        "api.company_file_upload": {
-            "type": "MULTIPART",
-            "auth": [
-                "Bearer"
-            ],
-            "setting_keys": [
-                "company_docs",
-                "data_store"
             ]
         },
         "api.notification_save": {
@@ -296,16 +256,6 @@
                 "claims-testing"
             ]
         },
-        "api.company_file_get": {
-            "type": "GET",
-            "auth": [
-                "Unsecured"
-            ],
-            "setting_keys": [
-                "company_docs",
-                "data_store"
-            ]
-        },
         "api.logo_upload": {
             "type": "MULTIPART",
             "auth": [
@@ -326,37 +276,19 @@
                 "data_store"
             ]
         },
-        "api.event_save": {
+        "api.template_mail_save": {
             "type": "POST",
             "auth": [
                 "Bearer"
             ]
         },
-        "api.event_get": {
-            "type": "GET",
-            "auth": [
-                "Bearer"
-            ]
-        },
-        "api.event_list": {
+        "api.template_mail_test": {
             "type": "POST",
             "auth": [
                 "Bearer"
             ]
         },
-        "api.tmail_save": {
-            "type": "POST",
-            "auth": [
-                "Bearer"
-            ]
-        },
-        "api.tmail_test": {
-            "type": "POST",
-            "auth": [
-                "Bearer"
-            ]
-        },
-        "api.tmail_send": {
+        "api.template_mail_send": {
             "type": "POST",
             "auth": [
                 "Bearer"
@@ -365,40 +297,16 @@
                 "name": "{events.streams.api.mail_processor.write_stream.name}"
             }
         },
-        "api.tmail_get": {
+        "api.template_mail_get": {
             "type": "GET",
             "auth": [
                 "Bearer"
             ]
         },
-        "api.tmail_list": {
+        "api.template_mail_list": {
             "type": "POST",
             "auth": [
                 "Bearer"
-            ]
-        },
-        "api.plan_save": {
-            "type": "POST",
-            "auth": [
-                "Bearer"
-            ]
-        },
-        "api.plan_get": {
-            "type": "GET",
-            "auth": [
-                "Bearer"
-            ]
-        },
-        "api.plan_list": {
-            "type": "POST",
-            "auth": [
-                "Bearer"
-            ]
-        },
-        "api.plan_list_enabled": {
-            "type": "GET",
-            "auth": [
-                "Unsecured"
             ]
         },
         "api.registration_save": {
@@ -431,80 +339,12 @@
                 "Bearer"
             ]
         },
-        "api.registration_process": {
-            "type": "STREAM",
-            "connections": [
-                {
-                    "app_connection": "base_conn",
-                    "event": "api.tmail-send",
-                    "type": "POST"
-                }
-            ],
-            "read_stream": {
-                "name": "stream_registration_save",
-                "consumer_group": "{auto}"
-            },
-            "write_stream": {
-                "name": "stream_subscription_init"
-            }
-        },
         "api.mail_processor": {
             "type": "STREAM",
             "read_stream": {
                 "name": "{events.streams.api.mail_processor.write_stream.name}",
                 "consumer_group": "{auto}"
             }
-        },
-        "api.subscription_save": {
-            "type": "POST",
-            "auth": [
-                "Bearer"
-            ]
-        },
-        "api.subscription_get": {
-            "type": "GET",
-            "auth": [
-                "Bearer"
-            ]
-        },
-        "api.subscription_list": {
-            "type": "POST",
-            "auth": [
-                "Bearer"
-            ]
-        },
-        "api.subscription_init": {
-            "type": "STREAM",
-            "read_stream": {
-                "name": "stream_subscription_init",
-                "consumer_group": "{auto}"
-            }
-        },
-        "api.user_employee_create": {
-            "type": "STREAM",
-            "connections": [
-                {
-                    "app_connection": "base_conn",
-                    "event": "api.tmail-send",
-                    "type": "POST"
-                }
-            ],
-            "read_stream": {
-                "name": "stream_employee_create",
-                "consumer_group": "{auto}"
-            }
-        },
-        "api.company_config_save": {
-            "type": "POST",
-            "auth": [
-                "Bearer"
-            ]
-        },
-        "api.company_config_get": {
-            "type": "GET",
-            "auth": [
-                "Bearer"
-            ]
         }
     }
 }

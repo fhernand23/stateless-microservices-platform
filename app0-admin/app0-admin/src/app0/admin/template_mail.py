@@ -38,7 +38,6 @@ class MailAttachment:
     """Mail attachment"""
     doc_id: str = fd("Document Id", default="")
     doc_name: str = fd("Document Name", default="")
-    claim_id: Optional[str] = fd("Claim Id", default=None)
 
 
 @dataobject

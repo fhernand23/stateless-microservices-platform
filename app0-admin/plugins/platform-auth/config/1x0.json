@@ -20,8 +20,8 @@
   "env": {
     "env_config": {
       "env_type": "${ENV_TYPE}",
-      "app0-admin_url": "${CLAIMSBASE_URL}",
-      "claimsattendant_url": "${CLAIMSATTENDANT_URL}",
+      "app0_admin_url": "${APP0ADMIN_URL}",
+      "app0_claims_url": "${APP0CLAIMS_URL}",
       "mail_app_from": "${MAIL_APP_FROM}",
       "mailto_overwrite": "${MAILTO_OVERWRITE}"
     },

@@ -27,8 +27,6 @@ async def run(payload: Notification, context: EventContext) -> Union[Notificatio
     es = db(context.env)
     payload.user_id = context.auth_info['payload'].get('user', 'noauth')
     payload.user_name = context.auth_info['payload'].get('fullname', 'Noauth User')
-    payload.owner_id = context.auth_info['payload'].get('owner_id', 'noauth')
-    payload.owner_name = context.auth_info['payload'].get('owner_name', 'noauth')
     await save_notification(es, payload)
     return payload
 

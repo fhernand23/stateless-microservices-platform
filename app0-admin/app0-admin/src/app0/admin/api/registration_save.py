@@ -10,8 +10,7 @@ from hopeit.app.context import EventContext, PostprocessHook
 from app0.admin.db import db
 from app0.admin.http import HttpRespInfo
 from app0.admin.registration import Registration
-from app0.admin.services import (ACT_REGISTRATION_DELETE, IDX_REGISTRATION,
-                                  ROLE_ADMIN)
+from app0.admin.services import (ACT_REGISTRATION_DELETE, IDX_REGISTRATION, ROLE_ADMIN)
 from app0.admin.services.registration_services import save_registration
 
 __steps__ = ['run']

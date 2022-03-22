@@ -2,7 +2,6 @@
 App0Platform: Employee
 """
 from datetime import datetime
-from decimal import Decimal
 from typing import List, Optional
 
 from bson.objectid import ObjectId  # type: ignore

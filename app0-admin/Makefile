@@ -26,7 +26,7 @@ check: check-app0-admin check-platform-auth
 qa: check
 
 api: 
-	/bin/bash tools/dev-update-openapi.sh
+	/bin/bash dev-update-openapi.sh
 
 dist-app0-admin:
 	pip install wheel && \

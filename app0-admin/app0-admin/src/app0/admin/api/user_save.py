@@ -17,7 +17,7 @@ from hopeit.dataobjects import dataobject
 
 from app0.admin.db import db
 from app0.admin.http import HttpRespInfo
-from app0.admin.services import (ACT_USER_DELETE_USER, ACT_USER_CREATE, IDX_USER_ROLE, ACT_USER_DISABLE_USER_EMPLOYEE,
+from app0.admin.services import (ACT_USER_DELETE_USER, ACT_USER_CREATE, IDX_USER_ROLE,
                                  IDX_EMPLOYEE, IDX_USER, ROLE_ADMIN, IDX_NOTIFICATION)
 from app0.admin.services.user_services import save_user
 from app0.admin.user import User, UserAppRole
@@ -25,7 +25,6 @@ from app0.admin import mail
 from app0.admin.template_mail import TemplateMailSend
 from app0.platform.auth import AuthReset
 from app0.admin.notification import Notification
-from app0.admin.util import company_util
 
 logger, extra = app_extra_logger()
 fs_recover: Optional[FileStorage] = None
@@ -79,8 +78,6 @@ async def run(payload: User, context: EventContext, action: Optional[str] = None
         await _user_create(es, payload, context)
     elif action == ACT_USER_DELETE_USER:
         await _user_delete(es, payload, context)
-    elif action == ACT_USER_DISABLE_USER_EMPLOYEE:
-        await _user_employee_disable(es, payload, context)
     else:
         return HttpRespInfo(400, 'Action not recognized')
     return payload
@@ -161,24 +158,18 @@ async def _create_notification_user(es, user: User):
     """
     notification = Notification(
         creation_date=datetime.now(tz=timezone.utc),
-        user_id=company_util.SYSTEM_USER,
-        user_name=company_util.SYSTEM_USER_DESC,
-        owner_id=user.owner_id if user.owner_id else "",
-        owner_name=user.owner_name if user.owner_name else "",
-        app_name=company_util.APP_BASE,
-        content=f"User {user.email} has been added to Claims Platform")
+        user_id='SYSTEM',
+        user_name='System',
+        content=f"User {user.email} has been added to App0 Platform")
     await es[IDX_NOTIFICATION].replace_one({'_id': ObjectId(notification.id)},
                                            Payload.to_obj(notification),
                                            upsert=True)
 
     notification2 = Notification(
         creation_date=datetime.now(tz=timezone.utc),
-        user_id=company_util.SYSTEM_USER,
-        user_name=company_util.SYSTEM_USER_DESC,
-        owner_id=user.owner_id if user.owner_id else "",
-        owner_name=user.owner_name if user.owner_name else "",
-        type=company_util.TYPE_DIRECT,
-        app_name=company_util.APP_BASE,
+        user_id='SYSTEM',
+        user_name='System',
+        type='direct',
         dest_user_id=user.id,  # type: ignore
         content=f"Welcome {user.email} to the Claims Platform")
     await es[IDX_NOTIFICATION].replace_one({'_id': ObjectId(notification2.id)},

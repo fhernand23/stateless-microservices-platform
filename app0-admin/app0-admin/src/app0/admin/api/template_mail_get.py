@@ -7,7 +7,7 @@ from hopeit.app.api import event_api
 from hopeit.app.context import EventContext, PostprocessHook
 
 from app0.admin.db import db
-from app0.admin.services.template_mail_services import get_tmail
+from app0.admin.services.template_mail_services import get_template_mail
 from app0.admin.template_mail import TemplateMail
 
 __steps__ = ['run']
@@ -25,7 +25,7 @@ __api__ = event_api(
 async def run(payload: None, context: EventContext, obj_id: str) -> Optional[TemplateMail]:
     es = db(context.env)
     if obj_id:
-        return await get_tmail(es, obj_id)
+        return await get_template_mail(es, obj_id)
 
     return None
 

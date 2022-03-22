@@ -144,18 +144,11 @@ async def _get_attachments(files: List[MailAttachment], context: EventContext) -
                 # get real file from S3
                 try:
                     file_obj = BytesIO()
-                    if file.claim_id:
-                        s3_obj_id = f"{file.owner_id}/{file.claim_id}/{file.doc_id}"
-                        logger.info(context, f"Getting s3 resource: {s3_obj_id}")
-                        await claims_object_store.get(s3_obj_id, file_obj)
-                        logger.info(context, "S3 resource getted OK")
-                        attachments[attachfilename] = file_obj
-                    else:
-                        s3_obj_id = f"{file.doc_id}"
-                        logger.info(context, f"Getting s3 resource: {s3_obj_id}")
-                        await company_object_store.get(s3_obj_id, file_obj)
-                        logger.info(context, "S3 resource getted OK")
-                        attachments[attachfilename] = file_obj
+                    s3_obj_id = f"{file.doc_id}"
+                    logger.info(context, f"Getting s3 resource: {s3_obj_id}")
+                    await company_object_store.get(s3_obj_id, file_obj)
+                    logger.info(context, "S3 resource getted OK")
+                    attachments[attachfilename] = file_obj
                 except Exception as e:  # pylint: disable=broad-except
                     logger.warning(context, f"S3 get ERROR {e}")
 

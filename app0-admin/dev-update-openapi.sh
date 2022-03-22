@@ -19,5 +19,5 @@ export AWS_SECRET_ACCESS_KEY="xxx"
 export AWS_REGION="some-region"
 
 hopeit_openapi create --title="Claims Platform" --description="Claims Platform" --api-version="1.0" \
---config-files="claimsbase/config/server-dev.json,plugins/platform-auth/config/1x0.json,claims-base/config/claims-base.json,claimsbase/config/config-manager.json" \
---output-file="claimsbase/config/openapi.json"
+--config-files="app0-admin/config/server-dev.json,plugins/platform-auth/config/1x0.json,app0-admin/config/app0-admin.json,app0-admin/config/config-manager.json" \
+--output-file="app0-admin/config/openapi.json"

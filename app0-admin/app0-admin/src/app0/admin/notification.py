@@ -22,8 +22,6 @@ class Notification:
     user_id: str = fd("User id", default="")
     user_name: str = fd("Username", default="")
     content: str = fd("Description or Text", default="")
-    object_type: str = fd("Object type", default="")
-    object_id: str = fd("Object id", default="")
     type: str = fd("log/error/direct/upload/mail/call/papers/event/state-change"
                    "/estimation/negotiation/agreement/decline", default="log")
     dest_user_id: str = fd("Destination User id", default="")
