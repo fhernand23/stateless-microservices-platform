@@ -70,7 +70,9 @@ setuptools.setup(
     python_requires=">=3.9",
     install_requires=[f"{lib}>={libversion(lib)}" for lib in [
         "hopeit.engine[web,cli,fs-storage,redis-streams,apps-visualizer,config-manager,apps-client]",
-        "motor"
+        "motor",
+        "jinja2",
+        "aioboto3",
     ]],
     extras_require={},
     entry_points={}
