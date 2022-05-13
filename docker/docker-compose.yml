@@ -17,7 +17,7 @@ x-minio-common: &minio-common
 
 services:
   mongodb:
-    image : mongo:5.0.0-rc2-focal
+    image : mongo:5.0.8-focal
     container_name: mongodb
     environment:
       - PUID=1000
@@ -32,7 +32,7 @@ services:
     restart: unless-stopped
 
   redis:
-    image: 'redis:6'
+    image: 'redis:6.2.2'
     environment:
       # ALLOW_EMPTY_PASSWORD is recommended only for development.
       - ALLOW_EMPTY_PASSWORD=yes
@@ -84,9 +84,8 @@ services:
     entrypoint: >
       /bin/sh -c "
       /usr/bin/mc alias set myminio http://minio:9000 minio minio123;
-      /usr/bin/mc mb myminio/img-logo;
-      /usr/bin/mc mb myminio/company-docs;
-      /usr/bin/mc mb myminio/claims-docs;
+      /usr/bin/mc mb myminio/images;
+      /usr/bin/mc mb myminio/documents;
       exit 0
       "
 
