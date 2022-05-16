@@ -154,6 +154,7 @@ app-claim-ui/node_modules/
 
 # docker data files
 docker/data/*
-.secrets/*
-auth/*.json
-recover/*.json
+app0-admin/.secrets/*
+app0-admin/auth/*.json
+app0-admin/recover/*.json
+app0-admin/store_mail/*.json
