@@ -11,21 +11,18 @@ from app0.admin.registration import Registration
 from app0.admin.services import IDX_REGISTRATION
 
 
-async def get_registrations(es, qry: Optional[Query] = None) -> List[Registration]:
+async def get_registrations(es, query: Query) -> List[Registration]:
     """
     Returns a list of queried Registration
     """
-    sort_fld = 'name'
-    sort_order = -1
-    assert qry
-    if qry.sort:
-        sort_fld = qry.sort.fld
-        sort_order = qry.sort.rdr
-    if qry and qry.flts:
-        cursor = es[IDX_REGISTRATION].find(qry.find_qry()).sort(sort_fld, sort_order)
+    sort_field = query.sort.field if query.sort else 'creation_date'
+    sort_order = query.sort.order if query.sort else -1
+
+    if query.flts:
+        cursor = es[IDX_REGISTRATION].find(query.find_qry()).sort(sort_field, sort_order)
     else:
-        cursor = es[IDX_REGISTRATION].find().sort(sort_fld, sort_order)
-    return [Payload.from_obj(doc, Registration) for doc in await cursor.to_list(length=qry.max_items if qry else 100)]
+        cursor = es[IDX_REGISTRATION].find().sort(sort_field, sort_order)
+    return [Payload.from_obj(doc, Registration) for doc in await cursor.to_list(length=query.max_items)]
 
 
 async def get_registration(es, oid: str) -> Optional[Registration]:

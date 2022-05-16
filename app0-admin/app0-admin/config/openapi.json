@@ -2,8 +2,8 @@
   "openapi": "3.0.3",
   "info": {
     "version": "1.0",
-    "title": "Claims Platform",
-    "description": "Claims Platform"
+    "title": "App0 Platform",
+    "description": "App0 Platform"
   },
   "paths": {
     "/api/platform-auth/1x0/login": {
@@ -121,11 +121,6 @@
         },
         "tags": [
           "platform_auth.1x0"
-        ],
-        "security": [
-          {
-            "platform_auth.1x0.refresh": []
-          }
         ]
       }
     },
@@ -473,7 +468,7 @@
       }
     },
     "/api/app0-admin/1x0/api/app-list": {
-      "get": {
+      "post": {
         "summary": "Platform Apps: app-list",
         "description": "Platform Apps: app-list",
         "parameters": [
@@ -497,16 +492,24 @@
             }
           }
         ],
+        "requestBody": {
+          "description": "Filters to search",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Query"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
-            "description": "Apps list",
+            "description": "List of results",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/AppDef"
-                  }
+                  "$ref": "#/components/schemas/SearchResults"
                 }
               }
             }
@@ -527,6 +530,15 @@
         "summary": "Platform Roles: role-save",
         "description": "Platform Roles: role-save",
         "parameters": [
+          {
+            "name": "action",
+            "in": "query",
+            "required": false,
+            "description": "Apply some action",
+            "schema": {
+              "type": "string"
+            }
+          },
           {
             "name": "X-Track-Request-Id",
             "in": "header",
@@ -569,8 +581,46 @@
               }
             }
           },
+          "400": {
+            "description": "Request error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "api.app_save"
+                  ],
+                  "properties": {
+                    "api.app_save": {
+                      "type": "string"
+                    }
+                  },
+                  "description": "api.app_save string payload"
+                }
+              }
+            }
+          },
           "403": {
             "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "api.app_save"
+                  ],
+                  "properties": {
+                    "api.app_save": {
+                      "type": "string"
+                    }
+                  },
+                  "description": "api.app_save string payload"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Object not found",
             "content": {
               "application/json": {
                 "schema": {
@@ -752,7 +802,7 @@
       }
     },
     "/api/app0-admin/1x0/api/group-list": {
-      "get": {
+      "post": {
         "summary": "Platform Groups: group-list",
         "description": "Platform Groups: group-list",
         "parameters": [
@@ -807,6 +857,15 @@
         "description": "Platform Roles: role-save",
         "parameters": [
           {
+            "name": "action",
+            "in": "query",
+            "required": false,
+            "description": "Apply some action",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "X-Track-Request-Id",
             "in": "header",
             "required": false,
@@ -848,8 +907,46 @@
               }
             }
           },
+          "400": {
+            "description": "Request error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "api.role_save"
+                  ],
+                  "properties": {
+                    "api.role_save": {
+                      "type": "string"
+                    }
+                  },
+                  "description": "api.role_save string payload"
+                }
+              }
+            }
+          },
           "403": {
             "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "api.role_save"
+                  ],
+                  "properties": {
+                    "api.role_save": {
+                      "type": "string"
+                    }
+                  },
+                  "description": "api.role_save string payload"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Object not found",
             "content": {
               "application/json": {
                 "schema": {
@@ -963,7 +1060,7 @@
       }
     },
     "/api/app0-admin/1x0/api/role-list": {
-      "get": {
+      "post": {
         "summary": "Platform Roles: role-list",
         "description": "Platform Roles: role-list",
         "parameters": [
@@ -987,16 +1084,24 @@
             }
           }
         ],
+        "requestBody": {
+          "description": "Filters to search",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Query"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
-            "description": "Roles List",
+            "description": "List of results",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/AppRole"
-                  }
+                  "$ref": "#/components/schemas/SearchResults"
                 }
               }
             }
@@ -1230,69 +1335,28 @@
       }
     },
     "/api/app0-admin/1x0/api/user-list": {
-      "get": {
+      "post": {
         "summary": "Platform Users: user-list",
         "description": "Platform Users: user-list",
         "parameters": [
           {
-            "name": "search",
+            "name": "page",
             "in": "query",
             "required": false,
-            "description": "filter string",
+            "description": "Page number 1=first page",
             "schema": {
-              "type": "string"
+              "type": "integer"
             }
           },
           {
-            "name": "X-Track-Request-Id",
-            "in": "header",
+            "name": "page_size",
+            "in": "query",
             "required": false,
-            "description": "Track information: Request-Id",
+            "description": "Page size",
             "schema": {
-              "type": "string"
+              "type": "integer"
             }
           },
-          {
-            "name": "X-Track-Request-Ts",
-            "in": "header",
-            "required": false,
-            "description": "Track information: Request-Ts",
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "List of User",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/User"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "app0_admin.1x0"
-        ],
-        "security": [
-          {
-            "auth.bearer": []
-          }
-        ]
-      }
-    },
-    "/api/app0-admin/1x0/api/user-password": {
-      "post": {
-        "summary": "Platform Users: user-password",
-        "description": "Platform Users: user-password",
-        "parameters": [
           {
             "name": "X-Track-Request-Id",
             "in": "header",
@@ -1314,32 +1378,23 @@
           }
         ],
         "requestBody": {
-          "description": "hashed password",
+          "description": "Filters to search",
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PasswordParams"
+                "$ref": "#/components/schemas/Query"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Success Operation",
+            "description": "List of User",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "required": [
-                    "api.user_password"
-                  ],
-                  "properties": {
-                    "api.user_password": {
-                      "type": "boolean"
-                    }
-                  },
-                  "description": "api.user_password boolean payload"
+                  "$ref": "#/components/schemas/SearchResults"
                 }
               }
             }
@@ -1487,72 +1542,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/SearchResults"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "app0_admin.1x0"
-        ],
-        "security": [
-          {
-            "auth.bearer": []
-          }
-        ]
-      }
-    },
-    "/api/app0-admin/1x0/api/auth-user-employee": {
-      "get": {
-        "summary": "Platform Users: auth-user-employee",
-        "description": "Platform Users: auth-user-employee",
-        "parameters": [
-          {
-            "name": "X-Track-Request-Id",
-            "in": "header",
-            "required": false,
-            "description": "Track information: Request-Id",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "X-Track-Request-Ts",
-            "in": "header",
-            "required": false,
-            "description": "Track information: Request-Ts",
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Employee",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Employee"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Employee not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "api.auth_user_employee"
-                  ],
-                  "properties": {
-                    "api.auth_user_employee": {
-                      "type": "string"
-                    }
-                  },
-                  "description": "api.auth_user_employee string payload"
                 }
               }
             }
@@ -2013,114 +2002,6 @@
         ]
       }
     },
-    "/api/app0-admin/1x0/api/setup-adhoc": {
-      "get": {
-        "summary": "Platform Setup: setup-adhoc",
-        "description": "Platform Setup: setup-adhoc",
-        "parameters": [
-          {
-            "name": "code",
-            "in": "query",
-            "required": true,
-            "description": "Setup Code",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "X-Track-Request-Id",
-            "in": "header",
-            "required": false,
-            "description": "Track information: Request-Id",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "X-Track-Request-Ts",
-            "in": "header",
-            "required": false,
-            "description": "Track information: Request-Ts",
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Dto"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "api.setup_adhoc"
-                  ],
-                  "properties": {
-                    "api.setup_adhoc": {
-                      "type": "string"
-                    }
-                  },
-                  "description": "api.setup_adhoc string payload"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Operation forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "api.setup_adhoc"
-                  ],
-                  "properties": {
-                    "api.setup_adhoc": {
-                      "type": "string"
-                    }
-                  },
-                  "description": "api.setup_adhoc string payload"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Object not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "api.setup_adhoc"
-                  ],
-                  "properties": {
-                    "api.setup_adhoc": {
-                      "type": "string"
-                    }
-                  },
-                  "description": "api.setup_adhoc string payload"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "app0_admin.1x0"
-        ]
-      }
-    },
     "/api/app0-admin/1x0/api/logo-upload": {
       "post": {
         "summary": "Platform Tools: logo-upload",
@@ -2283,10 +2164,10 @@
         ]
       }
     },
-    "/api/app0-admin/1x0/api/template-mail-save": {
+    "/api/app0-admin/1x0/api/tmail-save": {
       "post": {
-        "summary": "Platform TemplateMails: tmail-save",
-        "description": "Platform TemplateMails: tmail-save",
+        "summary": "Platform Tmails: tmail-save",
+        "description": "Platform Tmails: tmail-save",
         "parameters": [
           {
             "name": "X-Track-Request-Id",
@@ -2314,7 +2195,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/TemplateMail"
+                "$ref": "#/components/schemas/Tmail"
               }
             }
           }
@@ -2325,7 +2206,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TemplateMail"
+                  "$ref": "#/components/schemas/Tmail"
                 }
               }
             }
@@ -2337,14 +2218,14 @@
                 "schema": {
                   "type": "object",
                   "required": [
-                    "api.template_mail_save"
+                    "api.tmail_save"
                   ],
                   "properties": {
-                    "api.template_mail_save": {
+                    "api.tmail_save": {
                       "type": "string"
                     }
                   },
-                  "description": "api.template_mail_save string payload"
+                  "description": "api.tmail_save string payload"
                 }
               }
             }
@@ -2356,14 +2237,14 @@
                 "schema": {
                   "type": "object",
                   "required": [
-                    "api.template_mail_save"
+                    "api.tmail_save"
                   ],
                   "properties": {
-                    "api.template_mail_save": {
+                    "api.tmail_save": {
                       "type": "string"
                     }
                   },
-                  "description": "api.template_mail_save string payload"
+                  "description": "api.tmail_save string payload"
                 }
               }
             }
@@ -2379,10 +2260,10 @@
         ]
       }
     },
-    "/api/app0-admin/1x0/api/template-mail-test": {
+    "/api/app0-admin/1x0/api/mail-test": {
       "post": {
-        "summary": "Platform TemplateMails: tmail-test",
-        "description": "Platform TemplateMails: tmail-test",
+        "summary": "Platform Tmails: tmail-test",
+        "description": "Platform Tmails: tmail-test",
         "parameters": [
           {
             "name": "X-Track-Request-Id",
@@ -2410,7 +2291,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/TemplateMailSend"
+                "$ref": "#/components/schemas/TmailSend"
               }
             }
           }
@@ -2421,7 +2302,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TemplateMailSend"
+                  "$ref": "#/components/schemas/TmailSend"
                 }
               }
             }
@@ -2437,68 +2318,10 @@
         ]
       }
     },
-    "/api/app0-admin/1x0/api/template-mail-send": {
-      "post": {
-        "summary": "Platform TemplateMails: tmail-send",
-        "description": "Platform TemplateMails: tmail-send",
-        "parameters": [
-          {
-            "name": "X-Track-Request-Id",
-            "in": "header",
-            "required": false,
-            "description": "Track information: Request-Id",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "X-Track-Request-Ts",
-            "in": "header",
-            "required": false,
-            "description": "Track information: Request-Ts",
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "Object Info",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/TemplateMailSend"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Object updated",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/TemplateMailSend"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "app0_admin.1x0"
-        ],
-        "security": [
-          {
-            "auth.bearer": []
-          }
-        ]
-      }
-    },
-    "/api/app0-admin/1x0/api/template-mail-get": {
+    "/api/app0-admin/1x0/api/tmail-get": {
       "get": {
-        "summary": "Platform TemplateMails: tmail-get",
-        "description": "Platform TemplateMails: tmail-get",
+        "summary": "Platform Tmails: tmail-get",
+        "description": "Platform Tmails: tmail-get",
         "parameters": [
           {
             "name": "obj_id",
@@ -2531,11 +2354,11 @@
         ],
         "responses": {
           "200": {
-            "description": "TemplateMail",
+            "description": "Tmail",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TemplateMail"
+                  "$ref": "#/components/schemas/Tmail"
                 }
               }
             }
@@ -2547,14 +2370,14 @@
                 "schema": {
                   "type": "object",
                   "required": [
-                    "api.template_mail_get"
+                    "api.tmail_get"
                   ],
                   "properties": {
-                    "api.template_mail_get": {
+                    "api.tmail_get": {
                       "type": "string"
                     }
                   },
-                  "description": "api.template_mail_get string payload"
+                  "description": "api.tmail_get string payload"
                 }
               }
             }
@@ -2570,10 +2393,10 @@
         ]
       }
     },
-    "/api/app0-admin/1x0/api/template-mail-list": {
+    "/api/app0-admin/1x0/api/tmail-list": {
       "post": {
-        "summary": "Platform TemplateMails: tmail-list",
-        "description": "Platform TemplateMails: tmail-list",
+        "summary": "Platform Tmails: tmail-list",
+        "description": "Platform Tmails: tmail-list",
         "parameters": [
           {
             "name": "X-Track-Request-Id",
@@ -2625,6 +2448,305 @@
           {
             "auth.bearer": []
           }
+        ]
+      }
+    },
+    "/api/app0-admin/1x0/api/plan-save": {
+      "post": {
+        "summary": "Platform Plans: plan-save",
+        "description": "Platform Plans: plan-save",
+        "parameters": [
+          {
+            "name": "action",
+            "in": "query",
+            "required": false,
+            "description": "Apply some action",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Track-Request-Id",
+            "in": "header",
+            "required": false,
+            "description": "Track information: Request-Id",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Track-Request-Ts",
+            "in": "header",
+            "required": false,
+            "description": "Track information: Request-Ts",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Object Info",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AvailablePlan"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Object updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AvailablePlan"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "api.plan_save"
+                  ],
+                  "properties": {
+                    "api.plan_save": {
+                      "type": "string"
+                    }
+                  },
+                  "description": "api.plan_save string payload"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Operation forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "api.plan_save"
+                  ],
+                  "properties": {
+                    "api.plan_save": {
+                      "type": "string"
+                    }
+                  },
+                  "description": "api.plan_save string payload"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Object not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "api.plan_save"
+                  ],
+                  "properties": {
+                    "api.plan_save": {
+                      "type": "string"
+                    }
+                  },
+                  "description": "api.plan_save string payload"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "app0_admin.1x0"
+        ],
+        "security": [
+          {
+            "auth.bearer": []
+          }
+        ]
+      }
+    },
+    "/api/app0-admin/1x0/api/plan-get": {
+      "get": {
+        "summary": "Platform Plans: plan-get",
+        "description": "Platform Plans: plan-get",
+        "parameters": [
+          {
+            "name": "obj_id",
+            "in": "query",
+            "required": true,
+            "description": "Object ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Track-Request-Id",
+            "in": "header",
+            "required": false,
+            "description": "Track information: Request-Id",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Track-Request-Ts",
+            "in": "header",
+            "required": false,
+            "description": "Track information: Request-Ts",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "AvailablePlan",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AvailablePlan"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Object not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "api.plan_get"
+                  ],
+                  "properties": {
+                    "api.plan_get": {
+                      "type": "string"
+                    }
+                  },
+                  "description": "api.plan_get string payload"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "app0_admin.1x0"
+        ],
+        "security": [
+          {
+            "auth.bearer": []
+          }
+        ]
+      }
+    },
+    "/api/app0-admin/1x0/api/plan-list": {
+      "post": {
+        "summary": "Platform Plans: plan-list",
+        "description": "Platform Plans: plan-list",
+        "parameters": [
+          {
+            "name": "X-Track-Request-Id",
+            "in": "header",
+            "required": false,
+            "description": "Track information: Request-Id",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Track-Request-Ts",
+            "in": "header",
+            "required": false,
+            "description": "Track information: Request-Ts",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Filters to search",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Query"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "List of results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchResults"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "app0_admin.1x0"
+        ],
+        "security": [
+          {
+            "auth.bearer": []
+          }
+        ]
+      }
+    },
+    "/api/app0-admin/1x0/api/plan-list-enabled": {
+      "get": {
+        "summary": "Platform Plans: plan-list-enabled",
+        "description": "Platform Plans: plan-list-enabled",
+        "parameters": [
+          {
+            "name": "X-Track-Request-Id",
+            "in": "header",
+            "required": false,
+            "description": "Track information: Request-Id",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Track-Request-Ts",
+            "in": "header",
+            "required": false,
+            "description": "Track information: Request-Ts",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchResults"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "app0_admin.1x0"
         ]
       }
     },
@@ -2957,7 +3079,298 @@
         ]
       }
     },
-    "/api/config-manager/0x14/runtime-apps-config": {
+    "/api/app0-admin/1x0/api/mail-send": {
+      "post": {
+        "summary": "Platform Tmails: tmail-send",
+        "description": "Platform Tmails: tmail-send",
+        "parameters": [
+          {
+            "name": "X-Track-Request-Id",
+            "in": "header",
+            "required": false,
+            "description": "Track information: Request-Id",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Track-Request-Ts",
+            "in": "header",
+            "required": false,
+            "description": "Track information: Request-Ts",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Object Info",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TmailSend"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Object updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TmailSend"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "app0_admin.1x0"
+        ],
+        "security": [
+          {
+            "auth.bearer": []
+          }
+        ]
+      }
+    },
+    "/api/app0-admin/1x0/api/user-role-save": {
+      "post": {
+        "summary": "Platform Users: user-role-save",
+        "description": "Platform Users: user-role-save",
+        "parameters": [
+          {
+            "name": "action",
+            "in": "query",
+            "required": false,
+            "description": "Apply some action",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Track-Request-Id",
+            "in": "header",
+            "required": false,
+            "description": "Track information: Request-Id",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Track-Request-Ts",
+            "in": "header",
+            "required": false,
+            "description": "Track information: Request-Ts",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "UserRole",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserAppRole"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "UserRole updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserAppRole"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "api.user_role_save"
+                  ],
+                  "properties": {
+                    "api.user_role_save": {
+                      "type": "string"
+                    }
+                  },
+                  "description": "api.user_role_save string payload"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Operation forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "api.user_role_save"
+                  ],
+                  "properties": {
+                    "api.user_role_save": {
+                      "type": "string"
+                    }
+                  },
+                  "description": "api.user_role_save string payload"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Object not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "api.user_role_save"
+                  ],
+                  "properties": {
+                    "api.user_role_save": {
+                      "type": "string"
+                    }
+                  },
+                  "description": "api.user_role_save string payload"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "app0_admin.1x0"
+        ],
+        "security": [
+          {
+            "auth.bearer": []
+          }
+        ]
+      }
+    },
+    "/api/app0-admin/1x0/api/user-role-list": {
+      "post": {
+        "summary": "Platform Users: user-role-list",
+        "description": "Platform Users: user-role-list",
+        "parameters": [
+          {
+            "name": "X-Track-Request-Id",
+            "in": "header",
+            "required": false,
+            "description": "Track information: Request-Id",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Track-Request-Ts",
+            "in": "header",
+            "required": false,
+            "description": "Track information: Request-Ts",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Filters to search",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Query"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "List of results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchResults"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "app0_admin.1x0"
+        ],
+        "security": [
+          {
+            "auth.bearer": []
+          }
+        ]
+      }
+    },
+    "/api/app0-admin/1x0/api/user-validate-mail-unique": {
+      "get": {
+        "summary": "Platform Users: user-validate-mail",
+        "description": "Platform Users: user-validate-mail",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "required": true,
+            "description": "Email",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Track-Request-Id",
+            "in": "header",
+            "required": false,
+            "description": "Track information: Request-Id",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Track-Request-Ts",
+            "in": "header",
+            "required": false,
+            "description": "Track information: Request-Ts",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Email valid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CodeDescription"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "app0_admin.1x0"
+        ]
+      }
+    },
+    "/api/config-manager/0x15/runtime-apps-config": {
       "get": {
         "summary": "Config Manager: Runtime Apps Config",
         "description": "Returns the runtime config for the Apps running on this server",
@@ -3013,11 +3426,11 @@
           }
         },
         "tags": [
-          "config_manager.0x14"
+          "config_manager.0x15"
         ]
       }
     },
-    "/api/config-manager/0x14/cluster-apps-config": {
+    "/api/config-manager/0x15/cluster-apps-config": {
       "get": {
         "summary": "Config Manager: Cluster Apps Config",
         "description": "Handle remote access to runtime configuration for a group of hosts",
@@ -3073,7 +3486,7 @@
           }
         },
         "tags": [
-          "config_manager.0x14"
+          "config_manager.0x15"
         ]
       }
     }
@@ -3162,6 +3575,23 @@
         "x-module-name": "app0.platform.auth",
         "description": "\n    Minimal auth info for password reset\n    "
       },
+      "MailTemplate": {
+        "type": "object",
+        "properties": {
+          "collection": {
+            "type": "string",
+            "default": "",
+            "description": "Template collection"
+          },
+          "name": {
+            "type": "string",
+            "default": "",
+            "description": "Template name"
+          }
+        },
+        "x-module-name": "app0.admin.tmail",
+        "description": "Mail template"
+      },
       "MailAttachment": {
         "type": "object",
         "properties": {
@@ -3176,18 +3606,18 @@
             "description": "Document Name"
           }
         },
-        "x-module-name": "app0.admin.template_mail",
+        "x-module-name": "app0.admin.tmail",
         "description": "Mail attachment"
       },
-      "TemplateMailSend": {
+      "TmailSend": {
         "type": "object",
         "required": [
           "template"
         ],
         "properties": {
           "template": {
-            "type": "string",
-            "description": "Template name"
+            "$ref": "#/components/schemas/MailTemplate",
+            "description": "Template info"
           },
           "destinations": {
             "type": "array",
@@ -3227,7 +3657,7 @@
             "description": "Db id"
           }
         },
-        "x-module-name": "app0.admin.template_mail",
+        "x-module-name": "app0.admin.tmail",
         "description": "\n    Mail template send\n    "
       },
       "User": {
@@ -3364,11 +3794,136 @@
             "type": "string"
           },
           "enabled": {
-            "type": "boolean"
+            "type": "boolean",
+            "default": true,
+            "description": "Document enabled"
           }
         },
         "x-module-name": "app0.admin.app",
         "description": "\n    Application definition\n    "
+      },
+      "Expr": {
+        "type": "object",
+        "properties": {
+          "eq": {
+            "type": "string",
+            "description": "Match str field equal to"
+          },
+          "eq_bool": {
+            "type": "boolean",
+            "description": "Match bool field equal to"
+          },
+          "elem_match": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "Match at least one element of array field"
+          },
+          "text": {
+            "type": "string",
+            "description": "Match text index"
+          },
+          "regex": {
+            "type": "string",
+            "description": "Match field by regex"
+          },
+          "or_regex": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "Match OR a list of fields by regex"
+          }
+        },
+        "x-module-name": "app0.admin.db",
+        "description": "Expr(eq: Optional[str] = None, eq_bool: Optional[bool] = None, elem_match: Optional[Dict[str, str]] = None, text: Optional[str] = None, regex: Optional[str] = None, or_regex: Optional[Dict[str, str]] = None)"
+      },
+      "FieldSort": {
+        "type": "object",
+        "required": [
+          "field"
+        ],
+        "properties": {
+          "field": {
+            "type": "string",
+            "description": "Field to order"
+          },
+          "order": {
+            "type": "integer",
+            "default": 1,
+            "description": "Type 1 asc, -1 desc"
+          }
+        },
+        "x-module-name": "app0.admin.db",
+        "description": "Field order tuple"
+      },
+      "Query": {
+        "type": "object",
+        "required": [
+          "flts"
+        ],
+        "properties": {
+          "flts": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/Expr"
+            }
+          },
+          "max_items": {
+            "type": "integer",
+            "default": 100
+          },
+          "sort": {
+            "$ref": "#/components/schemas/FieldSort"
+          }
+        },
+        "x-module-name": "app0.admin.db",
+        "description": "\n    Query handler\n    "
+      },
+      "SearchResults": {
+        "type": "object",
+        "required": [
+          "results"
+        ],
+        "properties": {
+          "results": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "array"
+                },
+                {
+                  "type": "object"
+                }
+              ]
+            }
+          },
+          "total": {
+            "type": "integer",
+            "default": 0
+          },
+          "page": {
+            "type": "integer",
+            "default": 0
+          },
+          "page_size": {
+            "type": "integer",
+            "default": 0
+          },
+          "offset": {
+            "type": "integer"
+          },
+          "next_page": {
+            "type": "integer"
+          },
+          "next_offset": {
+            "type": "integer"
+          }
+        },
+        "x-module-name": "app0.admin.db",
+        "description": "SearchResults(results: List[Union[Dict[Any, Any], List[Any]]], total: int = 0, page: int = 0, page_size: int = 0, offset: Optional[int] = None, next_page: Optional[int] = None, next_offset: Optional[int] = None)"
       },
       "Group": {
         "type": "object",
@@ -3450,189 +4005,22 @@
             "type": "string"
           },
           "enabled": {
-            "type": "boolean"
+            "type": "boolean",
+            "default": true,
+            "description": "Document enabled"
+          },
+          "application": {
+            "type": "string",
+            "description": "Application"
+          },
+          "can_delete": {
+            "type": "boolean",
+            "default": true,
+            "description": "Can be deleted?"
           }
         },
         "x-module-name": "app0.admin.app",
         "description": "\n    Application role\n    "
-      },
-      "PasswordParams": {
-        "type": "object",
-        "required": [
-          "password"
-        ],
-        "properties": {
-          "password": {
-            "type": "string"
-          },
-          "user": {
-            "type": "string"
-          },
-          "old_password": {
-            "type": "string"
-          }
-        },
-        "x-module-name": "app0.admin.api.user_password",
-        "description": "Params to create and save Something"
-      },
-      "SearchResults": {
-        "type": "object",
-        "required": [
-          "results"
-        ],
-        "properties": {
-          "results": {
-            "type": "array",
-            "items": {
-              "anyOf": [
-                {
-                  "type": "array"
-                },
-                {
-                  "type": "object"
-                }
-              ]
-            }
-          },
-          "total": {
-            "type": "integer",
-            "default": 0
-          },
-          "page": {
-            "type": "integer",
-            "default": 0
-          },
-          "page_size": {
-            "type": "integer",
-            "default": 0
-          },
-          "offset": {
-            "type": "integer"
-          },
-          "next_page": {
-            "type": "integer"
-          },
-          "next_offset": {
-            "type": "integer"
-          }
-        },
-        "x-module-name": "app0.admin.db",
-        "description": "SearchResults(results: List[Union[Dict[Any, Any], List[Any]]], total: int = 0, page: int = 0, page_size: int = 0, offset: Optional[int] = None, next_page: Optional[int] = None, next_offset: Optional[int] = None)"
-      },
-      "IdDescription": {
-        "type": "object",
-        "required": [
-          "value",
-          "label"
-        ],
-        "properties": {
-          "value": {
-            "type": "string",
-            "description": "Id"
-          },
-          "label": {
-            "type": "string",
-            "description": "Description"
-          }
-        },
-        "x-module-name": "app0.admin.common",
-        "description": "\n    Id with description\n    "
-      },
-      "Employee": {
-        "type": "object",
-        "required": [
-          "firstname",
-          "surname",
-          "email"
-        ],
-        "properties": {
-          "firstname": {
-            "type": "string",
-            "description": "Firstname"
-          },
-          "surname": {
-            "type": "string",
-            "description": "Surname"
-          },
-          "email": {
-            "type": "string",
-            "description": "Email"
-          },
-          "middle_name": {
-            "type": "string",
-            "default": "",
-            "description": "Middle Name"
-          },
-          "phone_number": {
-            "type": "string",
-            "default": "",
-            "description": "Phone Number"
-          },
-          "ssn_ein": {
-            "type": "string",
-            "default": "",
-            "description": "SSN/EIN"
-          },
-          "birthday": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Birthay"
-          },
-          "start_date": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Starting Date"
-          },
-          "position": {
-            "$ref": "#/components/schemas/IdDescription",
-            "description": "Position"
-          },
-          "teams": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/IdDescription"
-            },
-            "default": [],
-            "description": "Team"
-          },
-          "notes": {
-            "type": "string",
-            "default": "",
-            "description": "Notes"
-          },
-          "notes_work": {
-            "type": "string",
-            "default": "",
-            "description": "Notes"
-          },
-          "image": {
-            "type": "string",
-            "description": "Employee image"
-          },
-          "employee_id": {
-            "type": "string",
-            "description": "Employee id"
-          },
-          "license_id": {
-            "type": "string",
-            "description": "License id"
-          },
-          "address": {
-            "type": "string",
-            "description": "Address"
-          },
-          "id": {
-            "type": "string",
-            "description": "Db id"
-          },
-          "enabled": {
-            "type": "boolean",
-            "default": true,
-            "description": "Enabled?"
-          }
-        },
-        "x-module-name": "app0.admin.employee",
-        "description": "\n    Employee\n    "
       },
       "PlatformFile": {
         "type": "object",
@@ -3668,6 +4056,14 @@
             "type": "string",
             "format": "date-time",
             "description": "Creation Date"
+          },
+          "approved": {
+            "type": "boolean",
+            "description": "File approved or rejected"
+          },
+          "approved_desc": {
+            "type": "string",
+            "description": "File approved or rejected description"
           }
         },
         "x-module-name": "app0.admin.file",
@@ -3698,6 +4094,29 @@
             "type": "string",
             "default": "",
             "description": "Description or Text"
+          },
+          "app_name": {
+            "type": "string",
+            "default": "",
+            "description": "App"
+          },
+          "object_type": {
+            "type": "string",
+            "default": "",
+            "description": "Object type"
+          },
+          "object_id": {
+            "type": "string",
+            "default": "",
+            "description": "Object id"
+          },
+          "object_internal_id": {
+            "type": "string",
+            "description": "Human readable id if exists"
+          },
+          "object_name": {
+            "type": "string",
+            "description": "Object name if exists"
           },
           "type": {
             "type": "string",
@@ -3735,91 +4154,7 @@
         "x-module-name": "app0.admin.notification",
         "description": "\n    Notification or log\n    "
       },
-      "Expr": {
-        "type": "object",
-        "properties": {
-          "eq": {
-            "type": "string"
-          },
-          "elem_match": {
-            "type": "object",
-            "additionalProperties": {
-              "type": "string"
-            }
-          },
-          "in_": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "from_date": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "to_date": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "not_eq": {
-            "type": "string"
-          }
-        },
-        "x-module-name": "app0.admin.db",
-        "description": "Expr(eq: Optional[str] = None, elem_match: Optional[Dict[str, str]] = None, in_: Optional[List[str]] = None, from_date: Optional[datetime.datetime] = None, to_date: Optional[datetime.datetime] = None, not_eq: Optional[str] = None)"
-      },
-      "FldSrt": {
-        "type": "object",
-        "required": [
-          "fld"
-        ],
-        "properties": {
-          "fld": {
-            "type": "string"
-          },
-          "rdr": {
-            "type": "integer",
-            "default": 1
-          }
-        },
-        "x-module-name": "app0.admin.db",
-        "description": "Field order (1 asc, -1 desc) tuple"
-      },
-      "Query": {
-        "type": "object",
-        "required": [
-          "flts"
-        ],
-        "properties": {
-          "flts": {
-            "type": "object",
-            "additionalProperties": {
-              "$ref": "#/components/schemas/Expr"
-            }
-          },
-          "flts_or": {
-            "type": "boolean",
-            "default": true
-          },
-          "enabled": {
-            "type": "boolean",
-            "default": true
-          },
-          "max_items": {
-            "type": "integer",
-            "default": 100
-          },
-          "text": {
-            "type": "string"
-          },
-          "sort": {
-            "$ref": "#/components/schemas/FldSrt"
-          }
-        },
-        "x-module-name": "app0.admin.db",
-        "description": "\n    Query handler\n    "
-      },
-      "TemplateMail": {
+      "Tmail": {
         "type": "object",
         "required": [
           "name",
@@ -3882,8 +4217,52 @@
             "description": "Enabled?"
           }
         },
-        "x-module-name": "app0.admin.template_mail",
+        "x-module-name": "app0.admin.tmail",
         "description": "\n    Mail template\n    "
+      },
+      "AvailablePlan": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "default": "",
+            "description": "Name"
+          },
+          "subtitle": {
+            "type": "string",
+            "default": "",
+            "description": "Subtitle"
+          },
+          "description": {
+            "type": "string",
+            "default": "",
+            "description": "Description"
+          },
+          "learn_more_url": {
+            "type": "string",
+            "default": "",
+            "description": "Learn more url"
+          },
+          "registration_order": {
+            "type": "integer",
+            "description": "Registration Order"
+          },
+          "image": {
+            "type": "string",
+            "description": "Plan logo"
+          },
+          "id": {
+            "type": "string",
+            "description": "Db id"
+          },
+          "enabled": {
+            "type": "boolean",
+            "default": true,
+            "description": "Enabled?"
+          }
+        },
+        "x-module-name": "app0.admin.subscription",
+        "description": "\n    Available Plan\n    "
       },
       "Registration": {
         "type": "object",
@@ -3919,6 +4298,21 @@
             "type": "string",
             "default": "",
             "description": "Address"
+          },
+          "plan_id": {
+            "type": "string",
+            "default": "",
+            "description": "Plan id"
+          },
+          "plan_name": {
+            "type": "string",
+            "default": "",
+            "description": "Plan Name"
+          },
+          "plan_description": {
+            "type": "string",
+            "default": "",
+            "description": "Plan Description"
           },
           "creation_date": {
             "type": "string",
@@ -3971,6 +4365,48 @@
         },
         "x-module-name": "app0.admin.registration",
         "description": "\n    Registration\n    "
+      },
+      "UserAppRole": {
+        "type": "object",
+        "required": [
+          "username",
+          "role"
+        ],
+        "properties": {
+          "username": {
+            "type": "string",
+            "description": "Username"
+          },
+          "role": {
+            "type": "string",
+            "description": "Role name"
+          },
+          "id": {
+            "type": "string",
+            "description": "Db id"
+          }
+        },
+        "x-module-name": "app0.admin.user",
+        "description": "\n    User & Application Role\n    "
+      },
+      "CodeDescription": {
+        "type": "object",
+        "required": [
+          "id",
+          "description"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Code Id"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description"
+          }
+        },
+        "x-module-name": "app0.admin.http",
+        "description": "\n    Application return code with description\n    "
       },
       "RuntimeAppInfo": {
         "type": "object",
@@ -4249,6 +4685,9 @@
           "route": {
             "type": "string"
           },
+          "impl": {
+            "type": "string"
+          },
           "connections": {
             "type": "array",
             "items": {
@@ -4283,10 +4722,17 @@
               "type": "string"
             },
             "default": []
+          },
+          "dataobjects": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "default": []
           }
         },
         "x-module-name": "hopeit.app.config",
-        "description": "\n    Event descriptor\n    "
+        "description": "\n    Event Descriptor: configures event implementation\n\n    :field: type, EventType: type of event i.e.: GET, POST, MULTIPART, STREAM, SERVICE\n    :field: plug_mode, EventPlugMode: defines whether an event defined in a plugin is created in the\n        current app (ON_APP) or it will be created in the original plugin (STANDALONE, default)\n    :field: route, optional str: custom route for endpoint. If not specified route will be derived\n        from `/api/app_name/app_version/event_name`\n    :field: impl, optional str: custom event implementation Python module. If not specified, module\n        with same same as event will be imported.\n    :field: connections, list of EventConnection: specifies dependencies on other apps/endpoints,\n        that can be used by client plugins to call events on external apps\n    :field: read_stream, optional ReadStreamDescriptor: specifies source stream to read from.\n        Valid only for STREAM events.\n    :field: write_stream, optional WriteStreamDescriptor: for any type of events, resultant dataobjects will\n        be published to the specified stream.\n    :field: auth, list of AuthType: supported authentication schemas for this event. If not specified\n        application default will be used.\n    :field: setting_keys, list of str: by default EventContext will have access to the settings section\n        with the same name of the event using `settings = context.settings(datatype=MySettingsType)`.\n        In case additional sections are needed to be accessed from\n        EventContext, then a list of setting keys, including the name of the event if needed,\n        can be specified here. Then access to a `custom` key can be done using\n        `custom_settings = context.settings(key=\"customer\", datatype=MyCustomSettingsType)`\n    :field: dataobjects, list of str: list of full qualified dataobject types that this event can process.\n        When not specified, the engine will inspect the module implementation and find all datatypes supported\n        as payload in the functions defined as `__steps__`. In case of generic functions that support\n        `payload: DataObject` argument, then a list of full qualified datatypes must be specified here.\n    "
       },
       "EventConnection": {
         "type": "object",
@@ -4413,7 +4859,7 @@
           },
           "engine_version": {
             "type": "string",
-            "default": "0.14.2"
+            "default": "0.15.1"
           }
         },
         "x-module-name": "hopeit.server.config",

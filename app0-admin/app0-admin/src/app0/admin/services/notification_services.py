@@ -11,24 +11,18 @@ from app0.admin.notification import Notification
 from app0.admin.services import IDX_NOTIFICATION
 
 
-async def get_notifications(es, qry: Query = None) -> List[Notification]:
+async def get_notifications(es, query: Query) -> List[Notification]:
     """
     Returns a list of queried Notification
     """
-    sort_fld = 'creation_date'
-    sort_order = -1
-    assert qry
-    if qry.sort:
-        sort_fld = qry.sort.fld
-        sort_order = qry.sort.rdr
-    if qry and qry.flts:
-        print(qry.find_qry())
-        # {'enabled': {'$eq': True}}
-        cursor = es[IDX_NOTIFICATION].find(qry.find_qry()).sort(sort_fld, sort_order)
-        # cursor = es[IDX_CLIENT].find({'enabled': {'$eq': True}})
+    sort_field = query.sort.field if query.sort else 'creation_date'
+    sort_order = query.sort.order if query.sort else -1
+
+    if query.flts:
+        cursor = es[IDX_NOTIFICATION].find(query.find_qry()).sort(sort_field, sort_order)
     else:
-        cursor = es[IDX_NOTIFICATION].find().sort(sort_fld, sort_order)
-    return [Payload.from_obj(doc, Notification) for doc in await cursor.to_list(length=qry.max_items if qry else 100)]
+        cursor = es[IDX_NOTIFICATION].find().sort(sort_field, sort_order)
+    return [Payload.from_obj(doc, Notification) for doc in await cursor.to_list(length=query.max_items)]
 
 
 async def get_notification(es, oid: str) -> Optional[Notification]:
@@ -43,6 +37,6 @@ async def save_notification(es, notification: Notification) -> Notification:
     return notification
 
 
-async def delete_notification(es, oid) -> dict:
+async def delete_notification(es, oid: str) -> dict:
     col = es[IDX_NOTIFICATION]
     return await col.delete_many({'_id': ObjectId(oid)})

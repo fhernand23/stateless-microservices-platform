@@ -1,4 +1,5 @@
-hopeit.engine[web,cli,fs-storage,redis-streams,apps-visualizer,config-manager,apps-client]>=0.14.0,<0.15.0
+hopeit.engine[web,cli,fs-storage,redis-streams,apps-visualizer,config-manager,apps-client]>=0.15.0,<0.16.0
 motor>=2.5.1
-jinja2>=3.0.3
-aioboto3>=9.3.1
+jinja2>=3.1.1
+aioboto3>=9.5.0
+

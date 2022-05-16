@@ -16,7 +16,6 @@ from hopeit.app.logger import app_logger
 from hopeit.fs_storage import FileStorage
 
 logger = app_logger()
-fs_user: Optional[FileStorage] = None
 fs_auth: Optional[FileStorage] = None
 
 __steps__ = ['register_password']
@@ -31,9 +30,7 @@ __api__ = event_api(
 
 
 async def __init_event__(context: EventContext):
-    global fs_user, fs_auth
-    if fs_user is None:
-        fs_user = FileStorage(path=str(context.env['fs']['user_store']))
+    global fs_auth
     if fs_auth is None:
         fs_auth = FileStorage(path=str(context.env['fs']['auth_store']))
 

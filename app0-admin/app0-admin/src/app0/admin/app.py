@@ -18,11 +18,11 @@ class AppRole:
     name: str = fd("Role name")
     description: str = fd("Description")
     id: Optional[str] = None
-    enabled: Optional[bool] = None
+    enabled: bool = fd("Document enabled", default=True)
+    application: Optional[str] = fd("Application", default=None)
+    can_delete: bool = fd("Can be deleted?", default=True)
 
     def __post_init__(self):
-        if self.enabled is None:
-            self.enabled = True
         if self.id is None:
             self.id = str(ObjectId())
 
@@ -40,10 +40,8 @@ class AppDef:
     default_role: str = fd("Default App Role", default=None)
     roles: List[str] = fd("List of App Roles", default_factory=list)
     id: Optional[str] = None
-    enabled: Optional[bool] = None
+    enabled: bool = fd("Document enabled", default=True)
 
     def __post_init__(self):
-        if self.enabled is None:
-            self.enabled = True
         if self.id is None:
             self.id = str(ObjectId())

@@ -21,6 +21,7 @@ class Client:
     surname: str = fd("Surname", default='')
     email: str = fd("Email", default='')
     phone_number: str = fd("Phone Number", default='')
+    client_number: str = fd("Internal Client Number", default='')
     mailing_address: str = fd("Mailing Address", default='')
     is_company: bool = fd("Is Company?", default=False)
     company_name: Optional[str] = fd("Company name if client is company", default=None)
