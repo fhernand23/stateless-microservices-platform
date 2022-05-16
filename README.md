@@ -13,10 +13,10 @@ This sample pretend to tackle some common needs when you start a new project lik
 Platform is compound of:
 - `app0-admin` Platform manager backend (Apps, Users & Roles)
 - `app0-admin-ui` Platform manager UI
-- `app0-claim` Simple app1 backend to manage a simple workflow of claims
-- `app0-claim-ui` Simple app1 UI to manage a simple workflow of claims
-- `app0-client` Simple app2 backend to manage company clients & services
-- `app0-client-ui` Simple app2 UI to manage company clients & services
+- `app0-app1` Simple app1 backend to manage a simple workflow of claims
+- `app0-app1-ui` Simple app1 UI to manage a simple workflow of claims
+- `app0-app2` Simple app2 backend to manage company clients & services
+- `app0-app2-ui` Simple app2 UI to manage company clients & services
 
 ## Prerequisites
 
