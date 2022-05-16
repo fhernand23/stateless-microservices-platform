@@ -36,7 +36,7 @@ async def invoke_refresh(context: EventContext):
     assert refresh_token_info['exp'] == iat + context.env['auth']['refresh_token_expiration']
 
     assert auth_info.user_info == ContextUserInfo(id='id', user='test', fullname="", email='test@email', roles=[],
-                                                  groups=[], owner_id="", owner_name="", employee_id="", image="")
+                                                  groups=[], employee_id="", image="")
     assert auth_info.access_token_expiration == context.env['auth']['access_token_expiration']
     assert auth_info.refresh_token_expiration == context.env['auth']['refresh_token_expiration']
     assert auth_info.renew == access_token_info['renew']

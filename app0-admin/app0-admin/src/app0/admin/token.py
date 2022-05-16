@@ -21,8 +21,6 @@ class AppToken:
     expire: datetime = fd("Expiration date")
     user_id: str = fd("User id", default="")
     user_name: str = fd("Username", default="")
-    owner_id: str = fd("Owner id", default="")
-    owner_name: str = fd("Owner name", default="")
     provider_id: Optional[str] = fd("Provider Id", default=None)
     provider_name: Optional[str] = fd("Provider name", default=None)
     client_id: Optional[str] = fd("Client Id", default=None)

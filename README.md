@@ -1,4 +1,4 @@
-# App0Platform: An Stateless-microservices-platform
+# App0Platform: A Stateless-microservices-platform
 This is a prototype/proof of concept of a Stateless Platform of Microservices Apps with a Python backend apps (hopeit.engine) and Vue 3 ui apps.
 
 This repo shows and end-to-end example of a modern and scalable production-ready ecosystem of apps:
@@ -45,19 +45,32 @@ This platform try to model a simple real world app for a company that provide se
 - Manage Apps
 - Manage Roles
 - Manage Plans
-- Manage Subscriptions
 - Manage Registrations
 - Provide mailing capabilities
 - Provide object storage capabilities
 
-### App0-client
+### App0-app1
 
-- Manage clients
-- Manage clients services
+- Some app...
 
-### App0-claim
+### App0-app2
 
-- Manage a simple workflow of client claims about his services
+- Some other app...
+
+## Run the platform
+
+### First time use
+
+- Go to `http://localhost:8021/api/docs/` & run `setup-db` endpoint with `FORCE` parameter. It will create all needed mongo collections, some base roles, and a superadmin account to login to platform: superuser / 123456
+- To test setup, go to Authentication an set username and password, and run `Auth: Login` endpoint. If everything was OK, you would receive something like this:
+```json
+{
+  "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpZCI6IjYyODI0YzUxNmJlZTNhZTc0YjVjNzUxNCIsInVzZXIiOiJzdXBlcnVzZXIiLCJmdWxsbmFtZSI6IlN1cGVydXNlciBBZG1pbiIsImVtYWlsIjoic3VwZXJ1c2VyQGFwcDAubWUiLCJlbXBsb3llZV9pZCI6IiIsImltYWdlIjoiIiwicm9sZXMiOlsiQXBwMCBVc2VyIiwiQXBwMCBBZG1pbiJdLCJncm91cHMiOltdLCJhcHAiOiJwbGF0Zm9ybV9hdXRoLjF4MCIsImlhdCI6MTY1MjcwNjc1MCwiZXhwIjoxNzEyNzA2NzUwLCJyZW5ldyI6NTk5OTk5OTQ5ODV9.iry2rdO1c1_1DekusQR6yM_S7Bth_iyaMrgYQSTKmtJqY4SL-DMmv0-GP_6hdZpjoVv1qqjZ25-vp9czElCvL5kyPme2nxAyuv_doS9btzF3OgKr1Ejn63R-5PNq3Ti_qL_4lF9HbCZfnelDLtQi52_WshGwoST2pn53Zs9MhhWu_MXYa_thyQwm-ot2XYVaDBcxd_7h-hYV24aI5g_TcC9Rx1h2blNFf3Dl9b4aekRt68uSvEKaR-flHOnCNOzGuwwx_FtauUUELAD6HyC_v_8qq8IQMFhVAIevZWGeoWrXpcUVDTxH0pbXsyOCoCjoublzbIyj5-ATY3h_OIkojw",
+  "token_type": "BEARER",
+  "renew": 59999994985
+}
+```
+
 
 
 

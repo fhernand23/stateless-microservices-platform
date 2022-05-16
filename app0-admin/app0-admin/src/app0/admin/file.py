@@ -21,6 +21,8 @@ class PlatformFile:
     src_filename: str = fd("Source filename")
     object_id: str = fd("Full path filename Object Id")
     creation_date: Optional[datetime] = fd("Creation Date", default=None)
+    approved: Optional[bool] = fd("File approved or rejected", default=None)
+    approved_desc: Optional[str] = fd("File approved or rejected description", default=None)
 
     def __post_init__(self):
         if self.creation_date is None:

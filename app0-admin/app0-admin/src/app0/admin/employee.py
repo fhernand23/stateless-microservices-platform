@@ -2,7 +2,7 @@
 App0Platform: Employee
 """
 from datetime import datetime
-from typing import List, Optional
+from typing import Optional
 
 from bson.objectid import ObjectId  # type: ignore
 from hopeit.dataobjects import dataclass, dataobject
@@ -26,11 +26,10 @@ class Employee:
     birthday: Optional[datetime] = fd("Birthay", default=None)
     start_date: Optional[datetime] = fd("Starting Date", default=None)
     position: Optional[IdDescription] = fd("Position", default=None)
-    teams: List[IdDescription] = fd("Team", default_factory=list)
     notes: Optional[str] = fd("Notes", default='')
     notes_work: Optional[str] = fd("Notes", default='')
     image: Optional[str] = fd("Employee image", default=None)
-    employee_id: Optional[str] = fd("Employee id", default=None)
+    employee_id: Optional[str] = fd("Employee internal id", default=None)
     license_id: Optional[str] = fd("License id", default=None)
     address: Optional[str] = fd("Address", default=None)
     id: Optional[str] = fd("Db id", default=None)

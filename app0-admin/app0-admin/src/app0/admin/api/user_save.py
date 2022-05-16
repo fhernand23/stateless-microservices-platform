@@ -22,13 +22,13 @@ from app0.admin.services import (ACT_USER_DELETE_USER, ACT_USER_CREATE, IDX_USER
 from app0.admin.services.user_services import save_user
 from app0.admin.user import User, UserAppRole
 from app0.admin import mail
-from app0.admin.template_mail import TemplateMailSend
+from app0.admin.tmail import MailTemplate, TmailSend
 from app0.platform.auth import AuthReset
 from app0.admin.notification import Notification
 
 logger, extra = app_extra_logger()
 fs_recover: Optional[FileStorage] = None
-BASE_URL: Optional[str] = None
+APP0_ADMIN_URL: Optional[str] = None
 
 
 @dataobject
@@ -57,11 +57,11 @@ __api__ = event_api(
 
 
 async def __init_event__(context: EventContext):
-    global fs_recover, BASE_URL
+    global fs_recover, APP0_ADMIN_URL
     if fs_recover is None:
         fs_recover = FileStorage(path=str(context.env['fs']['recover_store']))
-    if BASE_URL is None:
-        BASE_URL = str(context.env["env_config"]["app0-admin_url"])
+    if APP0_ADMIN_URL is None:
+        APP0_ADMIN_URL = str(context.env["env_config"]["app0-admin_url"])
 
 
 async def run(payload: User, context: EventContext, action: Optional[str] = None) -> Union[User, HttpRespInfo]:
@@ -134,20 +134,20 @@ async def _register(user: User, context: EventContext):
     await fs_recover.store(notify.recovery_token, auth_reset)
     logger.info(context, f"User '{notify.user.id}' request password reset")
     # send mail
-    tmail_send = TemplateMailSend(
-        template=mail.MAIL_EMAIL_CONFIRMATION,
+    tmail_send = TmailSend(
+        template=MailTemplate(collection=mail.MAIL_COLLECTION_BASE, name=mail.MAIL_EMAIL_CONFIRMATION),
         destinations=[user.email],
         replacements={
             mail.VAR_USER_NAME: user.firstname + ' ' + user.surname,
-            mail.VAR_CLAIMS_APP_URL: f'{BASE_URL}',
-            mail.VAR_EMAIL_CONFIRM_URL: f'{BASE_URL}/fset/{notify.recovery_token}',
+            mail.VAR_ADMIN_APP_URL: f'{APP0_ADMIN_URL}',
+            mail.VAR_EMAIL_CONFIRM_URL: f'{APP0_ADMIN_URL}/fset/{notify.recovery_token}',
         },
         files=[])
     logger.info(context, f"Sending Mail {tmail_send}")
     tmail_send_r = await app_call(
         context.event_info.connections[0].app_connection,
         event=context.event_info.connections[0].event,
-        datatype=TemplateMailSend, payload=tmail_send, context=context
+        datatype=TmailSend, payload=tmail_send, context=context
     )
     logger.info(context, f"Mail queued OK {tmail_send_r}")
 
@@ -171,7 +171,7 @@ async def _create_notification_user(es, user: User):
         user_name='System',
         type='direct',
         dest_user_id=user.id,  # type: ignore
-        content=f"Welcome {user.email} to the Claims Platform")
+        content=f"Welcome {user.email} to the App0 Platform")
     await es[IDX_NOTIFICATION].replace_one({'_id': ObjectId(notification2.id)},
                                            Payload.to_obj(notification2),
                                            upsert=True)

@@ -40,8 +40,6 @@ async def refresh(payload: None, context: EventContext) -> AuthInfoExtended:
             user=context.auth_info['payload']['user'],
             email=context.auth_info['payload']['email'],
             fullname=context.auth_info['payload']['fullname'],
-            owner_id=context.auth_info['payload']['owner_id'],
-            owner_name=context.auth_info['payload']['owner_name'],
             employee_id=context.auth_info['payload']['employee_id'],
             image=context.auth_info['payload']['image'],
             roles=context.auth_info['payload']['roles'],

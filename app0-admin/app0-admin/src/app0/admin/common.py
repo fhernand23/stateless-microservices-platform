@@ -1,7 +1,7 @@
 """
 App0Platform: Common
 """
-from typing import Optional, List
+from typing import Dict, Optional, List
 
 from bson.objectid import ObjectId  # type: ignore
 from hopeit.dataobjects import dataclass, dataobject
@@ -15,8 +15,10 @@ class IdDescription:
     """
     Id with description
     """
-    value: str = fd("Id")
+    value: str = fd("ObjectId")
     label: str = fd("Description")
+    internal_id: Optional[str] = fd("Human readable internalID", default=None)
+    details: Optional[Dict[str, str]] = fd("Human readable internalID", default=None)
 
 
 @dataobject

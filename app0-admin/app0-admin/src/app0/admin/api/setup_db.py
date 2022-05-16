@@ -2,30 +2,32 @@
 Platform Setup: setup-db
 """
 import os
-from typing import Optional, Union
+from typing import List, Optional, Union
 
 from hopeit.app.api import event_api
 from hopeit.app.context import EventContext, PostprocessHook
 from hopeit.app.logger import app_logger
 from hopeit.fs_storage import FileStorage
 
+from app0.platform.auth import UserPassword, _password_hash
 from app0.admin.app import AppDef, AppRole
 from app0.admin.db import db
 from app0.admin.http import Dto, HttpRespInfo
-from app0.admin.services import (IDX_APP, IDX_GROUP, IDX_NOTIFICATION, IDX_REGISTRATION, IDX_ROLE, IDX_TEMPLATE_MAIL,
+from app0.admin.services import (IDX_APP, IDX_GROUP, IDX_NOTIFICATION, IDX_REGISTRATION, IDX_ROLE,
                                  IDX_USER, IDX_USER_ROLE, IDX_CLAIM, IDX_CLIENT, IDX_EMPLOYEE, IDX_PROVIDER,
                                  ROLE_USER, ROLE_ADMIN)
+from app0.admin.subscription import AvailablePlan
 from app0.admin.services.app_services import save_app, save_role
-from app0.admin.services.template_mail_services import save_template_mail
+from app0.admin.services.tmail_services import save_tmail
 from app0.admin.services.user_services import save_user, save_user_role
-from app0.admin.template_mail import TemplateMail
+from app0.admin.tmail import Tmail
 from app0.admin.user import User, UserAppRole
-from app0.platform.auth import UserPassword, _password_hash
+from app0.admin.services.plan_services import save_plan
 
 logger = app_logger()
 fs_auth: Optional[FileStorage] = None
 DEF_SUPERADMIN_USERNAME = "superuser"
-DEF_PASSWORD = "123"
+DEF_PASSWORD = "123456"
 DEF_ROLES = [ROLE_USER]
 TEMPLATES_FOLDER: Optional[str] = None
 
@@ -61,7 +63,7 @@ async def run(payload: None, context: EventContext, code: str) -> Union[Dto, Htt
         # check if collections exists and create or clean
         query = {"name": {"$regex": r"^(?!system\.)"}}
         req_colls = [IDX_APP, IDX_GROUP, IDX_NOTIFICATION, IDX_REGISTRATION, IDX_ROLE, IDX_USER,
-                     IDX_USER_ROLE, IDX_CLAIM, IDX_CLIENT, IDX_EMPLOYEE, IDX_PROVIDER, IDX_TEMPLATE_MAIL]
+                     IDX_USER_ROLE, IDX_CLAIM, IDX_CLIENT, IDX_EMPLOYEE, IDX_PROVIDER]
         coll_names = await es.list_collection_names(filter=query)
         print(f"coll existentes: {coll_names}")
         for col in req_colls:
@@ -77,7 +79,7 @@ async def run(payload: None, context: EventContext, code: str) -> Union[Dto, Htt
         user = User(firstname="Superuser",
                     surname="Admin",
                     username=DEF_SUPERADMIN_USERNAME,
-                    email="superuser@app0")
+                    email="superuser@app0.me")
         await save_user(es, user)
         print(f"user saved: {DEF_SUPERADMIN_USERNAME}")
         await _register(DEF_SUPERADMIN_USERNAME, DEF_PASSWORD)
@@ -88,6 +90,9 @@ async def run(payload: None, context: EventContext, code: str) -> Union[Dto, Htt
 
         # create email base templates
         await _create_email_templates(es)
+
+        # create plans
+        await _create_plans(es)
 
     return Dto(o={'msg': 'OK Run'})
 
@@ -121,7 +126,7 @@ async def _create_base_apps_roles(es):
     """
     Create Base Roles & Apps
     """
-    # ROLE_USER,ROLE_ADMIN,ROLE_COMPANY_ADMIN,ROLE_USER_PROVIDER
+    # ROLE_USER,ROLE_ADMIN
     role1 = AppRole(name=ROLE_USER, description="App0 User")
     await save_role(es, role1)
     print(f"saved role: {ROLE_USER}")
@@ -130,20 +135,20 @@ async def _create_base_apps_roles(es):
     print(f"saved role: {ROLE_ADMIN}")
 
     # create app
-    app_claims = AppDef(
-        name="App0 Claims",
-        description="App0 Claims Management",
+    app_app1 = AppDef(
+        name="App0 App1",
+        description="App0 App1",
         url='',
         default_role=ROLE_USER)
-    await save_app(es, app_claims)
-    print("saved app: app_claims")
-    app_clients = AppDef(
-        name="App0 Clients",
-        description="App0 Clients Management",
+    await save_app(es, app_app1)
+    print("saved app: app_app1")
+    app_app2 = AppDef(
+        name="App0 App2",
+        description="App0 App2",
         url='',
         default_role=ROLE_USER)
-    await save_app(es, app_clients)
-    print("saved app: app_clients")
+    await save_app(es, app_app2)
+    print("saved app: app_app2")
 
 
 async def _create_user_roles(es, username: str, rolename: str):
@@ -158,26 +163,34 @@ async def _create_user_roles(es, username: str, rolename: str):
 async def _create_email_templates(es):
     """Create Email Templates"""
     emails = [
-        TemplateMail(
-            name="email_confirmation",
-            subject="Verify your email address",
-            template="email-confirmation.html"),
-        TemplateMail(
-            name="welcome",
-            subject="Welcome to Claims Attendant",
-            template="welcome.html"),
-        TemplateMail(
-            name="password_reset",
-            subject="Reset your Claims Attendant password",
-            template="password-reset.html"),
-        TemplateMail(
-            name="password_reset_ok",
-            subject="Claims Attendant password succesfully changed",
-            template="password-reset-ok.html"),
+        Tmail(name="email_confirmation", subject="Verify your email address", template="email-confirmation.html"),
+        Tmail(name="welcome", subject="Welcome to App0 Platform", template="welcome.html"),
+        Tmail(name="password_reset", subject="Reset your App0 Platform password", template="password-reset.html"),
+        Tmail(name="password_reset_ok", subject="App0 Platform password succesfully changed",
+              template="password-reset-ok.html"),
     ]
     for d in emails:
-        await save_template_mail(es, d)
+        await save_tmail(es, d)
         print(f"saved {d.name}")
+
+
+async def _create_plans(es) -> List[AvailablePlan]:
+    """Create plans"""
+    plans = [
+        AvailablePlan(
+            name="Initial", subtitle="Plan for initials",
+            description="This plan is for people who is initiating in this field"),
+        AvailablePlan(
+            name="Standard", subtitle="Plan for workers", description="This plan is designed for nomal usage"),
+        AvailablePlan(
+            name="Professionals", subtitle="Plan for professionals",
+            description="This plan is designed to professionals"),
+    ]
+    for d in plans:
+        await save_plan(es, d)
+        print(f"saved {d.name}")
+
+    return plans
 
 
 async def _load_mail_base_content(did):

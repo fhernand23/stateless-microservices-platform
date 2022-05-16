@@ -6,6 +6,7 @@ from typing import List, Optional
 from bson.objectid import ObjectId  # type: ignore
 from hopeit.dataobjects.payload import Payload
 
+from app0.admin.db import Query
 from app0.admin.services import IDX_USER, IDX_USER_ROLE
 from app0.admin.user import User, UserAppRole
 
@@ -63,3 +64,11 @@ async def save_user_role(es, user_app_role: UserAppRole) -> UserAppRole:
     col = es[IDX_USER_ROLE]
     await col.replace_one({'_id': ObjectId(user_app_role.id)}, Payload.to_obj(user_app_role), upsert=True)
     return user_app_role
+
+
+async def get_user_roles(es, query: Query) -> List[UserAppRole]:
+    if query.flts:
+        cursor = es[IDX_USER_ROLE].find(query.find_qry())
+    else:
+        cursor = es[IDX_USER_ROLE].find()
+    return [Payload.from_obj(doc, UserAppRole) for doc in await cursor.to_list(length=query.max_items)]

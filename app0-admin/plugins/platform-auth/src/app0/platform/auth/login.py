@@ -12,7 +12,7 @@ from typing import Optional
 from app0.admin.services.user_services import (get_user_by_username, get_user_roles_by_username)
 from app0.admin.user import User
 from app0.platform.auth import (AuthInfo, AuthInfoExtended, ContextUserInfo, UserPassword, _authorize_password,
-                                  authorize, db, set_refresh_token)
+                                authorize, db, set_refresh_token)
 from hopeit.app.api import event_api
 from hopeit.app.context import EventContext, PostprocessHook
 from hopeit.app.errors import Unauthorized
@@ -21,7 +21,6 @@ from hopeit.fs_storage import FileStorage
 from hopeit.toolkit.auth import AuthType
 
 logger = app_logger()
-fs_user: Optional[FileStorage] = None
 fs_auth: Optional[FileStorage] = None
 
 __steps__ = ['login']
@@ -36,9 +35,7 @@ __api__ = event_api(
 
 
 async def __init_event__(context: EventContext):
-    global fs_user, fs_auth
-    if fs_user is None:
-        fs_user = FileStorage(path=str(context.env['fs']['user_store']))
+    global fs_auth
     if fs_auth is None:
         fs_auth = FileStorage(path=str(context.env['fs']['auth_store']))
 
@@ -62,9 +59,7 @@ async def login(payload: None, context: EventContext) -> AuthInfoExtended:
                     user=user.username,
                     fullname=f"{user.firstname} {user.surname}",
                     email=str(user.email),
-                    owner_id=user.owner_id if user.owner_id else '',
                     employee_id=user.employee_id if user.employee_id else '',
-                    owner_name=user.owner_name if user.owner_name else '',
                     image=user.image if user.image else '',
                     roles=[r.role for r in roles],
                     groups=[]

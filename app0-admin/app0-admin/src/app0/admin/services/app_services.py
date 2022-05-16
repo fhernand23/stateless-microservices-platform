@@ -6,14 +6,21 @@ from typing import List, Optional
 from bson.objectid import ObjectId  # type: ignore
 from hopeit.dataobjects.payload import Payload
 
+from app0.admin.db import Query
 from app0.admin.app import AppDef, AppRole
 from app0.admin.services import IDX_APP, IDX_ROLE
 
 
 # apps services
-async def get_apps(es) -> List[AppDef]:
-    cursor = es[IDX_APP].find()
-    return [Payload.from_obj(doc, AppDef) for doc in await cursor.to_list(length=100)]
+async def get_apps(es, query: Query) -> List[AppDef]:
+    sort_field = query.sort.field if query.sort else 'name'
+    sort_order = query.sort.order if query.sort else 1
+
+    if query.flts:
+        cursor = es[IDX_APP].find(query.find_qry()).sort(sort_field, sort_order)
+    else:
+        cursor = es[IDX_APP].find().sort(sort_field, sort_order)
+    return [Payload.from_obj(doc, AppDef) for doc in await cursor.to_list(length=query.max_items)]
 
 
 async def get_app_by_name(es, name) -> Optional[AppDef]:
@@ -29,13 +36,6 @@ async def get_app(es, oid: str) -> Optional[AppDef]:
     return Payload.from_obj(doc, AppDef)
 
 
-async def get_apps_by_roles(es, roles: List[str]) -> List[AppDef]:
-    if roles:
-        cursor = es[IDX_APP].find({'default_role': {'$in': roles}})
-        return [Payload.from_obj(doc, AppDef) for doc in await cursor.to_list(length=100)]
-    return []
-
-
 async def save_app(es, app_def: AppDef) -> AppDef:
     col = es[IDX_APP]
     await col.replace_one({'_id': ObjectId(app_def.id)}, Payload.to_obj(app_def), upsert=True)
@@ -48,9 +48,15 @@ async def delete_app(es, oid: str) -> dict:
 
 
 # role services
-async def get_roles(es) -> List[AppRole]:
-    cursor = es[IDX_ROLE].find()
-    return [Payload.from_obj(doc, AppRole) for doc in await cursor.to_list(length=100)]
+async def get_roles(es, query: Query) -> List[AppRole]:
+    sort_field = query.sort.field if query.sort else 'name'
+    sort_order = query.sort.order if query.sort else 1
+
+    if query.flts:
+        cursor = es[IDX_ROLE].find(query.find_qry()).sort(sort_field, sort_order)
+    else:
+        cursor = es[IDX_ROLE].find().sort(sort_field, sort_order)
+    return [Payload.from_obj(doc, AppRole) for doc in await cursor.to_list(length=query.max_items)]
 
 
 async def get_role_by_name(es, name) -> Optional[AppRole]:

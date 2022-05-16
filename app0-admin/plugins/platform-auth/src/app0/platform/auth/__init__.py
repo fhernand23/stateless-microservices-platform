@@ -46,8 +46,6 @@ class ContextUserInfo:
     user: str
     fullname: str
     email: str
-    owner_id: str
-    owner_name: str
     employee_id: str
     image: str
     roles: List[str]

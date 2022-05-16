@@ -20,10 +20,9 @@
   "env": {
     "env_config": {
       "env_type": "${ENV_TYPE}",
-      "app0_admin_url": "${APP0ADMIN_URL}",
-      "app0_claims_url": "${APP0CLAIMS_URL}",
-      "mail_app_from": "${MAIL_APP_FROM}",
-      "mailto_overwrite": "${MAILTO_OVERWRITE}"
+      "app0_admin_url": "${APP0_ADMIN_URL}",
+      "app0_app1_url": "${APP0_APP1_URL}",
+      "mail_app_from": "${MAIL_APP_FROM}"
     },
     "auth": {
       "access_token_expiration": 60000000,
@@ -56,7 +55,7 @@
       "type": "GET",
       "plug_mode": "Standalone",
       "auth": [
-        "Refresh"
+        "Unsecured"
       ]
     },
     "refresh": {
@@ -80,7 +79,7 @@
         "Unsecured"
       ],
       "write_stream": {
-        "name": "{events.streams.api.mail_processor.write_stream.name}"
+        "name": "stream_mail_processor"
       }
     },
     "recovery": {
@@ -90,7 +89,7 @@
         "Unsecured"
       ],
       "write_stream": {
-        "name": "{events.streams.api.mail_processor.write_stream.name}"
+        "name": "stream_mail_processor"
       }
     }
   }

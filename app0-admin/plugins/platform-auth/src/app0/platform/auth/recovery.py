@@ -16,13 +16,13 @@ from hopeit.fs_storage import FileStorage
 
 from app0.admin import mail
 from app0.admin.services.user_services import get_user_by_username
-from app0.admin.template_mail import TemplateMailSend
+from app0.admin.tmail import MailTemplate, TmailSend
 from app0.admin.user import User
 from app0.platform.auth import AuthReset, db
 
 logger = app_logger()
 fs_recover: Optional[FileStorage] = None
-BASE_URL: Optional[str] = None
+APP0_ADMIN_URL: Optional[str] = None
 
 
 @dataobject
@@ -46,11 +46,11 @@ __api__ = event_api(
 
 
 async def __init_event__(context: EventContext):
-    global fs_recover, BASE_URL
+    global fs_recover, APP0_ADMIN_URL
     if fs_recover is None:
         fs_recover = FileStorage(path=str(context.env['fs']['recover_store']))
-    if BASE_URL is None:
-        BASE_URL = str(context.env["env_config"]["app0-admin_url"])
+    if APP0_ADMIN_URL is None:
+        APP0_ADMIN_URL = str(context.env["env_config"]["app0-admin_url"])
 
 
 async def process_recovery(payload: AuthReset, context: EventContext) -> Optional[AuthResetData]:
@@ -73,20 +73,20 @@ async def process_recovery(payload: AuthReset, context: EventContext) -> Optiona
     return None
 
 
-async def notify_recovery(data: AuthResetData, context: EventContext) -> TemplateMailSend:
+async def notify_recovery(data: AuthResetData, context: EventContext) -> TmailSend:
     """
     Send Recovery Mail
     """
-    return TemplateMailSend(
-        template=mail.MAIL_PASSWORD_RESET,
+    return TmailSend(
+        template=MailTemplate(collection=mail.MAIL_COLLECTION_BASE, name=mail.MAIL_PASSWORD_RESET),
         destinations=[data.user.email],
         replacements={
-            mail.VAR_PASSWORD_RESET_URL: f'{BASE_URL}/reset/{data.recovery_token}',
+            mail.VAR_PASSWORD_RESET_URL: f'{APP0_ADMIN_URL}/reset/{data.recovery_token}',
         },
         files=[])
 
 
-async def __postprocess__(payload: Optional[TemplateMailSend], context: EventContext, *, response: PostprocessHook) -> str:
+async def __postprocess__(payload: Optional[TmailSend], context: EventContext, *, response: PostprocessHook) -> str:
     if payload:
         return "Notification submited to proccess"
     return "Something is wrong"

@@ -14,7 +14,6 @@
         "create_keys": true,
         "default_auth_methods": ["Unsecured"],
         "domain": "${DOMAIN}"
-
     },
     "api": {
         "docs_path": "/api/docs"

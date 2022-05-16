@@ -1,7 +1,7 @@
 """
-App0Platform: TemplateMail
+App0Platform: Tmail
 """
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Dict, List, Optional
 
 from bson.objectid import ObjectId  # type: ignore
@@ -12,7 +12,7 @@ from app0.admin import fd
 
 @dataobject
 @dataclass
-class TemplateMail:
+class Tmail:
     """
     Mail template
     """
@@ -34,6 +34,14 @@ class TemplateMail:
 
 @dataobject
 @dataclass
+class MailTemplate:
+    """Mail template"""
+    collection: str = fd("Template collection", default="")
+    name: str = fd("Template name", default="")
+
+
+@dataobject
+@dataclass
 class MailAttachment:
     """Mail attachment"""
     doc_id: str = fd("Document Id", default="")
@@ -42,11 +50,11 @@ class MailAttachment:
 
 @dataobject
 @dataclass
-class TemplateMailSend:
+class TmailSend:
     """
     Mail template send
     """
-    template: str = fd("Template name")
+    template: MailTemplate = fd("Template info")
     destinations: List[str] = fd("Destinations", default_factory=list)
     replacements: Optional[Dict[str, str]] = fd("Text to dynamic replace", default=None)
     files: List[MailAttachment] = fd("Files to attach", default_factory=list)
@@ -57,3 +65,13 @@ class TemplateMailSend:
     def __post_init__(self):
         if self.id is None:
             self.id = str(ObjectId())
+
+
+@dataobject
+@dataclass
+class MailLog:
+    subject: str
+    destination: str
+    log_date: datetime = datetime.now(tz=timezone.utc)
+    message_id: Optional[str] = None
+    error: Optional[str] = None

@@ -14,7 +14,7 @@ from hopeit.fs_storage import FileStorage
 from app0.admin import mail
 from app0.admin.http import HttpRespInfo
 from app0.admin.services.user_services import get_user
-from app0.admin.template_mail import TemplateMailSend
+from app0.admin.tmail import MailTemplate, TmailSend
 from app0.admin.user import User
 from app0.platform.auth import AuthNew, AuthReset, _password_hash, db
 
@@ -22,7 +22,7 @@ from app0.platform.auth import AuthNew, AuthReset, _password_hash, db
 logger = app_logger()
 fs_recover: Optional[FileStorage] = None
 fs_auth: Optional[FileStorage] = None
-BASE_URL: Optional[str] = None
+APP0_ADMIN_URL: Optional[str] = None
 
 __steps__ = ['reset', 'notify_reset']
 
@@ -36,13 +36,13 @@ __api__ = event_api(
 
 
 async def __init_event__(context: EventContext):
-    global fs_recover, fs_auth, BASE_URL
+    global fs_recover, fs_auth, APP0_ADMIN_URL
     if fs_auth is None:
         fs_auth = FileStorage(path=str(context.env['fs']['auth_store']))
     if fs_recover is None:
         fs_recover = FileStorage(path=str(context.env['fs']['recover_store']))
-    if BASE_URL is None:
-        BASE_URL = str(context.env["env_config"]["app0-admin_url"])
+    if APP0_ADMIN_URL is None:
+        APP0_ADMIN_URL = str(context.env["env_config"]["app0-admin_url"])
 
 
 async def reset(auth_info: AuthNew, context: EventContext) -> Union[HttpRespInfo, AuthReset]:
@@ -67,7 +67,7 @@ async def reset(auth_info: AuthNew, context: EventContext) -> Union[HttpRespInfo
     return HttpRespInfo(403, 'Operation forbidden')
 
 
-async def notify_reset(auth_reset: AuthReset, context: EventContext) -> Optional[TemplateMailSend]:
+async def notify_reset(auth_reset: AuthReset, context: EventContext) -> Optional[TmailSend]:
     """
     Send Recovery Mail
     """
@@ -76,18 +76,20 @@ async def notify_reset(auth_reset: AuthReset, context: EventContext) -> Optional
     user: Optional[User] = await get_user(es, auth_reset.id)
     if user:
         # if first access, send welcome mail
-        return TemplateMailSend(
-            template=mail.MAIL_WELCOME if auth_reset.first_access else mail.MAIL_PASSWORD_RESET_OK,
+        return TmailSend(
+            template=MailTemplate(
+                collection=mail.MAIL_COLLECTION_BASE,
+                name=mail.MAIL_WELCOME if auth_reset.first_access else mail.MAIL_PASSWORD_RESET_OK),
             destinations=[user.email],
             replacements={
                 mail.VAR_USER_NAME: user.firstname + ' ' + user.surname,
-                mail.VAR_CLAIMS_APP_URL: f'{BASE_URL}',
+                mail.VAR_ADMIN_APP_URL: f'{APP0_ADMIN_URL}',
             },
             files=[])
     return None
 
 
-async def __postprocess__(payload: Optional[Union[HttpRespInfo, TemplateMailSend]], context: EventContext,
+async def __postprocess__(payload: Optional[Union[HttpRespInfo, TmailSend]], context: EventContext,
                           *, response: PostprocessHook) -> str:
     if isinstance(payload, HttpRespInfo):
         response.status = payload.code

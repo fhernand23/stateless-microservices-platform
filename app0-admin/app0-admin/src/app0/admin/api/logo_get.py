@@ -31,7 +31,7 @@ async def __init_event__(context: EventContext):
     global object_store
     if object_store is None:
         config: ObjectStorageConnConfig = context.settings(key='data_store', datatype=ObjectStorageConnConfig)
-        bucket: ObjectStorageConf = context.settings(key='logo_imgs', datatype=ObjectStorageConf)
+        bucket: ObjectStorageConf = context.settings(key='res_images', datatype=ObjectStorageConf)
         object_store = await ObjectStorage().connect(conn_config=config, bucket=bucket.bucket)
 
 
