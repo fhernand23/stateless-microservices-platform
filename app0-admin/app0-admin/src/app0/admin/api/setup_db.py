@@ -1,7 +1,6 @@
 """
 Platform Setup: setup-db
 """
-import os
 from typing import List, Optional, Union
 
 from hopeit.app.api import event_api
@@ -13,9 +12,9 @@ from app0.platform.auth import UserPassword, _password_hash
 from app0.admin.app import AppDef, AppRole
 from app0.admin.db import db
 from app0.admin.http import Dto, HttpRespInfo
-from app0.admin.services import (IDX_APP, IDX_GROUP, IDX_NOTIFICATION, IDX_REGISTRATION, IDX_ROLE,
+from app0.admin.services import (IDX_APP, IDX_GROUP, IDX_NOTIFICATION, IDX_PLAN, IDX_REGISTRATION, IDX_ROLE,
                                  IDX_USER, IDX_USER_ROLE, IDX_CLAIM, IDX_CLIENT, IDX_EMPLOYEE, IDX_PROVIDER,
-                                 ROLE_USER, ROLE_ADMIN)
+                                 ROLE_USER, ROLE_ADMIN, IDX_BASE_MAIL)
 from app0.admin.subscription import AvailablePlan
 from app0.admin.services.app_services import save_app, save_role
 from app0.admin.services.tmail_services import save_tmail
@@ -63,7 +62,7 @@ async def run(payload: None, context: EventContext, code: str) -> Union[Dto, Htt
         # check if collections exists and create or clean
         query = {"name": {"$regex": r"^(?!system\.)"}}
         req_colls = [IDX_APP, IDX_GROUP, IDX_NOTIFICATION, IDX_REGISTRATION, IDX_ROLE, IDX_USER,
-                     IDX_USER_ROLE, IDX_CLAIM, IDX_CLIENT, IDX_EMPLOYEE, IDX_PROVIDER]
+                     IDX_USER_ROLE, IDX_CLAIM, IDX_CLIENT, IDX_EMPLOYEE, IDX_PROVIDER, IDX_PLAN, IDX_BASE_MAIL]
         coll_names = await es.list_collection_names(filter=query)
         print(f"coll existentes: {coll_names}")
         for col in req_colls:
@@ -191,14 +190,3 @@ async def _create_plans(es) -> List[AvailablePlan]:
         print(f"saved {d.name}")
 
     return plans
-
-
-async def _load_mail_base_content(did):
-    assert TEMPLATES_FOLDER
-    file_path = os.path.join(TEMPLATES_FOLDER, did + '_base_content.txt')
-    if os.path.isfile(file_path):
-        file = open(file_path, "r", encoding="utf-8")
-        cont = file.read()
-        file.close()
-        return cont
-    return ''

@@ -31,7 +31,7 @@ async def run(payload: TmailSend, context: EventContext) -> TmailSend:
     """
     es = db(context.env)
     for destination in payload.destinations:
-        await _save_notification(es, MailLog(subject=payload.template.name, destination=destination))
+        await _save_notification(es, MailLog(subject=payload.template, destination=destination))
     return payload
 
 

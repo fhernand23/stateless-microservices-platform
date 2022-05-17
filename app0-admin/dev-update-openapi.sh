@@ -1,6 +1,6 @@
 #!/bin/bash
 export REDIS_URL='redis://localhost:6379'
-export LOGS_PATH='./logs'
+export LOGS_PATH='../logs'
 export MONGO_URL="mongodb://rootuser:rootpass@localhost:27017"
 export ENV_TYPE="DEV"
 export DOMAIN="localhost"
