@@ -18,7 +18,7 @@
       ],
       "env": {
         "REDIS_URL": "redis://localhost:6379",
-        "LOGS_PATH": "./logs",
+        "LOGS_PATH": "../logs",
         "MONGO_URL": "mongodb://rootuser:rootpass@localhost:27017",
         "ENV_TYPE": "DEV",
         "APP0_ADMIN_API_URL": "http://localhost:8021",

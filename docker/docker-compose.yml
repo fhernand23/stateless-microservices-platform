@@ -84,8 +84,8 @@ services:
     entrypoint: >
       /bin/sh -c "
       /usr/bin/mc alias set myminio http://minio:9000 minio minio123;
-      /usr/bin/mc mb myminio/images;
-      /usr/bin/mc mb myminio/documents;
+      /usr/bin/mc mb myminio/platform-images;
+      /usr/bin/mc mb myminio/platform-docs;
       exit 0
       "
 

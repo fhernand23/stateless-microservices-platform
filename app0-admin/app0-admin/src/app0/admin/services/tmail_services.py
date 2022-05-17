@@ -8,7 +8,7 @@ from hopeit.dataobjects.payload import Payload
 
 from app0.admin.db import Query
 from app0.admin.services import IDX_BASE_MAIL
-from app0.admin.tmail import MailTemplate, Tmail
+from app0.admin.tmail import Tmail
 
 
 async def get_tmails(es, query: Query) -> List[Tmail]:
@@ -37,10 +37,10 @@ async def save_tmail(es, tmail: Tmail) -> Tmail:
     return tmail
 
 
-async def get_tmail_by_name(es, template: MailTemplate) -> Optional[Tmail]:
+async def get_tmail_by_name(es, template: str) -> Optional[Tmail]:
     """Get template mail by collection-name"""
-    col = es[template.collection]
-    doc = await col.find_one({'name': {'$eq': template.name}})
+    col = es[IDX_BASE_MAIL]
+    doc = await col.find_one({'name': {'$eq': template}})
     if not doc:
         return None
 

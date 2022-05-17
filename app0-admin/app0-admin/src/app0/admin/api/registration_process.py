@@ -23,7 +23,7 @@ from app0.admin.notification import Notification
 from app0.admin.services import (IDX_USER, IDX_USER_ROLE, ROLE_USER, IDX_NOTIFICATION)
 from app0.admin.services.registration_services import save_registration
 from app0.admin import mail
-from app0.admin.tmail import MailTemplate, TmailSend
+from app0.admin.tmail import TmailSend
 from app0.admin.util import app_util
 from app0.platform.auth import AuthReset
 
@@ -151,7 +151,7 @@ async def _register(user: User, context: EventContext):
     logger.info(context, f"User '{notify.user.id}' request password reset")
     # send mail
     tmail_send = TmailSend(
-        template=MailTemplate(collection=mail.MAIL_COLLECTION_BASE, name=mail.MAIL_EMAIL_CONFIRMATION),
+        template=mail.MAIL_EMAIL_CONFIRMATION,
         destinations=[user.email],
         replacements={
             mail.VAR_USER_NAME: user.firstname + ' ' + user.surname,

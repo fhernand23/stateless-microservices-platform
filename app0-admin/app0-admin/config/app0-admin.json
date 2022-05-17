@@ -42,11 +42,11 @@
             "use_ssl": false
         },
         "res_images": {            
-            "bucket": "images",
+            "bucket": "platform-images",
             "chunk_size": 16384
         },
         "res_docs": {            
-            "bucket": "docs",
+            "bucket": "platform-docs",
             "chunk_size": 16384
         }
     },
@@ -60,7 +60,7 @@
         "mongodb": {
             "conn_str": "${MONGO_URL}",
             "dbname": "app0db"
-        },        
+        },
         "email_templates": {
             "templates_folder": "./email/templates"
         },
@@ -76,11 +76,11 @@
             "use_ssl": false
         },
         "res_images": {            
-            "bucket": "images",
+            "bucket": "platform-images",
             "chunk_size": 16384
         },
         "res_docs": {            
-            "bucket": "docs",
+            "bucket": "platform-docs",
             "chunk_size": 16384
         }
     },
