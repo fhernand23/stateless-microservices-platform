@@ -1,0 +1,112 @@
+stages:
+  - qa
+  - packages-publish
+  - build-app
+
+services:
+  # Example: add a DinD container in the runner pods.
+  # (This requires to enable privileged pods in GitLab.)
+  - docker:stable-dind
+
+.qa-base: &qa-base
+  stage: qa
+  image: python:3.9
+
+  # Change pip's cache directory to be inside the project directory since we can
+  # only cache local items.
+  variables:
+    PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+
+  # Pip's cache doesn't store the python packages
+  # https://pip.pypa.io/en/stable/reference/pip_install/#caching
+  #
+  # If you want to also cache the installed packages, you have to install
+  # them in a virtualenv and cache it as well.
+  cache:
+    paths:
+      - .cache/pip
+      - venv/
+      - .pylint_home
+
+  before_script:
+    - export PYLINTHOME=`pwd`/.pylint_home
+    - python -V # Print out python version for debugging
+    - pip install virtualenv
+    - virtualenv venv
+    - source venv/bin/activate
+    - make dev-deps
+  only:
+    - execute-qa
+
+qa:
+  <<: *qa-base
+  script:
+    - make qa
+
+.packages-publish: &packages-publish-base
+  stage: packages-publish
+  image: python:3.9
+
+  # Change pip's cache directory to be inside the project directory since we can
+  # only cache local items.
+  variables:
+    PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+
+  # Pip's cache doesn't store the python packages
+  # https://pip.pypa.io/en/stable/reference/pip_install/#caching
+  #
+  # If you want to also cache the installed packages, you have to install
+  # them in a virtualenv and cache it as well.
+  cache:
+    paths:
+      - .cache/pip
+      - venv/
+
+  before_script:
+    - python -V # Print out python version for debugging
+    - pip install virtualenv
+    - virtualenv venv
+    - source venv/bin/activate
+    - pip install twine
+  only:
+    - pip-publish
+
+.build-base: &build-base
+  before_script:
+    - mkdir -p $HOME/.docker
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_CONTAINER_USER_RW\",\"password\":\"$CI_CONTAINER_PWD_RW\"}}}" > $HOME/.docker/config.json
+    - export CONTEXT=containers/${CONTAINER}
+    - export IMAGE=${CI_REGISTRY_IMAGE}/${CONTAINER}:${CI_COMMIT_TAG:-${CI_COMMIT_SHORT_SHA}}
+    - env | sort
+  except:
+    - production
+
+publish-app0-app1:
+  <<: *packages-publish-base
+  script:
+    - make dist-app0-app1
+    - TWINE_PASSWORD=${CI_JOB_TOKEN} TWINE_USERNAME=gitlab-ci-token python -m twine upload --verbose --repository-url ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/pypi app0-app1/dist/*.whl
+
+.build-with-docker-api: &app-builder
+  stage: build-app
+  <<: *build-base
+  image: docker:stable
+  before_script:
+    - apk add --update make jq python3 && ln -sf python3 /usr/bin/python && rm -rf /var/cache/apk/*
+    - mkdir -p $HOME/.docker
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_CONTAINER_USER_RW\",\"password\":\"$CI_CONTAINER_PWD_RW\"}}}" > $HOME/.docker/config.json    
+  script:
+    - make build-docker-${CONTAINER}
+    - make publish-docker-${CONTAINER}
+  only:
+    - container-publish
+
+build-api:
+  <<: *app-builder
+  variables:
+    CONTAINER: api
+
+build-ui:
+  <<: *app-builder
+  variables:
+    CONTAINER: ui

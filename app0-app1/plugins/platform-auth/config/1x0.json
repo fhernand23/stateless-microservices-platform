@@ -1,0 +1,52 @@
+{
+  "$schema": "https://raw.githubusercontent.com/hopeit-git/hopeit.engine/master/engine/config/schemas/app-config-schema-draftv6.json",
+  "app": {
+    "name": "platform-auth",
+    "version": "1.0"
+  },
+  "engine": {
+    "import_modules": [
+      "app0.platform.auth"
+    ],
+    "cors_origin": "*"
+  },
+  "env": {
+    "auth": {
+      "access_token_expiration": 60000000,
+      "refresh_token_expiration": 3600,
+      "access_token_renew_window": 5
+    },
+    "fs": {
+      "auth_store": "../app0-admin/auth"
+    },
+    "collections": {
+      "IDX_USERS": "base.user",
+      "IDX_USER_ROLE": "base.user_role"
+    },
+    "mongodb": {
+      "conn_str": "${MONGO_URL}",
+      "dbname": "claimdb"
+    },
+    "authorize": {
+      "name": "platform_auth",
+      "version" : "1x0"
+    }
+  },
+  "events": {
+    "login": {
+      "type": "GET",
+      "plug_mode": "Standalone",
+      "auth": ["Basic"]
+    },
+    "refresh": {
+      "type": "GET",
+      "plug_mode": "Standalone",
+      "auth": ["Refresh"]
+    },
+    "authorize": {
+      "type": "GET",
+      "plug_mode": "Standalone",
+      "auth": ["Refresh"]
+    }
+  }
+}

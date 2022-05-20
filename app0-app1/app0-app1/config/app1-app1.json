@@ -1,0 +1,329 @@
+{
+    "$schema": "https://raw.githubusercontent.com/hopeit-git/hopeit.engine/master/engine/config/schemas/app-config-schema-draftv6.json",
+    "app": {
+        "name": "app0-app1",
+        "version": "1.0"
+    },
+    "plugins": [
+        {"name": "platform-auth", "version": "1.0"}
+    ],
+    "engine": {
+        "import_modules": ["app0.app1"],
+        "cors_origin": "*"
+    },
+    "app_connections": {
+        "base_conn": {
+            "name": "app0-admin",
+            "version": "1.0",
+            "client": "hopeit.apps_client.AppsClient"
+        },
+        "attendant_conn": {
+            "name": "app0-app1",
+            "version": "1.0",
+            "client": "hopeit.apps_client.AppsClient"
+        }
+    },
+    "settings": {
+        "base_conn": {
+            "connection_str": "${CLAIMSBASE_HOST}"
+        },
+        "attendant_conn": {
+            "connection_str": "${CLAIMSATTENDANT_HOST}"
+        },
+        "data_store": {
+            "endpoint_url": "${OBJECT_STORAGE_ENDPOINT_URL}",
+            "aws_access_key_id": "${OBJECT_STORAGE_ACCESS_KEY_ID}",
+            "aws_secret_access_key" : "${OBJECT_STORAGE_SECRET_ACCESS_KEY}",
+            "use_ssl": false
+        },
+        "logo_imgs": {            
+            "bucket": "img-logo",
+            "chunk_size": 16384
+        },
+        "company_docs": {            
+            "bucket": "company-docs",
+            "chunk_size": 16384
+        },
+        "claims_docs": {
+            "chunk_size": 16384,
+            "bucket": "claims-docs"
+        }
+    },
+    "env": {
+        "env_config": {
+            "env_type": "${ENV_TYPE}",
+            "claimsbase_url": "${CLAIMSBASE_URL}",
+            "claimsattendant_url": "${CLAIMSATTENDANT_URL}"
+        },
+        "mongodb": {
+            "conn_str": "${MONGO_URL}",
+            "dbname": "claimdb"
+        },
+        "fs": {
+            "auth_store": "../app0-admin/auth"
+        }
+    },
+    "events": {
+        "api.enum_list": {
+            "type": "GET",
+            "auth": ["Bearer"]
+        },
+        "api.auth_company_get": {
+            "type": "GET",
+            "auth": ["Bearer"]
+        },
+        "api.auth_company_save": {
+            "type": "POST",
+            "auth": ["Bearer"]
+        },
+        "api.auth_company_data": {
+            "type": "POST",
+            "auth": ["Bearer"]
+        },
+        "api.auth_company_config_get": {
+            "type": "GET",
+            "auth": ["Bearer"]
+        },
+        "api.auth_company_config_save": {
+            "type": "POST",
+            "auth": ["Bearer"]
+        },
+        "api.auth_subscription_get": {
+            "type": "GET",
+            "auth": ["Bearer"]
+        },
+        "api.auth_subscription_save": {
+            "type": "POST",
+            "auth": ["Bearer"]
+        },
+        "api.auth_company_claim_requirements": {
+            "type": "GET",
+            "auth": ["Bearer"]
+        },
+        "api.auth_user_set_image": {
+            "type": "GET",
+            "auth": ["Bearer"]
+        },
+        "api.claim_get": {
+            "type": "GET",
+            "auth": ["Bearer"]
+        },
+        "api.claim_list": {
+            "type": "POST",
+            "auth": ["Bearer"]
+        },
+        "api.claim_save": {
+            "type": "POST",
+            "auth": ["Bearer"],
+            "connections": [
+                {
+                    "app_connection": "base_conn",                    
+                    "event": "api.mail-send",
+                    "type": "POST"
+                }
+            ],
+            "write_stream": {
+                "name": "stream_claim_save"
+            }
+        },
+        "api.claim_data": {
+            "type": "POST",
+            "auth": ["Bearer"]
+        },
+        "api.claim_file_upload": {
+            "type": "MULTIPART",
+            "auth": ["Bearer"],
+            "setting_keys": [
+                "claims_docs",
+                "data_store"
+            ]
+        },
+        "api.claim_address_process": {
+            "type": "STREAM",
+            "read_stream": {
+                "name": "stream_claim_save",
+                "consumer_group": "{auto}"
+            }
+        },
+        "api.client_get": {
+            "type": "GET",
+            "auth": ["Bearer"]
+        },
+        "api.client_list": {
+            "type": "POST",
+            "auth": ["Bearer"]
+        },
+        "api.client_save": {
+            "type": "POST",
+            "auth": ["Bearer"]
+        },
+        "api.client_file_upload": {
+            "type": "MULTIPART",
+            "auth": ["Bearer"],
+            "setting_keys": [
+                "company_docs",
+                "data_store"
+            ]
+        },
+        "api.client_file_get": {
+            "type": "GET",
+            "auth": ["Bearer"],
+            "setting_keys": [
+                "company_docs",
+                "data_store"
+            ]
+        },
+        "api.damage_get": {
+            "type": "GET",
+            "auth": ["Bearer"]
+        },
+        "api.damage_list": {
+            "type": "POST",
+            "auth": ["Bearer"]
+        },
+        "api.damage_save": {
+            "type": "POST",
+            "auth": ["Bearer"]
+        },
+        "api.employee_get": {
+            "type": "GET",
+            "auth": ["Bearer"]
+        },
+        "api.employee_list": {
+            "type": "POST",
+            "auth": ["Bearer"]
+        },
+        "api.employee_save": {
+            "type": "POST",
+            "auth": ["Bearer"],
+            "write_stream": {
+                "name": "stream_employee_save"
+            }
+        },
+        "api.employee_create": {
+            "type": "POST",
+            "auth": ["Bearer"],
+            "write_stream": {
+                "name": "stream_employee_create"
+            }
+        },
+        "api.employee_data": {
+            "type": "POST",
+            "auth": ["Bearer"]
+        },
+        "api.employee_file_upload": {
+            "type": "MULTIPART",
+            "auth": ["Bearer"],
+            "setting_keys": [
+                "company_docs",
+                "data_store"
+            ]
+        },
+        "api.employee_file_get": {
+            "type": "GET",
+            "auth": ["Bearer"],
+            "setting_keys": [
+                "company_docs",
+                "data_store"
+            ]
+        },
+        "api.insurance_get": {
+            "type": "GET",
+            "auth": ["Bearer"]
+        },
+        "api.insurance_list": {
+            "type": "POST",
+            "auth": ["Bearer"]
+        },
+        "api.insurance_save": {
+            "type": "POST",
+            "auth": ["Bearer"]
+        },
+        "api.provider_get": {
+            "type": "GET",
+            "auth": ["Bearer"]
+        },
+        "api.provider_list": {
+            "type": "POST",
+            "auth": ["Bearer"]
+        },
+        "api.provider_save": {
+            "type": "POST",
+            "auth": ["Bearer"]
+        },
+        "api.provider_file_upload": {
+            "type": "MULTIPART",
+            "auth": ["Bearer"],
+            "setting_keys": [
+                "company_docs",
+                "data_store"
+            ]
+        },
+        "api.provider_file_get": {
+            "type": "GET",
+            "auth": ["Bearer"],
+            "setting_keys": [
+                "company_docs",
+                "data_store"
+            ]
+        },
+        "api.claim_file_get": {
+            "type": "GET",
+            "auth": ["Bearer"],
+            "setting_keys": [
+                "claims_docs",
+                "data_store"
+            ]
+        },
+        "api.insurance_employee_get": {
+            "type": "GET",
+            "auth": ["Bearer"]
+        },
+        "api.insurance_employee_list": {
+            "type": "POST",
+            "auth": ["Bearer"]
+        },
+        "api.insurance_employee_save": {
+            "type": "POST",
+            "auth": ["Bearer"]
+        },
+        "api.tmail_save": {
+            "type": "POST",
+            "auth": ["Bearer"]
+        },
+        "api.tmail_get": {
+            "type": "GET",
+            "auth": ["Bearer"]
+        },
+        "api.tmail_list": {
+            "type": "POST",
+            "auth": ["Bearer"]
+        },
+        "api.user_employee_update": {
+            "type": "STREAM",
+            "read_stream": {
+                "name": "stream_employee_save",
+                "consumer_group": "{auto}"
+            }
+        },
+        "api.token_claim_get": {
+            "type": "GET",
+            "auth": ["Unsecured"]
+        },
+        "api.token_claim_send": {
+            "type": "POST",
+            "auth": ["Bearer"],
+            "connections": [
+                {
+                    "app_connection": "base_conn",                    
+                    "event": "api.mail-send",
+                    "type": "POST"
+                }
+            ]
+        },
+        "api.claim_file_approve": {
+            "type": "GET",
+            "auth": ["Bearer"]
+        }
+    }
+}
