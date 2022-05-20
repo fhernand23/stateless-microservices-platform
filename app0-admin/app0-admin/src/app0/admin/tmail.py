@@ -34,14 +34,6 @@ class Tmail:
 
 @dataobject
 @dataclass
-class MailTemplate:
-    """Mail template"""
-    collection: str = fd("Template collection", default="")
-    name: str = fd("Template name", default="")
-
-
-@dataobject
-@dataclass
 class MailAttachment:
     """Mail attachment"""
     doc_id: str = fd("Document Id", default="")
@@ -54,7 +46,7 @@ class TmailSend:
     """
     Mail template send
     """
-    template: MailTemplate = fd("Template info")
+    template: str = fd("Template name")
     destinations: List[str] = fd("Destinations", default_factory=list)
     replacements: Optional[Dict[str, str]] = fd("Text to dynamic replace", default=None)
     files: List[MailAttachment] = fd("Files to attach", default_factory=list)

@@ -14,7 +14,7 @@ from hopeit.fs_storage import FileStorage
 from app0.admin import mail
 from app0.admin.http import HttpRespInfo
 from app0.admin.services.user_services import get_user
-from app0.admin.tmail import MailTemplate, TmailSend
+from app0.admin.tmail import TmailSend
 from app0.admin.user import User
 from app0.platform.auth import AuthNew, AuthReset, _password_hash, db
 
@@ -77,9 +77,7 @@ async def notify_reset(auth_reset: AuthReset, context: EventContext) -> Optional
     if user:
         # if first access, send welcome mail
         return TmailSend(
-            template=MailTemplate(
-                collection=mail.MAIL_COLLECTION_BASE,
-                name=mail.MAIL_WELCOME if auth_reset.first_access else mail.MAIL_PASSWORD_RESET_OK),
+            template=mail.MAIL_WELCOME if auth_reset.first_access else mail.MAIL_PASSWORD_RESET_OK,
             destinations=[user.email],
             replacements={
                 mail.VAR_USER_NAME: user.firstname + ' ' + user.surname,

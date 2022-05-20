@@ -3575,23 +3575,6 @@
         "x-module-name": "app0.platform.auth",
         "description": "\n    Minimal auth info for password reset\n    "
       },
-      "MailTemplate": {
-        "type": "object",
-        "properties": {
-          "collection": {
-            "type": "string",
-            "default": "",
-            "description": "Template collection"
-          },
-          "name": {
-            "type": "string",
-            "default": "",
-            "description": "Template name"
-          }
-        },
-        "x-module-name": "app0.admin.tmail",
-        "description": "Mail template"
-      },
       "MailAttachment": {
         "type": "object",
         "properties": {
@@ -3616,8 +3599,8 @@
         ],
         "properties": {
           "template": {
-            "$ref": "#/components/schemas/MailTemplate",
-            "description": "Template info"
+            "type": "string",
+            "description": "Template name"
           },
           "destinations": {
             "type": "array",

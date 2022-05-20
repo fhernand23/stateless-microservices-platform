@@ -1,10 +1,6 @@
 """
 mail module
 """
-from app0.admin.services import IDX_BASE_MAIL
-
-MAIL_COLLECTION_BASE = IDX_BASE_MAIL
-
 # platform mails
 MAIL_WELCOME = 'welcome'
 MAIL_EMAIL_CONFIRMATION = 'email_confirmation'

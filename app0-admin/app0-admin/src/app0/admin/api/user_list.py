@@ -13,8 +13,6 @@ from app0.admin.user import User
 from app0.admin.db import db, Query, SearchResults, filtered_search
 from app0.admin.services import IDX_USER
 
-es: Optional[AsyncIOMotorClient] = None
-
 __steps__ = ['run']
 
 __api__ = event_api(
@@ -29,25 +27,17 @@ __api__ = event_api(
 )
 
 
-async def __init_event__(context: EventContext):
-    global es
-    if es is None:
-        es = db(context.env)
-        # es[IDX_USER].createIndex({'surname': "text", "firstname": "text", "email": "text"})
-
-
 async def run(payload: Query, context: EventContext, page: int = 1, page_size: int = 20) -> SearchResults:
-    assert es
+    es = db(context.env)
     page, page_size = int(page), int(page_size)
-    query_func = partial(_search_users, IDX_USER, payload)
+    query_func = partial(_search_users, es, IDX_USER, payload)
     return await filtered_search(query_func, page, page_size)
 
 
-async def _search_users(index: str, query: Query, page: int = 0, page_size: int = 20) -> Tuple[List[User], int]:
+async def _search_users(es, index: str, query: Query, page: int = 0, page_size: int = 20) -> Tuple[List[User], int]:
     """
     Returns a list of queried Users
     """
-    assert es
     cursor: Optional[AsyncIOMotorCollection] = None
     assert query
     count: int

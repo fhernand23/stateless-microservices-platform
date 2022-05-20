@@ -153,9 +153,11 @@ app0-claim-ui/node_modules/
 # Optional npm cache directory
 .npm
 
-# docker data files
+# ignores
 docker/data/*
 app0-admin/.secrets/*
 app0-admin/auth/*.json
 app0-admin/recover/*.json
 app0-admin/store_mail/*.json
+app0-admin-ui/node_modules/
+app0-app1-ui/node_modules/
