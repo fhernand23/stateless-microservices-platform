@@ -143,8 +143,9 @@ work/**
 
 # ui ignores
 # Logs
-app-admin-ui/node_modules/
-app-claim-ui/node_modules/
+app0-admin-ui/node_modules/
+app0-app1-ui/node_modules/
+app0-claim-ui/node_modules/
 
 # TypeScript cache
 *.tsbuildinfo
